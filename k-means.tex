@@ -1,0 +1,41 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass{article}
+\usepackage[latin1]{inputenc} %coding of writteninput %latin1 allows for Umlaute
+\usepackage[T1]{fontenc}%vectorized fonts (cm-super package)
+\usepackage[german]{babel}%some specifics of the german language
+\usepackage{amsfonts, amsmath, amsthm, amssymb, mathabx, paralist}
+ \setlength{\parindent}{0em} 
+  \usepackage{listings}
+\usepackage{geometry}
+  \geometry{a4paper, top=25mm, left=20mm, right=15mm, bottom=20mm, headsep=10mm, footskip=12mm}
+  
+ %Decisiontree
+ \usepackage{tikz,forest}
+\usetikzlibrary{arrows.meta}
+  
+\usepackage{graphicx} 
+
+\usepackage{verbatim}%f�r txt datei
+
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+\begin{document}
+
+
+\title{k-Means Algorithm}
+\section{Algorithm in general}
+
+https://www.datascience.com/blog/k-means-clustering
+
+The critical steps are choosing a correct K and overfitting. We've got to find
+the critical point, such that the improvement of a bigger K isn't that big
+anymore. The ``elbow point''.
+
+The second big point is finding a good starting set of centroids. It changes a
+lot where you start. 
+
+
+\end{document}
