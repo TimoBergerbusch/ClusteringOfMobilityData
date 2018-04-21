@@ -9,7 +9,7 @@
   \usepackage{listings}
 \usepackage{geometry}
   \geometry{a4paper, top=25mm, left=20mm, right=15mm, bottom=20mm, headsep=10mm, footskip=12mm}
-  
+ \usepackage{rotating} 
  %Decisiontree
  \usepackage{tikz,forest}
 \usetikzlibrary{arrows.meta}
@@ -22,11 +22,46 @@
 \definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
 \definecolor{mylilas}{RGB}{170,55,241}
 
+\usepackage[section]{placeins}
+
 \begin{document}
 
 
-\title{k-Means Algorithm}
-\section{Algorithm in general}
+\title{Summary of Possibilities}
+\section{Used Data}
+N = Numerical
+
+C = Categorical
+
+HMV and FEV not in explanation. In data is no average time with \{AM,MD,PM,MN\}
+foundable.
+
+One row of data incomplete.			
+\begin{sidewaystable}					
+\begin{tabular}{|c|c|c|c|c|c|}
+In Dataset Name & Position &Variable				&Datatype		&Values				&Explanation\\
+ORIGEN	   		&1		   &Origin					&C				&[1, 413]			&Medellín areas\\
+DESTINO	   		&2	       &Destination				&C				&[1, 413]			&Medellín
+areas\\
+MOTIVO			&3		   &Reason					&C				&[1, 7]				&Work, errands,\ldots\\
+MODO			&4		   &Mean of transportation	&C				&[1, 7]				&Mean of
+transportation\\ 
+				&		   &Average time			&C				&{AM, MD, PM, MN}	&Average between
+origin and departure times\\
+RED				&6		   &Time interval			&C				&{AM, MD, PM, MN} 	&Interval of the
+day\\
+DURACION		&7		   &Duration 				&N				&					&Duration of the travel in
+minutes\\ 	
+DISTKM			&8		   &Distance 				&N 				&					&Distance between origin and
+destination centroids of the areas\\
+EDAD			&10		   &Age						&N				&					&Age\\
+SEXO			&12		   &Gender					&C				&[1,2]				&Gender\\
+EST				&9		   &Strata*					&C				&[1,6]				&Social strata\\
+\end{tabular}
+\end{sidewaystable}
+
+
+\section{k-Means}
 
 https://www.datascience.com/blog/k-means-clustering
 
