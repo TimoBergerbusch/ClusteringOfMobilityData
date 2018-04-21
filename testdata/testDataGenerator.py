@@ -69,24 +69,48 @@ class DataEntry:
         return False
 
 
-class DataSet:
-    data_entries = []
+class DataCollection:
+    """
+    A collection of DataEntries used to compute the subsets from
+    """
+
+    data_entries = []  # the list of data entries
 
     def __init__(self, data_entries):
+        """
+        creates a new DataCollection
+        :param data_entries: the DataEntries to store
+        """
         self.data_entries = data_entries
 
     def getData(self, mask):
+        """
+        gets a list, where every entry is the result of getData called on every DataEntry using the same mask
+        :param mask: the mask indicating which columns shall be used
+        :return: a list of strings
+        """
         ret = []
         for entry in self.data_entries:
             ret.append(entry.getData(mask))
         return ret
 
     def writeDataCollection(self):
+        """
+        writes the information of all DataEntries and the length of the DataCollection
+        :return: -undef-
+        """
         print("Data Collection: length={}".format(len(self.data_entries)))
         for entry in self.data_entries:
             entry.writeDataEntry()
 
     def equalDistribute(self, length):
+        """
+        creates a new DataCollection of DataEntries containing length-many items of every strata.
+        NOTE: currently if not enough DataEntries for a strata are found we return simply less items
+
+        :param length: the number of elements of the same strata
+        :return: a DataCollection of DataEntries witrh length 0<= length <= 6*length
+        """
         buckets = [0, 0, 0, 0, 0, 0]
         equal_data_entries = []
         for entry in self.data_entries:
@@ -100,10 +124,17 @@ class DataSet:
                 print(
                     "Could not find enough elements for strata {} (has:{} should:{})".format(i + 1, buckets[i], length))
 
-        newDataSet = DataSet(equal_data_entries)
+        newDataSet = DataCollection(equal_data_entries)
         return newDataSet
 
     def printToFile(self, fileName, mask):
+        """
+        prints the DataCollection into a file using a mask to indicate, which columns should be represented
+
+        :param fileName: the name to save the items into
+        :param mask: the mask to indicate column usage
+        :return: -undef-
+        """
         with open(fileName, "w+") as file:
             file.write(' '.join(DATA_NAMES))
             for entry in self.data_entries:
@@ -111,27 +142,35 @@ class DataSet:
                 file.write("\n")
 
 
-def getUsedHeaders(mask):
+def get_used_headers(mask):
+    """
+    returns the items of DATA_NAMES as a string seperated by tabulators
+
+    :param mask: the mask, which columns shall be represented
+    :return: a string
+    """
     s = ""
     for i in itertools.compress(DATA_NAMES, mask):
         s += i + "\t"
     return s
 
 
-def readFile():
+def read_file():
+    """
+    opens and reads the file named FILE_NAME line by line and substitutes all tabulator entries with a space
+    :return: a list of all lines in the file
+    """
     with open(FILE_NAME) as file:
         content = file.readlines()
         return [re.sub('\s+', ' ', x) for x in content]
 
 
-def file_len(file):
-    with open(file) as f:
-        for i, l in enumerate(f):
-            pass
-    return i + 1
-
-
-def cleanUpList(linesOfFile):
+def clean_up_list(linesOfFile):
+    """
+    cleans up a list of strings considering the entries in IGNORE_LINE_VALUES. If an entry is contained in that list it's neglected
+    :param linesOfFile: the list of strings
+    :return: the cleaned list of strings
+    """
     cleanLines = []
     for line in linesOfFile:
         if not line in IGNORE_LINE_VALUES:
@@ -139,27 +178,37 @@ def cleanUpList(linesOfFile):
     return cleanLines
 
 
-def getDataList(string):
+def get_data_list(string):
+    """
+    splits a string based on spaces and ignores empty parts.
+    This could happen if the string begins or ends with a space
+    :param string: the string to split
+    :return: a list of entries contained in the string
+    """
     list = re.split(" ", string)
     if list[len(list) - 1] == "":
         del list[-1]
     return list
 
 
-def parseIntoDataEntry(string):
-    return DataEntry(getDataList(string))
+def parse_DataEntry(string):
+    """
+    parses a list of entries into the DataEntry class structure
+    :param string: a list of data
+    :return: a DataEntry instance
+    """
+    return DataEntry(get_data_list(string))
 
 
-def parseLinesOfContent(linesOfContent):
+def parse_lines_of_content(linesOfContent):
+    """
+    parses the cleaned lines of a file and parses them into a DataEntries' list
+    :param linesOfContent: the cleaned lines of data
+    :return: a list of DataEntries
+    """
     data_entries = []
     for element in linesOfContent:
-
-        # split = getDataList(element)
-        # length = len(split)
-        # if length != 12:
-        #     print("length: {} for element: {}".format(length, split))
-
-        data_entry = parseIntoDataEntry(element)
+        data_entry = parse_DataEntry(element)
 
         if data_entry.isBroken():
             print("BROKEN ENTITY: for element {}".format(element))
@@ -168,17 +217,39 @@ def parseLinesOfContent(linesOfContent):
     return data_entries
 
 
-linesOfFile = readFile()
-linesOfContent = cleanUpList(linesOfFile)
-dataEntries = parseLinesOfContent(linesOfContent)
-
-mask = [True, True, True, True, True, True, True, True, True, True, True, True]
-# mask = [True, False, False, False, False, False, False, False, False, False, False, False]
+# read the whole file named FILE_NAME
+linesOfFile = read_file()
+# clean the file from empty lines and the header
+linesOfContent = clean_up_list(linesOfFile)
+# parse into a list of DataEntries structure
+dataEntries = parse_lines_of_content(linesOfContent)
+# create a new DataCollection
+data_collection = DataCollection(dataEntries)
+# ---------------- START: editable part ----------------
+# +++ edit the columns generated here +++
+mask = [True,  # origin
+        True,  # destination
+        True,  # reason
+        True,  # HMV
+        True,  # RED
+        True,  # mean of Transportation
+        True,  # average Time
+        True,  # duration
+        True,  # distance
+        True,  # age
+        True,  # gender
+        False  # strata - NOTE: should stay False in order to test
+        ]
+# +++ edit the numbers of elements within each strata +++
+# (NOTE: currently equal for al strata iff enough available)
 length = 2
+# ---------------- END: editable part ----------------
+
+
+# set the name to save the set in
 newSetName = "generatedTestSet-{}.txt".format(length)
-data_collection = DataSet(dataEntries)
-# print(data_collection.getData(mask))
-# print(len(data_collection.data_entries))
+
+# creates a equal distributed set based on the length
 data_collection_equal_dist = data_collection.equalDistribute(length)
-# print(len(data_collection_equal_dist.data_entries))
+# saves the new set in the new file
 data_collection_equal_dist.printToFile(newSetName, mask)
