@@ -1,0 +1,155 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass{article}
+\usepackage[latin1]{inputenc} %coding of writteninput %latin1 allows for Umlaute
+\usepackage[T1]{fontenc}%vectorized fonts (cm-super package)
+\usepackage[german]{babel}%some specifics of the german language
+\usepackage{amsfonts, amsmath, amsthm, amssymb, mathabx, paralist}
+ \setlength{\parindent}{0em} 
+  \usepackage{listings}
+\usepackage{geometry}
+  \geometry{a4paper, top=25mm, left=20mm, right=15mm, bottom=20mm, headsep=10mm, footskip=12mm}
+ \usepackage{rotating} 
+ %Decisiontree
+ \usepackage{tikz,forest}
+\usetikzlibrary{arrows.meta,arrows,shadows,positioning,decorations.pathreplacing}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\usepackage{float}
+\usepackage{enumitem}
+
+
+
+  
+\usepackage{graphicx} 
+
+\usepackage{verbatim}%fï¿½r txt datei
+
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+\usepackage[section]{placeins}
+
+\begin{document}
+
+
+\title{General Procedure}
+
+\section{General Procedure}
+
+	% Define block styles
+	\tikzstyle{materia}=[draw, fill=blue!20, text width=6.0em, text centered, minimum height=1.5em,drop shadow]
+	\tikzstyle{etape} = [materia, text width=8em, minimum width=10em, minimum height=3em, rounded corners, drop shadow]
+	\tikzstyle{texto} = [above, text width=6em, text centered]
+	\tikzstyle{linepart} = [draw, thick, color=black!50, -latex', dashed]
+	\tikzstyle{line} = [draw, thick, color=black!50, -latex']
+	\tikzstyle{ur}=[draw, text centered, minimum height=0.01em]
+	
+	% Define distances for bordering
+	\newcommand{\blockdist}{1.3}
+	\newcommand{\edgedist}{1.5}
+	
+	\newcommand{\etape}[2]{node (p#1) [etape]
+		{#2}}
+	
+	% Draw background
+	\newcommand{\background}[5]{%
+		\begin{pgfonlayer}{background}
+			% Left-top corner of the background rectangle
+			\path (#1.west |- #2.north)+(-0.5,0.25) node (a1) {};
+			% Right-bottom corner of the background rectanle
+			\path (#3.east |- #4.south)+(+0.5,-0.25) node (a2) {};
+			% Draw the background
+			\path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+			(a1) rectangle (a2);
+			\path (#3.east |- #2.north)+(0,0.25)--(#1.west |- #2.north) node[midway] (#5-n) {};
+			\path (#3.east |- #2.south)+(0,-0.35)--(#1.west |- #2.south) node[midway] (#5-s) {};
+			\path (#3.east |- #2.north)+(0.7,0)--(#3.east |- #4.south) node[midway] (#5-w) {};
+	\end{pgfonlayer}}
+	
+	\newcommand{\transreceptor}[3]{%
+		\path [linepart] (#1.east) -- node [above]
+		{\scriptsize #2} (#3);}
+
+	The setup I suggest within this project is the following:
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=0.7,transform shape]
+		
+		% Draw diagram elements
+		\path \etape{1}{raw Data};
+		
+		\path (p1.south)+(0.0,-1.5) \etape{2}{new Data};
+		
+		\path (p2.south)+(-3.0,-2) \etape{4}{PCA};
+		\path (p2.south)+(3.0,-2) \etape{5}{Decision Tree};
+%		\node [below=of p2] (p4-5) {};
+		
+		\path (p2.south)+(0.0,-4.0) \etape{6}{thin Data};
+%		\node [below=of p2] (p6) {};
+		
+		\path (p6.south)+(-4.0,-2.0) \etape{7}{k-modes};
+		\path (p6.south)+(0.0,-2.0) \etape{8}{rapidminer};
+		\path (p6.south)+(4.0,-2.0) \etape{9}{PAM};
+		\node [below=of p6] (p7-9) {};
+		
+		
+		\path (p8.south)+(0.0,-2.0) \etape{10}{new stratas};
+%		\path (p7.south)+(0.0,-2.0) \etape{9}{abnormal};
+%		\node [below=of p8] (p10) {};
+		
+		% Draw arrows between elements
+		\path [line] (p1.south) -- node [above] {} (p2);
+		\path [line] (p2.south) -- node [above] {} (p4);
+		\path [line] (p2.south) -- node [above] {} (p5);
+		\path [line] (p4.south) -- node [above] {} (p6);
+		\path [line] (p5.south) -- node [above] {} (p6);
+		\path [line] (p6.south) -- node [above] {} (p7);
+		\path [line] (p6.south) -- node [above] {} (p8);
+		\path [line] (p6.south) -- node [above] {} (p9);
+		\path [line] (p7.south) -- node [above] {} (p10);
+		\path [line] (p8.south) -- node [above] {} (p10);
+		\path [line] (p9.south) -- node [above] {} (p10);
+		
+		\background{p1}{p1}{p2}{p2}{bk1}
+		\background{p4}{p4}{p5}{p5}{bk2}
+		\background{p7}{p7}{p9}{p9}{bk3}
+%		\background{p4}{p5}{p10}{p10}{bk4}
+		
+%		\path [line] (p5.south) -- node [above] {} (bk3-n);
+%		\path [line] (bk3-s) -- node [above] {} (p8);
+%		\path [line] (bk3-s) -- node [above] {} (p9);
+		\path (bk1-w)+(+9.0,0) node (ur1)[ur] {};
+		\path (bk2-w)+(+6.0,0) node (ur2)[ur] {};
+		\path (bk3-w)+(+5.0,0) node (ur3)[ur] {};
+		\transreceptor{bk1-w}{pre processing}{ur1};
+		\transreceptor{bk2-w}{variable elimination}{ur2};
+		\transreceptor{bk3-w}{clustering}{ur3};
+		
+		\draw [decorate,decoration={brace,amplitude=10pt,raise=5pt},yshift=0pt]
+		(ur2)+(0,1) -- (11,-11) node [black,midway,xshift=1.5cm] {Pipeline};
+		\end{tikzpicture}
+		\caption{The clustering pipeline}
+		\label{fig:pipeline}
+	\end{figure}
+	
+	The suggested clustering pipeline is structured in 2 basic layers, where the second layer is sub structured in 2 separate parts:
+	\begin{enumerate}
+		\item \textbf{the ``pre processing''-Layer}:\\
+			dividing the dataset into smaller datasets or change to equal distribution using for example ``Multivariate kernel density estimation''. Also we are able to neglect the strata.
+		\item \textbf{``clustering pipeline''-Layer}:\\
+			This Layer can be split into two parts and performs the steps on the input data, which can be changed 
+			\begin{enumerate}[label=2.\arabic*.]
+				\item \textbf{``variable elimination''-Layer}:\\
+					compute neglect able variables, for example gender, using \texttt{PCA} or Decision Trees
+				\item \textbf{``thin Data''-Layer}:\\
+					remask the data by eliminating the variables proven to be insignificant
+				\item \textbf{``clustering''-Layer}:\\
+					cluster the thinned data using for example \texttt{k-modes}, \texttt{rapidminer} or \texttt{PAM}
+				\item \textbf{new stratas-Layer}:
+					the newly clustered stratas can now be compared to given stratas and visualized and interpreted
+			\end{enumerate}				
+	\end{enumerate}
+\end{document}

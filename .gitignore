@@ -1,3 +1,5 @@
 *.aux
 *.gz
 k-means.log
+k-means.pdf
+procedure.pdf
