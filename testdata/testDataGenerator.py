@@ -1,5 +1,6 @@
 import itertools
 import re
+import random
 
 FILE_NAME = "BaseDatosMDE.txt"  # the dataset to infer the subsets from
 DATA_NAMES = ["origin", "destination", "reason", "HMV", "RED" "mean of Transportation", "average Time", "duration",
@@ -17,12 +18,15 @@ class DataEntry:
         -1,  # 1 - destination
         -1,  # 2 - reason
         -1,  # 3 - mean of transportation
-        -1,  # 4 - average time
-        -1,  # 5 - duration
-        -1,  # 6 - distance
-        -1,  # 7 - age
-        -1,  # 8 - gender
-        -1,  # 9 - strata
+        -1,  # 4 - HVM?
+        -1,  # 5 - average time
+        -1,  # 6 - duration
+        -1,  # 7 - distance
+        -1,  # 8 - strata
+        -1,  # 9 - age
+        -1,  # 10 - gender
+        -1,  # 11 - FEV
+        "NO ID"  # 12#  - the ID based on age, gender and strata
     ]
 
     def __init__(self, data):
@@ -68,6 +72,16 @@ class DataEntry:
                 return True
         return False
 
+    def computeID(self):
+        # self.data[12] = "Age:{};Gender:{};Strata:{}".format(self.data[9], self.data[10], self.data[8])
+        self.data[12] = random.randint(1,150000)
+
+    def compareTo(self, otherEntry):
+        if self.data[8] == otherEntry.data[8] and self.data[9] == otherEntry.data[9] and self.data[10] == \
+                otherEntry.data[10]:
+            return True
+        return False
+
 
 class DataCollection:
     """
@@ -99,6 +113,7 @@ class DataCollection:
         writes the information of all DataEntries and the length of the DataCollection
         :return: -undef-
         """
+        self.computeIDs()
         print("Data Collection: length={}".format(len(self.data_entries)))
         for entry in self.data_entries:
             entry.writeDataEntry()
@@ -135,11 +150,22 @@ class DataCollection:
         :param mask: the mask to indicate column usage
         :return: -undef-
         """
+        self.computeIDs()
         with open(fileName, "w+") as file:
             file.write(' '.join(DATA_NAMES))
+            file.write("\n")
             for entry in self.data_entries:
                 file.write(''.join(entry.getData(mask)))
                 file.write("\n")
+
+    def computeIDs(self):
+        if len(self.data_entries) == 0:
+            print("Can not compute the IDs because the list is empty")
+        for i in range(0, len(self.data_entries)):
+            if i > 0 and self.data_entries[i].compareTo(self.data_entries[i - 1]):
+                self.data_entries[i].data[12] = self.data_entries[i - 1].data[12]
+            else:
+                self.data_entries[i].computeID()
 
 
 def get_used_headers(mask):
@@ -197,7 +223,9 @@ def parse_DataEntry(string):
     :param string: a list of data
     :return: a DataEntry instance
     """
-    return DataEntry(get_data_list(string))
+    list = get_data_list(string)
+    list.append("NO ID")
+    return DataEntry(list)
 
 
 def parse_lines_of_content(linesOfContent):
@@ -238,11 +266,12 @@ mask = [True,  # origin
         True,  # distance
         True,  # age
         True,  # gender
-        False  # strata - NOTE: should stay False in order to test
+        False,  # strata - NOTE: should stay False in order to test
+        True  # denote whether an ID should be created
         ]
 # +++ edit the numbers of elements within each strata +++
 # (NOTE: currently equal for al strata iff enough available)
-length = 2
+length = 2000
 # ---------------- END: editable part ----------------
 
 
