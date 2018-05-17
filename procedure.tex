@@ -73,7 +73,7 @@
 		\path [linepart] (#1.east) -- node [above]
 		{\scriptsize #2} (#3);}
 
-	The setup I suggest within this project is the following:
+	The setup originally planned:
 	\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[scale=0.7,transform shape]
@@ -91,7 +91,7 @@
 %		\node [below=of p2] (p6) {};
 		
 		\path (p6.south)+(-4.0,-2.0) \etape{7}{k-modes};
-		\path (p6.south)+(0.0,-2.0) \etape{8}{rapidminer};
+		\path (p6.south)+(0.0,-2.0) \etape{8}{k-medoids};
 		\path (p6.south)+(4.0,-2.0) \etape{9}{PAM};
 		\node [below=of p6] (p7-9) {};
 		
@@ -147,9 +147,134 @@
 				\item \textbf{``thin Data''-Layer}:\\
 					remask the data by eliminating the variables proven to be insignificant
 				\item \textbf{``clustering''-Layer}:\\
-					cluster the thinned data using for example \texttt{k-modes}, \texttt{rapidminer} or \texttt{PAM}
+					cluster the thinned data using for example \texttt{k-modes}, \texttt{k-medoids} or \texttt{PAM} using rapidminer
 				\item \textbf{new stratas-Layer}:
 					the newly clustered stratas can now be compared to given stratas and visualized and interpreted
 			\end{enumerate}				
 	\end{enumerate}
+
+\section{Current Aim}
+	The current aim of the implementation based on the possibility of misleading due to a missing ID forms into the need of an other way of accessing the problem:
+	
+	The setup I suggest within this project is the following:
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=0.7,transform shape]
+		
+		% Draw diagram elements
+		\path \etape{1}{raw Data};
+		
+		\path (p1.south)+(0.0,-1.5) \etape{2}{Data \textbf{+} ID};
+		
+		\path (p2.south)+(0.0,-2.0) \etape{6}{Clustering};
+		
+		\path (p6.south)+(0.0,-2.0) \etape{8}{``Cluster Strata''};
+		\path (p8.south)+(0.0,-2.0) \etape{9}{comparison};
+		\node [below=of p6] (p8-9) {};
+		
+		
+		
+		% Draw arrows between elements
+		\path [line] (p1.south) -- node [above] {} (p2)
+ 				     (p2.south) -- node [above] {} (p6)
+ 				     (p6.south) -- node [above] {} (p8)
+ 				     (p8.south) -- node [above] {} (p9);
+		
+		\background{p1}{p1}{p2}{p2}{bk1}
+		\background{p6}{p6}{p6}{p6}{bk2}
+		\background{p8}{p8}{p9}{p9}{bk3}
+		
+		\path (bk1-w)+(+5.0,0) node (ur1)[ur] {};
+		\path (bk2-w)+(+5.0,0) node (ur2)[ur] {};
+		\path (bk3-w)+(+5.0,0) node (ur3)[ur] {};
+		\transreceptor{bk1-w}{pre processing}{ur1};
+		\transreceptor{bk2-w}{clustering}{ur2};
+		\transreceptor{bk3-w}{performance check}{ur3};
+		
+		\end{tikzpicture}
+		\caption{The current aim of the implementation}
+		\label{fig:new pipeline}
+	\end{figure}
+	
+	\begin{itemize}
+		\item \textbf{the ``pre processing''-Layer}:\\
+%		dividing the dataset into smaller datasets or change to equal distribution using for example ``Multivariate kernel density estimation''. Also we are able to neglect the strata.
+			\begin{enumerate}
+				\item[[opt]] divide the data into subsets
+				\item[[opt]] compute equal distribution of stratas
+				\item compute an \texttt{ID}. More in \ref{ID}
+			\end{enumerate}
+		\item \textbf{the ``clustering''-Layer}:\\
+			Cluster the data using rapidminer and different possible strategies
+		\item \textbf{the ``performance check''-Layer}:\\
+			Get our own clusters, we currently call ``Cluster strata'' (CS). We then compare the computed CS with the actual S. %TODO: wie nochmal genau?
+	\end{itemize}
+
+\section{The ID}\label{ID}
+	\subsection{Motivation/Reason to Compute}
+	Some kind of ID is very important to find corresponding movements through the town. \\
+	Assume we have one person $p$ with movements $p_M$. We could map a movement $M_1 \in p_M$ to CS $i$ and $M_2 \in p_M$ to CS $j$, where $i\neq j$. This would not only be very unintentional, but also leads to very stupid clustering. For example cluster movements, which are in the morning and which are in the evening. There is no value to be deducted from. 
+	\subsection{Current Computation}
+	We currently try to create such IDs ourselfs by combining the elements age, gender and strata to find movements,which could belong to the same person. This ID now gets used like other nominal categorical data.\\
+	This still leads to many false positives in terms of matching movements to a person which do not belong together or even are contradictory. Like moving at the same time to two different locations. 
+	\subsection{Further Computation}
+	To improve the mapping process we aim to construct a two phase process:
+	\subsubsection{1. Phase}
+	We map, like before, every movement based on age, gender and strata. We call these collections $C_1, \dots, C_n$. 
+	\subsubsection{2. Phase}
+	We perform a path algorithm to find subsequent movements. Two movements $M_i, M_j \in C_l$ can be subsequent/match $M_i \preceq M_j$ if 
+	\begin{itemize}
+		\item the arrival time of $M_i$ is less than the starting time of $M_j$
+		\item the destination of $M_i$ is the same as the starting point of $M_j$
+	\end{itemize}.\\
+	An example for one collection $C_i$:\\
+	
+	\begin{tikzpicture}[scale=1.5]
+		%Raster zeichnen
+		\draw [color=gray!50]  [step=5mm] (0,0) grid (8,7);
+		% Achsen zeichnen
+		\draw[->,thick] (0,0) -- (8.5,0) node[right] {time};
+		\draw[->,thick] (0,0) -- (0,7.3) node[above] {location};	
+		% Achsen Beschriftung
+		\draw (1,-.2) -- (1,0) node[below=6pt] {$t_1$};
+		\draw (4.5,-.2) -- (4.5,0) node[below=6pt] {$t_2$};
+		\draw (5,-.2) -- (5,0) node[below=6pt] {$t_3$};
+		\draw (5.5,-.2) -- (5.5,0) node[below=6pt] {$t_4$};
+		\draw (7,-.2) -- (7,0) node[below=6pt] {$t_5$};
+		
+		\draw (-.2,1) -- (0,1) node[left=6pt] {$A$};
+		\draw (-.2,3) -- (0,3) node[left=6pt] {$B$};
+		\draw (-.2,5) -- (0,5) node[left=6pt] {$C$};
+		
+		\draw [color=red, thick] plot coordinates	{(1,1) (5,3)} node[right]{$M_1$};
+		\draw [color=blue, thick] plot coordinates	{(1,1) (3,5)} node[right]{$M_2$};
+		\draw [color=green!50!black, thick] plot coordinates	{(5,5) (7,6)} node[right]{$M_3$};
+		\draw [color=black, thick] plot coordinates	{(4.5,3) (6,5)} node[right]{$M_4$};
+		\draw [color=orange, thick] plot coordinates	{(5.5,3) (7,5)} node[right]{$M_5$};
+	\end{tikzpicture}
+	
+	Starting with $M_1$, we create a subcollection of $C_i$ with movements matching $M_1$'s schedule, called individual. We iterate over the other not yet matched movements. 
+	\begin{itemize}
+		\item $M_2$ has a time conflict with $M_1$ and therefore can not be executed by the same person
+		\item $M_3$ has no time conflict with $M_1$ and also starts at $M_1$s endpoint. So those get matched
+		\item $M_4$ has a matching start-endpoint, but $M_4$ starts before $M_1$ ends so they cannot belong together
+		\item $M_5$ would have matched $M_1$, but since we already added $M_3$ this it no longer possible. If $M_3$ would start at $t_5$ all three movements would have fit
+	\end{itemize}
+
+	\subsection{Current Limits}
+		Since we apply a greedy algorithm the number of possible matching is not minimal. If that would improve the results or not is currently unknown. \\
+		It would be possible to apply an LP or heuristic approach in order to lower the number of individuals, but further tests have to be made to evaluate the additional computation investment.
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
