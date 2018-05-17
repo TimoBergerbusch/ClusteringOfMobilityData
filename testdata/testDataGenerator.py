@@ -7,7 +7,8 @@ DATA_NAMES = ["origin", "destination", "reason", "HMV", "RED" "mean of Transport
 IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST EDAD SEXO FEV ',
                       " "]  # a list of values that should not be considered as a data containing line
 
-
+					  
+					  
 class DataEntry:
     """
     A class to store a single data entry. This is further used to mask the desired columns
