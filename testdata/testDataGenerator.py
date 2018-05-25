@@ -75,7 +75,7 @@ class DataEntry:
 
     def computeID(self):
         # self.data[12] = "Age:{};Gender:{};Strata:{}".format(self.data[9], self.data[10], self.data[8])
-        self.data[12] = random.randint(1,150000)
+        self.data[12] = random.randint(1, 150000)
 
     def compareTo(self, otherEntry):
         if self.data[8] == otherEntry.data[8] and self.data[9] == otherEntry.data[9] and self.data[10] == \
@@ -168,6 +168,43 @@ class DataCollection:
             else:
                 self.data_entries[i].computeID()
 
+    def findRandomEntry(self, strata):
+        start = random.randint(0, len(self.data_entries) - 1)
+        index = start
+        while (True):
+            entry = self.data_entries[index]
+            if int(entry.data[8]) == strata:
+                return entry
+            else:
+                index = (index + 1) % len(self.data_entries)
+                if index == start:
+                    return None
+
+    # strata 1 ABS: 6963  REL:  5.5713%
+    # strata 2 ABS: 52266 REL: 41.8198%
+    # strata 3 ABS: 49404 REL: 39.5298%
+    # strata 4 ABS: 8772  REL:  7.0188%
+    # strata 5 ABS: 5536  REL:  4.4295%
+    # strata 6 ABS: 2038  REL:  1.6301%
+    def shrink(self, length):
+        absolute_numbers = [6963, 52266, 49404, 8772, 5536, 2038]
+        relative_numbers = [5.5713, 41.8198, 39.5298, 7.0188, 4.4295, 1.6301]
+        abs_numbers = []
+        new_data_entries = []
+        for i in range(0, len(relative_numbers)):
+            abs_numbers.append(round(length * (relative_numbers[i] / 100)))  # compute absolute number of values
+            print("Strata {} should contain {} elements".format(i + 1, abs_numbers[i]))
+
+            if abs_numbers[i] > absolute_numbers[i]:  # check availability
+                abs_numbers[i] = absolute_numbers[i]
+                print("ERROR: Strata {} should contain more entries than there are".format(i + 1))
+
+            for j in range(0, abs_numbers[i]):
+                new_data_entries.append(self.findRandomEntry(i + 1))
+
+        new_DataCollection = DataCollection(new_data_entries)
+        return new_DataCollection
+
 
 def get_used_headers(mask):
     """
@@ -256,30 +293,37 @@ dataEntries = parse_lines_of_content(linesOfContent)
 data_collection = DataCollection(dataEntries)
 # ---------------- START: editable part ----------------
 # +++ edit the columns generated here +++
-mask = [True,  # origin
-        True,  # destination
-        True,  # reason
-        True,  # HMV
-        True,  # RED
-        True,  # mean of Transportation
-        True,  # average Time
-        True,  # duration
-        True,  # distance
-        True,  # age
-        True,  # gender
-        False,  # strata - NOTE: should stay False in order to test
-        True  # denote whether an ID should be created
-        ]
+mask = [
+    True,   # 0 - origin
+    True,   # 1 - destination
+    True,   # 2 - reason
+    True,   # 3 - mean of transportation
+    True,   # 4 - HVM?
+    True,   # 5 - average time
+    True,   # 6 - duration
+    True,   # 7 - distance
+    False,  # 8 - strata
+    True,   # 9 - age
+    True,   # 10 - gender
+    True,   # 11 - FEV
+    True    # 12 - the ID based on age, gender and strata
+]
 # +++ edit the numbers of elements within each strata +++
 # (NOTE: currently equal for al strata iff enough available)
-length = 2000
+length = 100000
+equal = False
 # ---------------- END: editable part ----------------
 
 
 # set the name to save the set in
-newSetName = "generatedTestSet-{}.txt".format(length)
+newSetName = "generatedTestSet-{}-equal={}.txt".format(length, equal)
 
 # creates a equal distributed set based on the length
-data_collection_equal_dist = data_collection.equalDistribute(length)
+if equal:
+    data_collection_changed = data_collection.equalDistribute(length)
+else:
+    data_collection_changed = data_collection.shrink(length)
+
+print(data_collection_changed.getData(mask))
 # saves the new set in the new file
-data_collection_equal_dist.printToFile(newSetName, mask)
+data_collection_changed.printToFile(newSetName, mask)
