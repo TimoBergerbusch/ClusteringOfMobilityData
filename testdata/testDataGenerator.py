@@ -3,7 +3,7 @@ import re
 import random
 
 FILE_NAME = "BaseDatosMDE.txt"  # the dataset to infer the subsets from
-DATA_NAMES = ["origin", "destination", "reason", "HMV", "RED" "mean of Transportation", "average Time", "duration",
+DATA_NAMES = ["origin", "destination", "reason", "HMV", "RED" "mean_of_Transportation", "average_Time", "duration",
               "distance", "age", "gender", "strata"]  # the header names
 IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST EDAD SEXO FEV ',
                       " "]  # a list of values that should not be considered as a data containing line
