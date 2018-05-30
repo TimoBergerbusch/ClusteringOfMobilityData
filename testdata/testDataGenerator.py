@@ -3,9 +3,11 @@ import re
 import random
 
 FILE_NAME = "BaseDatosMDE.txt"  # the dataset to infer the subsets from
+
 # FILE_NAME = "Daten - Uhrzeiten.txt"  # the dataset to infer the subsets from
 DATA_NAMES = ["origin", "destination", "reason", "MODO", "HMV", "RED", "duration",
               "distance", "strata", "age", "gender", "FEV", "ID"]  # the header names
+
 IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST EDAD SEXO FEV ',
                       " "]  # a list of values that should not be considered as a data containing line
 
@@ -293,10 +295,10 @@ def create_equal_testset(mask, data_collection):
 
 
 def create_shrink_testset(mask, data_collection):
-    numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, -1]
+    numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 124979]
 
     for length in numbers:
-        if length != -1:
+        if length != 124979:
             newSetName = "generatedTestSet-{}-equal={}.txt".format(length, False)
         else:
             newSetName = "generatedTestSet-full-with-ID.txt"
