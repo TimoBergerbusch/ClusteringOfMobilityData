@@ -3,13 +3,13 @@ import re
 import random
 
 FILE_NAME = "BaseDatosMDE.txt"  # the dataset to infer the subsets from
-DATA_NAMES = ["origin", "destination", "reason", "HMV", "RED" "mean of Transportation", "average Time", "duration",
-              "distance", "age", "gender", "strata"]  # the header names
+# FILE_NAME = "Daten - Uhrzeiten.txt"  # the dataset to infer the subsets from
+DATA_NAMES = ["origin", "destination", "reason", "MODO", "HMV", "RED", "duration",
+              "distance", "strata", "age", "gender", "FEV", "ID"]  # the header names
 IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST EDAD SEXO FEV ',
                       " "]  # a list of values that should not be considered as a data containing line
 
-					  
-					  
+
 class DataEntry:
     """
     A class to store a single data entry. This is further used to mask the desired columns
@@ -283,6 +283,27 @@ def parse_lines_of_content(linesOfContent):
     return data_entries
 
 
+def create_equal_testset(mask, data_collection):
+    numbers = [100, 200, 500, 1000, 2000]
+
+    for length in numbers:
+        newSetName = "generatedTestSet-{}-equal={}.txt".format(length, True)
+        data_collection_changed = data_collection.equalDistribute(length)
+        data_collection_changed.printToFile(newSetName, mask)
+
+
+def create_shrink_testset(mask, data_collection):
+    numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, -1]
+
+    for length in numbers:
+        if length != -1:
+            newSetName = "generatedTestSet-{}-equal={}.txt".format(length, False)
+        else:
+            newSetName = "generatedTestSet-full-with-ID.txt"
+        data_collection_changed = data_collection.shrink(length)
+        data_collection_changed.printToFile(newSetName, mask)
+
+
 # read the whole file named FILE_NAME
 linesOfFile = read_file()
 # clean the file from empty lines and the header
@@ -294,36 +315,38 @@ data_collection = DataCollection(dataEntries)
 # ---------------- START: editable part ----------------
 # +++ edit the columns generated here +++
 mask = [
-    True,   # 0 - origin
-    True,   # 1 - destination
-    True,   # 2 - reason
-    True,   # 3 - mean of transportation
-    True,   # 4 - HVM?
-    True,   # 5 - average time
-    True,   # 6 - duration
-    True,   # 7 - distance
+    True,  # 0 - origin
+    True,  # 1 - destination
+    True,  # 2 - reason
+    True,  # 3 - mean of transportation
+    True,  # 4 - HVM?
+    True,  # 5 - average time
+    True,  # 6 - duration
+    True,  # 7 - distance
     False,  # 8 - strata
-    True,   # 9 - age
-    True,   # 10 - gender
-    True,   # 11 - FEV
-    True    # 12 - the ID based on age, gender and strata
+    True,  # 9 - age
+    True,  # 10 - gender
+    True,  # 11 - FEV
+    True  # 12 - the ID based on age, gender and strata
 ]
 # +++ edit the numbers of elements within each strata +++
 # (NOTE: currently equal for al strata iff enough available)
-length = 100000
-equal = False
+# length = 5
+# equal = True
 # ---------------- END: editable part ----------------
 
 
-# set the name to save the set in
-newSetName = "generatedTestSet-{}-equal={}.txt".format(length, equal)
-
-# creates a equal distributed set based on the length
-if equal:
-    data_collection_changed = data_collection.equalDistribute(length)
-else:
-    data_collection_changed = data_collection.shrink(length)
-
-print(data_collection_changed.getData(mask))
-# saves the new set in the new file
-data_collection_changed.printToFile(newSetName, mask)
+create_equal_testset(mask, data_collection)
+create_shrink_testset(mask, data_collection)
+# # set the name to save the set in
+# newSetName = "generatedTestSet-{}-equal={}.txt".format(length, equal)
+#
+# # creates a equal distributed set based on the length
+# if equal:
+#     data_collection_changed = data_collection.equalDistribute(length)
+# else:
+#     data_collection_changed = data_collection.shrink(length)
+#
+# print(data_collection_changed.getData(mask))
+# # saves the new set in the new file
+# data_collection_changed.printToFile(newSetName, mask)
