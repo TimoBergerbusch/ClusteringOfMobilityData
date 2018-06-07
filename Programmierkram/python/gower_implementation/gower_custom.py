@@ -1,12 +1,12 @@
 # Origin | Destination | Reason | Mean of Transportation | Average Time | Time Interval | Duration | Distance | Age | Gender
-o1 = [
+
 
 categorical = [True, True, True, True, False, True, False, False, False, True]
 
 def distance (X, Y, categorical):
     # Check array sizes
     
-    if (len(x) != len(Y)):
+    if (len(X) != len(Y)):
            print("Array sizes do not Match!")
            return;
     
@@ -14,7 +14,7 @@ def distance (X, Y, categorical):
     
     s = [0 for i in range(len(X))]
     
-    ranges = [0, 0, 0, 0, 0, 0, , , , 0]
+    ranges = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
        
     for i in range(len(X)):
         if (categorical[i] == True):
