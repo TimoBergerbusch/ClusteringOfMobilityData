@@ -38,7 +38,18 @@
 For simplicity a powerful software system with a variety of different ways for clustering analysis, called Rapidminer Studio, is used to find correlations between spatio temporal data points. It enables to graphically form a pipeline from our spatio temporal input data to a concrete clustering by composing small blocks called \textbf{operators}. The first approach is to simply retrieve the base data from Medellín and feed it into a clustering operator which uses K-means. 
 
 \subsubsection*{Corrupted Data}
-The first visible thing is that the data is corrupted, i. e. there are missing values for some data points, which are not allowed for the clustering operators. To fix this issue the missing values are replaced with the average value of the respective attribute. Since the data has both categorical and numerical values, the mixed euclidian distance is used as similarity measure to calculate the difference between two data points with both numerical and categorical attributes.
+The first visible thing is that the data is corrupted, i. e. there are missing values for some data points, which are not allowed for the clustering operators. To fix this issue the missing values are replaced with the average value of the respective attribute. Furthermore it is not known if there are correlations between different data points, i. e. if two different data points are associated with the very same person, which is critical for clustering analysis to ensure that one person is not part of different clusters. Consider two travels, one at morning and one at midnight, which form a cycle, i. e. the start (end) of the first travel is equal to the end (start) of the second one. This type of correlation reflects, that people normally leave the house in the morning and get home at the end of the day, which is not well handled by the Euclidian Distance and could lead to bad clustering.
+
+Since the data has both categorical and numerical values, the mixed euclidian distance is used as similarity measure to calculate the difference between two data points with both numerical and categorical attributes.
+
+\subsubsection*{Mixed Euclidian Distance}
+The Euclidian distance for numerical vectors is given by
+$$d(p,q) = \sqrt{(p_1-q_1)^2+...+(p_n-q_n)^2} \text{ with }p=(p_1,...,p_n) \text{and }q=(q_1,...,q_n)$$
+which can be extended to measure the similarity of mixed vectors with both numerical and categorical types by defining
+$$(p_i-q_i)^2 = \begin{cases}
+0,& \text{if } p_i=q_i\\
+1,& \text{otherwise}\\
+\end{cases}$$ as distance between two categorical values.
 
 \begin{enumerate}
 	
