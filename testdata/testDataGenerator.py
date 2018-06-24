@@ -1,15 +1,19 @@
 import itertools
 import re
 import random
+import argparse
 
 FILE_NAME = "BaseDatosMDE.txt"  # the dataset to infer the subsets from
 
-# FILE_NAME = "Daten - Uhrzeiten.txt"  # the dataset to infer the subsets from
+# the header names that should be used
 DATA_NAMES = ["origin", "destination", "reason", "MODO", "HMV", "RED", "duration",
               "distance", "strata", "age", "gender", "FEV", "ID"]  # the header names
 
+# the lines that should be neglected in the FILE_NAME-file
 IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST EDAD SEXO FEV ',
-                      " "]  # a list of values that should not be considered as a data containing line
+                      " "]
+
+random.seed(7811)
 
 
 class DataEntry:
@@ -76,10 +80,25 @@ class DataEntry:
         return False
 
     def computeID(self):
-        # self.data[12] = "Age:{};Gender:{};Strata:{}".format(self.data[9], self.data[10], self.data[8])
+        """
+        computes an ID for this element. The ID is a random number between 1 and 150000.
+        This is done, because the value should be just an identifier.
+        If the numerical value is used it throws of every clustering and therefore indicate an error
+
+        :return: the ID (int, 1<= value <= 150000)
+        """
         self.data[12] = random.randint(1, 150000)
 
     def compareTo(self, otherEntry):
+        """
+        compares a DataEntry to a given other DataEntry.
+        The comparison is made based on the strata, gender and age.
+        If all those 3 are equal we consider two DataEntries to be from the same person.
+        Further logical reasoning could be made, through pathfinding with time and origin-destination constraints
+
+        :param otherEntry: the other DataEntry one should compare to
+        :return: a boolean value whether this DataEntry is equal to the given DataEntry
+        """
         if self.data[8] == otherEntry.data[8] and self.data[9] == otherEntry.data[9] and self.data[10] == \
                 otherEntry.data[10]:
             return True
@@ -116,11 +135,13 @@ class DataCollection:
         writes the information of all DataEntries and the length of the DataCollection
         :return: -undef-
         """
-        self.computeIDs()
-        print("Data Collection: length={}".format(len(self.data_entries)))
+        # self.computeIDs()
+        if args.debug: print("INFORMATION :: Data Collection: length={}".format(len(self.data_entries)))
         for entry in self.data_entries:
             entry.writeDataEntry()
 
+    # TODO currently first appearing
+    # SHOULD: random or decidable
     def equalDistribute(self, length):
         """
         creates a new DataCollection of DataEntries containing length-many items of every strata.
@@ -140,7 +161,8 @@ class DataCollection:
         for i in range(0, 6):
             if buckets[i] < length:
                 print(
-                    "Could not find enough elements for strata {} (has:{} should:{})".format(i + 1, buckets[i], length))
+                    "ERROR :: Could not find enough elements for strata {} (has:{} should:{})".format(i + 1, buckets[i],
+                                                                                                      length))
 
         newDataSet = DataCollection(equal_data_entries)
         return newDataSet
@@ -153,17 +175,22 @@ class DataCollection:
         :param mask: the mask to indicate column usage
         :return: -undef-
         """
-        self.computeIDs()
+        # self.computeIDs()
         with open(fileName, "w+") as file:
-            file.write(' '.join(DATA_NAMES))
+            file.write(get_used_headers(mask))
+
             file.write("\n")
             for entry in self.data_entries:
                 file.write(''.join(entry.getData(mask)))
                 file.write("\n")
 
     def computeIDs(self):
+        # !!!IMPORTANT!!!
+        # TODO: what if random Entries?
+        # Then two action of the same person, which were consequtive in the original
+        # are not neccassarily consequtive in the shrink-generate Set and therefore not be considered from the same person.
         if len(self.data_entries) == 0:
-            print("Can not compute the IDs because the list is empty")
+            if args.debug: print("WARNING :: Can not compute the IDs because the list is empty")
         for i in range(0, len(self.data_entries)):
             if i > 0 and self.data_entries[i].compareTo(self.data_entries[i - 1]):
                 self.data_entries[i].data[12] = self.data_entries[i - 1].data[12]
@@ -171,6 +198,13 @@ class DataCollection:
                 self.data_entries[i].computeID()
 
     def findRandomEntry(self, strata):
+        """
+        searches for a randomly placed DataEntry in the set, which is in the given strata
+
+        NOTE: if no such element exists an error-message is printed and "None" is returned
+        :param strata: the strata the random DataEntry should have
+        :return: a random DataEntry of the given strata or None
+        """
         start = random.randint(0, len(self.data_entries) - 1)
         index = start
         while (True):
@@ -180,32 +214,47 @@ class DataCollection:
             else:
                 index = (index + 1) % len(self.data_entries)
                 if index == start:
+                    print('ERROR :: found no random element with the strata {}'.format(strata))
                     return None
 
-    # strata 1 ABS: 6963  REL:  5.5713%
-    # strata 2 ABS: 52266 REL: 41.8198%
-    # strata 3 ABS: 49404 REL: 39.5298%
-    # strata 4 ABS: 8772  REL:  7.0188%
-    # strata 5 ABS: 5536  REL:  4.4295%
-    # strata 6 ABS: 2038  REL:  1.6301%
     def shrink(self, length):
+        # the absolute numbers in the original dataset
+        # used for checking the ex. of that many elements
         absolute_numbers = [6963, 52266, 49404, 8772, 5536, 2038]
-        relative_numbers = [5.5713, 41.8198, 39.5298, 7.0188, 4.4295, 1.6301]
+        # the distribution in the original dataset
+        relative_numbers = []
+        for i in range(0, 6):
+            relative_numbers.append(absolute_numbers[i] / 124979)
         abs_numbers = []
         new_data_entries = []
-        for i in range(0, len(relative_numbers)):
-            abs_numbers.append(round(length * (relative_numbers[i] / 100)))  # compute absolute number of values
-            print("Strata {} should contain {} elements".format(i + 1, abs_numbers[i]))
+        for i in range(0, 6):
+            abs_numbers.append(round(length * relative_numbers[i]))  # compute absolute number of values
+            # abs_numbers.append(round(length * (relative_numbers[i] / 100)))  # compute absolute number of values
+            if args.debug: print("INFORMATION :: Strata {} should contain {} elements".format(i + 1, abs_numbers[i]))
 
             if abs_numbers[i] > absolute_numbers[i]:  # check availability
                 abs_numbers[i] = absolute_numbers[i]
                 print("ERROR: Strata {} should contain more entries than there are".format(i + 1))
+                # TODO:
+                # print("Use max. available number or quit?(use/quit)")
+                # read and decide
 
-            for j in range(0, abs_numbers[i]):
-                new_data_entries.append(self.findRandomEntry(i + 1))
+            # for j in range(0, abs_numbers[i]):
+            # check for duplicates
+            # new_data_entries.append(self.findRandomEntry(i + 1))
+            count = 0
+            index = 0
+            while count < abs_numbers[i]:
+                if index >= len(self.data_entries):
+                    print("ERROR       :: index problem")
+                    exit()
+                if self.data_entries[index].data[8] == "{}".format(i + 1):
+                    new_data_entries.append(self.data_entries[index])
+                    count += 1
+                index += 1
 
-        new_DataCollection = DataCollection(new_data_entries)
-        return new_DataCollection
+        new__data_collection = DataCollection(new_data_entries)
+        return new__data_collection
 
 
 def get_used_headers(mask):
@@ -279,33 +328,75 @@ def parse_lines_of_content(linesOfContent):
         data_entry = parse_DataEntry(element)
 
         if data_entry.isBroken():
-            print("BROKEN ENTITY: for element {}".format(element))
+            print("ERROR :: BROKEN ENTITY! for element {}".format(element))
         else:
             data_entries.append(data_entry)
     return data_entries
 
-
+# TODO: Merge both test set generators
 def create_equal_testset(mask, data_collection):
     numbers = [100, 200, 500, 1000, 2000]
 
     for length in numbers:
-        newSetName = "generatedTestSet-{}-equal={}.txt".format(length, True)
+        newSetName = "generatedTestSet-{}-{}.txt".format(length, args.distType)
         data_collection_changed = data_collection.equalDistribute(length)
         data_collection_changed.printToFile(newSetName, mask)
 
 
 def create_shrink_testset(mask, data_collection):
-    numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 124979]
+    # numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 124979]
+    numbers = [124979, 100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100]
 
+    # if the current data_collection_changed is not empty and has more elements than
+    #  currently desired compute based on it.
     for length in numbers:
         if length != 124979:
-            newSetName = "generatedTestSet-{}-equal={}.txt".format(length, False)
+            newSetName = "generatedTestSet-{}-normal.txt".format(length)
         else:
             newSetName = "generatedTestSet-full-with-ID.txt"
         data_collection_changed = data_collection.shrink(length)
         data_collection_changed.printToFile(newSetName, mask)
 
 
+# ---------------- START: arguments ----------------
+parser = argparse.ArgumentParser(
+    description='Create Testsets for of the mobility data using equal or normal distribution.')
+# set defaults
+parser.set_defaults(size=False)
+parser.set_defaults(debug=False)
+parser.set_defaults(distType="equal")
+
+# create  exclusive group
+size_parser = parser.add_mutually_exclusive_group(required=False)
+#  create all testsets considered
+size_parser.add_argument('-all', dest='size', action='store_true',
+                         help="create all test sets considered to be possibly relevant. This creates for the "
+                              "equally distributed version considering the lengths: 100, 200, 500, 1000, 2000 and for "
+                              "the normally distributed the lengths: 100, 200, 500, 1000, 2000, 5000, 10000, 20000, "
+                              "50000, 100000, 124979")
+# create testset of desired size (NOTE: max 2038)
+size_parser.add_argument('-size', metavar='size', type=int,
+                         help='the size of the new testset (NOTE: for equal distribution a max. value of 2038 is '
+                              'possible)')
+
+# debug output flag
+parser.add_argument('-debug', dest='debug', action='store_true', help='write (debug) information of current processes')
+
+# mask changing
+# create a exclusive flag for every header column
+# default are always true except for strata.
+# only if rapidminer can set flags
+
+# change the distribution
+parser.add_argument('-distType', metavar='distType', help='the type of distribution: (0) equal; (1) normal')
+# parse the arguments
+args = parser.parse_args()
+
+# if debug flag is set also output the arguments themself
+if args.debug: print('Choosen flags: {}'.format(args))
+# ---------------- END: arguments ----------------
+
+# ---------------- START: preprocessing ----------------
 # read the whole file named FILE_NAME
 linesOfFile = read_file()
 # clean the file from empty lines and the header
@@ -314,8 +405,12 @@ linesOfContent = clean_up_list(linesOfFile)
 dataEntries = parse_lines_of_content(linesOfContent)
 # create a new DataCollection
 data_collection = DataCollection(dataEntries)
-# ---------------- START: editable part ----------------
-# +++ edit the columns generated here +++
+
+data_collection.computeIDs()
+
+# ---------------- END: preprocessing ----------------
+
+# ---------------- START: mask ----------------
 mask = [
     True,  # 0 - origin
     True,  # 1 - destination
@@ -331,24 +426,43 @@ mask = [
     True,  # 11 - FEV
     True  # 12 - the ID based on age, gender and strata
 ]
-# +++ edit the numbers of elements within each strata +++
-# (NOTE: currently equal for al strata iff enough available)
-# length = 5
-# equal = True
-# ---------------- END: editable part ----------------
+# ---------------- END: mask ----------------
 
+# create all testsets if all-flag
+if args.size == True:
+    if args.debug:
+        print("INFORMATION :: All-Flag is set")
+        print("INFORMATION :: Create equal testsets")
+    create_equal_testset(mask, data_collection)  # create all equally distributed
+    if args.debug: print("INFORMATION :: Create normal testsets")
+    create_shrink_testset(mask, data_collection)  # create all normally distributed
+    if args.debug: print("INFORMATION :: Finished creating the sets")
+    exit()  # exit, because every standart set is created
 
-create_equal_testset(mask, data_collection)
-create_shrink_testset(mask, data_collection)
-# # set the name to save the set in
-# newSetName = "generatedTestSet-{}-equal={}.txt".format(length, equal)
-#
-# # creates a equal distributed set based on the length
-# if equal:
-#     data_collection_changed = data_collection.equalDistribute(length)
-# else:
-#     data_collection_changed = data_collection.shrink(length)
-#
-# print(data_collection_changed.getData(mask))
-# # saves the new set in the new file
-# data_collection_changed.printToFile(newSetName, mask)
+if args.debug: print(
+    "INFORMATION :: Create a Testset with {} elements using {} distribution. ".format(args.size, args.distType))
+newSetName = "generatedTestSet-{}-{}.txt".format(args.size, args.distType)  # the default name of the new set
+
+if args.distType == 'equal':
+    # equal distribution
+    # TODO: maybe create subsets based on the given number (/6) to
+    # have the same behavior in equal and normal distribution
+    if args.size > 2038:  # check if max. indiviual value is exceeded
+        print("WARNING     :: The maximal value for equal distribution is 2038.")
+        print("           This value(2038) is further used.")
+        args.size = 2038
+    data_collection_changed = data_collection.equalDistribute(args.size)
+elif args.distType == "normal":
+    # normal distribution
+    data_collection_changed = data_collection.shrink(args.size)
+else:
+    # case not known
+    print("ERROR       :: There is no distribution type classed '{}'".format(args.distType))
+    print("               The only suitable distribution types are:")
+    print("                 - equal    using a fix number for all stratas (max. 2038)")
+    print("                 - normal   have a total number of elements with the original distribution")
+    exit()
+
+if args.debug: print("INFORMATION :: Start to save into file named: '{}'".format(newSetName))
+data_collection_changed.printToFile(newSetName, mask)  # save the new set
+if args.debug: print("INFORMATION :: Program successfully finished")
