@@ -1,14 +1,9 @@
-\section{PCA}
+\section{Clustering with RapidMiner}
 
-\textbf{PCA} uses an orthogonal transformation (vectors multiplied are 0) to
-convert a dataset with maybe correlated datas into a dataset withou
-correlations.
+RapidMiner has different Modules for Clustering already implemented. We apply the k-Means algorithm with mixed measure (euclidean).
 
-Rapidminer has a tool applying the PCA algorithm on given data. Output are the
-new attributes, which are a combination of the old ones. 
+\includegraphics[width=0.9\textwidth]{ClusteringRapid.PNG}
 
-\subsection{Rapidminer Process}
-\includegraphics[width=0.9\textwidth]{PCAClustering}
 
 The Process does the following steps:
 \begin{description}
@@ -16,29 +11,26 @@ The Process does the following steps:
 	\item[Nominal to Numerical] This changes the nominal data to numerical data, so that we can apply PCA in the next step
 	\item[PCA] Here we apply the PCA reduction to the data with a variance threshold $0.95$
 	\item[Clustering] Here the number of Clusters has to be fixed. We decided, that 10 runs should be enough. We can choose between differen measure types and tried mixed euclidean and squared euclidean distance
-	\item[Generate ID] Is just needed to join the datasets 
 	\item[Select Attribute] Here we just pick the Strata data for comparing with the clustering
 	\item[Join] For comparing the Clustering and the Strata we join the two filtered data sets at the ID
 \end{description}
 
-This is the basis for all datasets.
+\subsection{Original Data}
 
-\subsection{Applying on original data}
-Applying the PCA module on the original data without EST and a variance
-threshold of 0.95 we get two Attributes, so we can assume, that the data is strongly connected. As expected the computating time decreases a lot. 
+Applying this process to the original data you can see without alignment of strata and cluster, that the distribution of cluster and strata is not close to the same.
 
-For a clustering of 6 clusters we get a distribution that is complete different from the original distribution \ref{fig:OrgDist}. 
+\ref{fig:OrgDist}. 
 \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{ClusterOrigRapidStrata.PNG}
+  \includegraphics[width=.4\linewidth]{ClusterPCAOrigRapidStrata.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{ClusterOrigRapidCluster.PNG}
+  \includegraphics[width=.4\linewidth]{ClusterPCAOrigRapidCluster.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}

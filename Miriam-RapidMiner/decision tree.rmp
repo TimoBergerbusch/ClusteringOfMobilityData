@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="8.2.000">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="8.2.000" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="8.2.000" expanded="true" height="68" name="Retrieve generatedTestSet-full-with-ID-with-Strata" width="90" x="45" y="34">
+        <parameter key="repository_entry" value="//Local Repository/data/Praktikum/generatedTestSet-full-with-ID-with-Strata"/>
+      </operator>
+      <operator activated="true" class="generate_attributes" compatibility="8.2.000" expanded="true" height="82" name="Generate Attributes" width="90" x="179" y="34">
+        <list key="function_descriptions">
+          <parameter key="strata" value="if(strata&lt;=1,&quot;first&quot;,(if(strata&lt;=2,&quot;second&quot;,(if (strata&lt;=3,&quot;third&quot;,(if( strata&lt;=4,&quot;fourth&quot;,(if (strata&lt;=5,&quot;fifth&quot;,(if( strata&lt;=6,&quot;sixth&quot;,&quot;stupid&quot;)))))))))))"/>
+        </list>
+        <parameter key="keep_all" value="true"/>
+      </operator>
+      <operator activated="true" class="set_role" compatibility="8.2.000" expanded="true" height="82" name="Set Role" width="90" x="313" y="34">
+        <parameter key="attribute_name" value="strata"/>
+        <parameter key="target_role" value="label"/>
+        <list key="set_additional_roles">
+          <parameter key="ID" value="id"/>
+        </list>
+      </operator>
+      <operator activated="true" class="concurrency:parallel_decision_tree" compatibility="8.2.000" expanded="true" height="103" name="Decision Tree" width="90" x="447" y="34">
+        <parameter key="criterion" value="information_gain"/>
+        <parameter key="maximal_depth" value="20"/>
+        <parameter key="apply_pruning" value="true"/>
+        <parameter key="confidence" value="0.25"/>
+        <parameter key="apply_prepruning" value="true"/>
+        <parameter key="minimal_gain" value="0.1"/>
+        <parameter key="minimal_leaf_size" value="1"/>
+        <parameter key="minimal_size_for_split" value="4"/>
+        <parameter key="number_of_prepruning_alternatives" value="3"/>
+      </operator>
+      <connect from_op="Retrieve generatedTestSet-full-with-ID-with-Strata" from_port="output" to_op="Generate Attributes" to_port="example set input"/>
+      <connect from_op="Generate Attributes" from_port="example set output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Set Role" from_port="example set output" to_op="Decision Tree" to_port="training set"/>
+      <connect from_op="Decision Tree" from_port="model" to_port="result 1"/>
+      <connect from_op="Decision Tree" from_port="exampleSet" to_port="result 2"/>
+      <connect from_op="Decision Tree" from_port="weights" to_port="result 3"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+    </process>
+  </operator>
+</process>
