@@ -13,6 +13,8 @@ DATA_NAMES = ["origin", "destination", "reason", "MODO", "HMV", "RED", "duration
 IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST EDAD SEXO FEV ',
                       " "]
 
+USED_IDS = []
+
 random.seed(7811)
 
 
@@ -87,7 +89,15 @@ class DataEntry:
 
         :return: the ID (int, 1<= value <= 150000)
         """
-        self.data[12] = random.randint(1, 150000)
+
+        guard = True
+        while guard:
+            id = random.randint(1, 500000)
+            if id not in USED_IDS:
+                guard = False
+
+        USED_IDS.append(id)
+        self.data[12] = id
 
     def compareTo(self, otherEntry):
         """
@@ -189,6 +199,7 @@ class DataCollection:
         # TODO: what if random Entries?
         # Then two action of the same person, which were consequtive in the original
         # are not neccassarily consequtive in the shrink-generate Set and therefore not be considered from the same person.
+        USED_IDS = []
         if len(self.data_entries) == 0:
             if args.debug: print("WARNING :: Can not compute the IDs because the list is empty")
         for i in range(0, len(self.data_entries)):
@@ -333,6 +344,7 @@ def parse_lines_of_content(linesOfContent):
             data_entries.append(data_entry)
     return data_entries
 
+
 # TODO: Merge both test set generators
 def create_equal_testset(mask, data_collection):
     numbers = [100, 200, 500, 1000, 2000]
@@ -420,7 +432,7 @@ mask = [
     True,  # 5 - average time
     True,  # 6 - duration
     True,  # 7 - distance
-    False,  # 8 - strata
+    True,  # 8 - strata
     True,  # 9 - age
     True,  # 10 - gender
     True,  # 11 - FEV
