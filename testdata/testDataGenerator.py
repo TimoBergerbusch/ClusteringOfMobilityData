@@ -2,6 +2,7 @@ import itertools
 import re
 import random
 import argparse
+import numpy as np
 
 FILE_NAME = "BaseDatosMDE.txt"  # the dataset to infer the subsets from
 
@@ -335,6 +336,35 @@ class Person:
                                                                                        self.parameters[2],
                                                                                        len(self.movements))
 
+    def computeVector(self):
+        lst = [0] * (2 * 413 + 4 + 7 + 7)
+        sum_of_duration = 0
+        sum_of_way = 0
+        for entry in self.movements:
+            sum_of_duration += int(float(entry.data[6]))
+            sum_of_way += int(float(entry.data[7]))
+
+            lst[int(float(entry.data[0]))] += 1  # add one to origin count
+            lst[413 + int(float(entry.data[1]))] += 1  # add one to destination count
+
+            if entry.data[5] == "AM":
+                lst[2 * 413] += 1
+            elif entry.data[5] == "MD":
+                lst[2 * 413 + 1] += 1
+            elif entry.data[5] == "PM":
+                lst[2 * 413 + 2] += 1
+            elif entry.data[5] == "MN":
+                lst[2 * 413 + 3] += 1
+            lst[2 * 413 + 4 + int(float(entry.data[2])) - 1] += 1  # reason
+            lst[2 * 413 + 4 + 7 + int(float(entry.data[3])) - 1] += 1
+
+        lst.append(sum_of_duration)  # summe der dauer
+        lst.append(sum_of_way)  # summe der strecke
+        lst.append(int(float(self.parameters[2])))  # geschlecht
+        lst.append(int(float(self.parameters[1])))  # alter
+
+        return lst
+
 
 def get_used_headers(mask):
     """
@@ -438,6 +468,17 @@ def create_all_testsets(mask, data_collection):
     if args.debug: print("INFORMATION :: finished creating all Testsets")
 
 
+def create_Person_Vector_File():
+    if args.debug: print("INFORMATION ::  Vector Data of Persons")
+    file_Name = "person_vector_data.txt"
+    with open(file_Name, "w+") as file:
+
+        file.write("\n")
+        for person in PERSONS:
+            file.write(" ".join(str(x) for x in person.computeVector()))
+            file.write("\n")
+
+
 # ---------------- START: arguments ----------------
 parser = argparse.ArgumentParser(
     description='Create Testsets for of the mobility data using equal or normal distribution.')
@@ -518,10 +559,12 @@ mask = [
 
 # data_collection.writeDataCollection(mask)
 
-
+print(len(PERSONS[0].computeVector()))
+create_Person_Vector_File()
 # for person in PERSONS:
 #     print(person.getData())
-# exit()
+# print(person.computeVector())
+exit()
 
 # create all testsets if all-flag
 # (NOTE: has to be checked against True, since it could be a size number and therefore is an int, but
@@ -530,10 +573,6 @@ if args.size == True:
     if args.debug:
         print("INFORMATION :: All-Flag is set")
         print("INFORMATION :: Create equal testsets")
-    # create_equal_testset(mask, data_collection)  # create all equally distributed
-    # if args.debug: print("INFORMATION :: Create normal testsets")
-    # create_shrink_testset(mask, data_collection)  # create all normally distributed
-    # if args.debug: print("INFORMATION :: Finished creating the sets")
     create_all_testsets(mask, data_collection)
     exit()  # exit, because every standart set is created
 
