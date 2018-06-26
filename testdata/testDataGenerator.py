@@ -61,6 +61,7 @@ class DataEntry:
         :return: a list of the data masked by the values
         """
         assert len(mask) == len(self.data)
+        assert not self.isBroken()
         s = ""
         for i in range(0, len(mask)):
             if mask[i]:
@@ -409,6 +410,8 @@ if args.debug: print('Choosen flags: {}'.format(args))
 # ---------------- END: arguments ----------------
 
 # ---------------- START: preprocessing ----------------
+
+if args.debug: print("INFORMATION ::  Reading data file ({})".format(FILE_NAME))
 # read the whole file named FILE_NAME
 linesOfFile = read_file()
 # clean the file from empty lines and the header
@@ -418,7 +421,12 @@ dataEntries = parse_lines_of_content(linesOfContent)
 # create a new DataCollection
 data_collection = DataCollection(dataEntries)
 
+# TODO: create a set based an precomputed IDs
+# compute the IDs
+if args.debug: print("INFORMATION ::  Compute IDs")
 data_collection.computeIDs()
+
+if args.debug: print("INFORMATION ::  Preprocessing finished")
 
 # ---------------- END: preprocessing ----------------
 
