@@ -13,9 +13,15 @@ DATA_NAMES = ["origin", "destination", "reason", "MODO", "HMV", "RED", "duration
 IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST EDAD SEXO FEV ',
                       " "]
 
-USED_IDS = []
-
+# a seed to generate pseudo-random numbers
+# (mainly for debug reasons)
 random.seed(7811)
+
+# the last ID used to enumerate all IDs
+LAST_ID = 1
+
+
+# USED_IDS = []
 
 
 class DataEntry:
@@ -91,14 +97,15 @@ class DataEntry:
         :return: the ID (int, 1<= value <= 150000)
         """
 
-        guard = True
-        while guard:
-            id = random.randint(1, 500000)
-            if id not in USED_IDS:
-                guard = False
-
-        USED_IDS.append(id)
-        self.data[12] = id
+        # guard = True
+        # while guard:
+        #     id = random.randint(1, 500000)
+        #     if id not in USED_IDS:
+        #         guard = False
+        # USED_IDS.append(id)
+        global LAST_ID
+        self.data[12] = LAST_ID
+        LAST_ID += 1  # random.randint(1, 9)
 
     def compareTo(self, otherEntry):
         """
@@ -196,19 +203,20 @@ class DataCollection:
                 file.write("\n")
 
     def computeIDs(self):
-        # !!!IMPORTANT!!!
-        # TODO: what if random Entries?
-        # Then two action of the same person, which were consequtive in the original
-        # are not neccassarily consequtive in the shrink-generate Set and therefore not be considered from the same person.
-        USED_IDS = []
+        # USED_IDS = []
         if len(self.data_entries) == 0:
             if args.debug: print("WARNING :: Can not compute the IDs because the list is empty")
         for i in range(0, len(self.data_entries)):
+
+            # compare if two adjacent DataEntrys are equal
             if i > 0 and self.data_entries[i].compareTo(self.data_entries[i - 1]):
+                # if so give them the same ID
                 self.data_entries[i].data[12] = self.data_entries[i - 1].data[12]
             else:
+                # otherwise it gets a new ID
                 self.data_entries[i].computeID()
 
+    @DeprecationWarning
     def findRandomEntry(self, strata):
         """
         searches for a randomly placed DataEntry in the set, which is in the given strata
@@ -230,6 +238,13 @@ class DataCollection:
                     return None
 
     def shrink(self, length):
+        assert len(self.data_entries) >= length - 1
+
+        # if the shrunken set should contain the same number of elements just return a copy
+        if len(self.data_entries) == length:
+            new__data_collection = DataCollection(self.data_entries)
+            return new__data_collection
+
         # the absolute numbers in the original dataset
         # used for checking the ex. of that many elements
         absolute_numbers = [6963, 52265, 49404, 8772, 5536, 2038]
@@ -243,7 +258,8 @@ class DataCollection:
         for i in range(0, 6):
             abs_numbers.append(round(length * relative_numbers[i]))  # compute absolute number of values
             # abs_numbers.append(round(length * (relative_numbers[i] / 100)))  # compute absolute number of values
-            if args.debug: print("INFORMATION :: Strata {} should contain {} elements".format(i + 1, abs_numbers[i]))
+            if args.debug: print(
+                "INFORMATION ::        Strata {} should contain {} elements".format(i + 1, abs_numbers[i]))
 
             if abs_numbers[i] > absolute_numbers[i]:  # check availability
                 abs_numbers[i] = absolute_numbers[i]
@@ -260,7 +276,9 @@ class DataCollection:
             while count < abs_numbers[i]:
                 if index >= len(self.data_entries):
                     print("ERROR       :: index problem")
-                    print("ERROR       :: Strata {} has overall less elements ({}) than its supposed to have ({})".format(i+1,count,abs_numbers[i]))
+                    print(
+                        "ERROR       :: Strata {} has overall less elements ({}) than its supposed to have ({})".format(
+                            i + 1, count, abs_numbers[i]))
                     exit()
                 if self.data_entries[index].data[8] == "{}".format(i + 1):
                     new_data_entries.append(self.data_entries[index])
@@ -348,29 +366,29 @@ def parse_lines_of_content(linesOfContent):
     return data_entries
 
 
-# TODO: Merge both test set generators
-def create_equal_testset(mask, data_collection):
-    numbers = [100, 200, 500, 1000, 2000]
+def create_all_testsets(mask, data_collection):
+    numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000]
 
     for length in numbers:
-        newSetName = "generatedTestSet-{}-{}.txt".format(length, args.distType)
-        data_collection_changed = data_collection.equalDistribute(length)
-        data_collection_changed.printToFile(newSetName, mask)
+        # equal test sets
+        if length <= 2000:  # only possible till 2038 items per strata
+            if args.debug: print("INFORMATION :: create equal Testset of length: {}".format(length))
+            newSetName = "generatedTestSet-{}-equal.txt".format(length)
+            data_collection_changed = data_collection.equalDistribute(length)
+            data_collection_changed.printToFile(newSetName, mask)
 
-
-def create_shrink_testset(mask, data_collection):
-    # numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 124979]
-    numbers = [124979, 100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100]
-
-    # if the current data_collection_changed is not empty and has more elements than
-    #  currently desired compute based on it.
-    for length in numbers:
-        if length != 124979:
-            newSetName = "generatedTestSet-{}-normal.txt".format(length)
-        else:
-            newSetName = "generatedTestSet-full-with-ID.txt"
+        # normal test sets
+        newSetName = "generatedTestSet-{}-normal.txt".format(length)
+        if args.debug: print("INFORMATION :: create normal Testset of length: {}".format(length))
         data_collection_changed = data_collection.shrink(length)
         data_collection_changed.printToFile(newSetName, mask)
+
+    # also create the complete Testset
+    if args.debug: print("INFORMATION :: save complete Testset of length: 124979")
+    data_collection.printToFile("generatedTestSet-full-with-ID.txt", mask)
+
+    # 'Finished'-message
+    if args.debug: print("INFORMATION :: finished creating all Testsets")
 
 
 # ---------------- START: arguments ----------------
@@ -451,14 +469,17 @@ mask = [
 # ---------------- END: mask ----------------
 
 # create all testsets if all-flag
+# (NOTE: has to be checked against True, since it could be a size number and therefore is an int, but
+# 'if args.size:' would still be evaluated to True)
 if args.size == True:
     if args.debug:
         print("INFORMATION :: All-Flag is set")
         print("INFORMATION :: Create equal testsets")
-    create_equal_testset(mask, data_collection)  # create all equally distributed
-    if args.debug: print("INFORMATION :: Create normal testsets")
-    create_shrink_testset(mask, data_collection)  # create all normally distributed
-    if args.debug: print("INFORMATION :: Finished creating the sets")
+    # create_equal_testset(mask, data_collection)  # create all equally distributed
+    # if args.debug: print("INFORMATION :: Create normal testsets")
+    # create_shrink_testset(mask, data_collection)  # create all normally distributed
+    # if args.debug: print("INFORMATION :: Finished creating the sets")
+    create_all_testsets(mask, data_collection)
     exit()  # exit, because every standart set is created
 
 if args.debug: print(
