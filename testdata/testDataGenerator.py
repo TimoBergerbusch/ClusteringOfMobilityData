@@ -18,7 +18,9 @@ IGNORE_LINE_VALUES = ['ORIGEN DESTINO MOTIVO MODO HMV RED DURACION DISTKM EST ED
 random.seed(7811)
 
 # the last ID used to enumerate all IDs
-LAST_ID = 1
+LAST_ID = 0
+
+PERSONS = []
 
 
 # USED_IDS = []
@@ -71,7 +73,10 @@ class DataEntry:
         s = ""
         for i in range(0, len(mask)):
             if mask[i]:
-                s += "{}".format(self.data[i])
+                if i != 12:
+                    s += "{}".format(self.data[i])
+                else:
+                    s += "{}".format(self.data[12].getID())
                 s += " "
         return s
 
@@ -104,8 +109,11 @@ class DataEntry:
         #         guard = False
         # USED_IDS.append(id)
         global LAST_ID
-        self.data[12] = LAST_ID
-        LAST_ID += 1  # random.randint(1, 9)
+        LAST_ID += 1
+        last = Person(LAST_ID, self.data[8], self.data[9], self.data[10])
+        # last.append(self)
+        PERSONS.append(last)
+        self.data[12] = last
 
     def compareTo(self, otherEntry):
         """
@@ -121,6 +129,9 @@ class DataEntry:
                 otherEntry.data[10]:
             return True
         return False
+
+    def getPerson(self):
+        return self.data[12]
 
 
 class DataCollection:
@@ -148,7 +159,7 @@ class DataCollection:
             ret.append(entry.getData(mask))
         return ret
 
-    def writeDataCollection(self):
+    def writeDataCollection(self, mask):
         """
         writes the information of all DataEntries and the length of the DataCollection
         :return: -undef-
@@ -156,7 +167,8 @@ class DataCollection:
         # self.computeIDs()
         if args.debug: print("INFORMATION :: Data Collection: length={}".format(len(self.data_entries)))
         for entry in self.data_entries:
-            entry.writeDataEntry()
+            # entry.writeDataEntry()
+            print("{}".format(entry.getData(mask)))
 
     # TODO currently first appearing
     # SHOULD: random or decidable
@@ -208,13 +220,22 @@ class DataCollection:
             if args.debug: print("WARNING :: Can not compute the IDs because the list is empty")
         for i in range(0, len(self.data_entries)):
 
+            curr = self.data_entries[i]
+            prev = self.data_entries[i - 1]
+
             # compare if two adjacent DataEntrys are equal
-            if i > 0 and self.data_entries[i].compareTo(self.data_entries[i - 1]):
+            if i > 0 and curr.compareTo(prev):
                 # if so give them the same ID
-                self.data_entries[i].data[12] = self.data_entries[i - 1].data[12]
+                curr.data[12] = prev.getPerson()
+                # print("{} : current ID = prev ID, so same Person with ID {}".format(i + 1, curr.getPerson().getID()))
+                curr.getPerson().add(curr)
             else:
                 # otherwise it gets a new ID
-                self.data_entries[i].computeID()
+                curr.computeID()
+                # print("New Person with ID:{} and size {}".format(curr.getPerson().getID(),
+                #                                                  len(curr.getPerson().movements)))
+                curr.getPerson().add(curr)
+                # print("now has size {}".format(len(curr.getPerson().movements)))
 
     @DeprecationWarning
     def findRandomEntry(self, strata):
@@ -287,6 +308,32 @@ class DataCollection:
 
         new__data_collection = DataCollection(new_data_entries)
         return new__data_collection
+
+
+class Person:
+    # pid = -1
+    # movements = []
+    # parameters = []
+
+    def __init__(self, pid, strata, age, gender):
+        self.pid = pid
+        self.movements = []
+        self.parameters = [strata, age, gender]
+
+    def add(self, e):
+        self.movements.append(e)
+
+    def print(self):
+        print("Person (id={}): {}".format(self.pid, self.movements))
+
+    def getID(self):
+        return self.pid
+
+    def getData(self):
+        return "id = {}; strata = {}; age = {}; gender = {}; |movements| = {}]".format(self.pid, self.parameters[0],
+                                                                                       self.parameters[1],
+                                                                                       self.parameters[2],
+                                                                                       len(self.movements))
 
 
 def get_used_headers(mask):
@@ -467,6 +514,11 @@ mask = [
     True  # 12 - the ID based on age, gender and strata
 ]
 # ---------------- END: mask ----------------
+
+
+# data_collection.writeDataCollection(mask)
+
+
 
 # create all testsets if all-flag
 # (NOTE: has to be checked against True, since it could be a size number and therefore is an int, but
