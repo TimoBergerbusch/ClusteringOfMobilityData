@@ -519,6 +519,9 @@ mask = [
 # data_collection.writeDataCollection(mask)
 
 
+# for person in PERSONS:
+#     print(person.getData())
+# exit()
 
 # create all testsets if all-flag
 # (NOTE: has to be checked against True, since it could be a size number and therefore is an int, but
