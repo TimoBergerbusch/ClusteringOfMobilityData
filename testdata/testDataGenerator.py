@@ -78,7 +78,7 @@ class DataEntry:
         :return: a boolean value indicating if the entry is broken/invalid
         """
         for i in range(0, len(self.data)):
-            if self.data[i] == "-1":
+            if self.data[i] == "-1" or self.data[i] == "#N/A":
                 return True
         return False
 
@@ -232,7 +232,8 @@ class DataCollection:
     def shrink(self, length):
         # the absolute numbers in the original dataset
         # used for checking the ex. of that many elements
-        absolute_numbers = [6963, 52266, 49404, 8772, 5536, 2038]
+        absolute_numbers = [6963, 52265, 49404, 8772, 5536, 2038]
+        # absolute_numbers = [6963, 52266, 49404, 8772, 5536, 2038]
         # the distribution in the original dataset
         relative_numbers = []
         for i in range(0, 6):
@@ -259,6 +260,7 @@ class DataCollection:
             while count < abs_numbers[i]:
                 if index >= len(self.data_entries):
                     print("ERROR       :: index problem")
+                    print("ERROR       :: Strata {} has overall less elements ({}) than its supposed to have ({})".format(i+1,count,abs_numbers[i]))
                     exit()
                 if self.data_entries[index].data[8] == "{}".format(i + 1):
                     new_data_entries.append(self.data_entries[index])
@@ -340,7 +342,7 @@ def parse_lines_of_content(linesOfContent):
         data_entry = parse_DataEntry(element)
 
         if data_entry.isBroken():
-            print("ERROR :: BROKEN ENTITY! for element {}".format(element))
+            if args.debug: print("WARNING     :: BROKEN ENTITY! for element {}".format(element))
         else:
             data_entries.append(data_entry)
     return data_entries
