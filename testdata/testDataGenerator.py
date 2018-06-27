@@ -2,7 +2,6 @@ import itertools
 import re
 import random
 import argparse
-import numpy as np
 
 FILE_NAME = "BaseDatosMDE.txt"  # the dataset to infer the subsets from
 
@@ -21,10 +20,8 @@ random.seed(7811)
 # the last ID used to enumerate all IDs
 LAST_ID = 0
 
+# the deduced different persons
 PERSONS = []
-
-
-# USED_IDS = []
 
 
 class DataEntry:
@@ -54,34 +51,34 @@ class DataEntry:
         """
         self.data = data
 
-    def writeDataEntry(self):
+    def write_data_entry(self):
         """
         simply writes the data to this DataEntry
         :return: -undef-
         """
         print("data = {}".format(self.data))
 
-    def getData(self, mask):
+    def get_data(self, entry_mask):
         """
         masks the data using a list of boolean values to indicate whether or not a column should be used.
 
         A True value indicates, that the column should be used
-        :param mask: a list of boolean values
+        :param entry_mask: a list of boolean values
         :return: a list of the data masked by the values
         """
-        assert len(mask) == len(self.data)
-        assert not self.isBroken()
+        assert len(entry_mask) == len(self.data)
+        assert not self.is_broken()
         s = ""
-        for i in range(0, len(mask)):
-            if mask[i]:
+        for i in range(0, len(entry_mask)):
+            if entry_mask[i]:
                 if i != 12:
                     s += "{}".format(self.data[i])
                 else:
-                    s += "{}".format(self.data[12].getID())
+                    s += "{}".format(self.data[12].get_id())
                 s += " "
         return s
 
-    def isBroken(self):
+    def is_broken(self):
         """
         tests whether or not a given DataEntry is valid.
         A DataEntry is considered broken if any of it's values is 0.
@@ -94,7 +91,7 @@ class DataEntry:
                 return True
         return False
 
-    def computeID(self):
+    def create_person(self):
         """
         computes an ID for this element. The ID is a random number between 1 and 150000.
         This is done, because the value should be just an identifier.
@@ -116,22 +113,22 @@ class DataEntry:
         PERSONS.append(last)
         self.data[12] = last
 
-    def compareTo(self, otherEntry):
+    def compare_to(self, other_entry):
         """
         compares a DataEntry to a given other DataEntry.
         The comparison is made based on the strata, gender and age.
         If all those 3 are equal we consider two DataEntries to be from the same person.
         Further logical reasoning could be made, through pathfinding with time and origin-destination constraints
 
-        :param otherEntry: the other DataEntry one should compare to
+        :param other_entry: the other DataEntry one should compare to
         :return: a boolean value whether this DataEntry is equal to the given DataEntry
         """
-        if self.data[8] == otherEntry.data[8] and self.data[9] == otherEntry.data[9] and self.data[10] == \
-                otherEntry.data[10]:
+        if self.data[8] == other_entry.data[8] and self.data[9] == other_entry.data[9] and self.data[10] == \
+                other_entry.data[10]:
             return True
         return False
 
-    def getPerson(self):
+    def get_person(self):
         return self.data[12]
 
 
@@ -149,31 +146,30 @@ class DataCollection:
         """
         self.data_entries = data_entries
 
-    def getData(self, mask):
+    def get_data(self, collection_mask):
         """
-        gets a list, where every entry is the result of getData called on every DataEntry using the same mask
-        :param mask: the mask indicating which columns shall be used
+        gets a list, where every entry is the result of get_data called on every DataEntry using the same mask
+        :param collection_mask: the mask indicating which columns shall be used
         :return: a list of strings
         """
         ret = []
         for entry in self.data_entries:
-            ret.append(entry.getData(mask))
+            ret.append(entry.get_data(collection_mask))
         return ret
 
-    def writeDataCollection(self, mask):
+    def print_data_collection(self, collection_mask):
         """
         writes the information of all DataEntries and the length of the DataCollection
         :return: -undef-
         """
-        # self.computeIDs()
-        if args.debug: print("INFORMATION :: Data Collection: length={}".format(len(self.data_entries)))
+        # self.compute_persons()
+        if args.debug:
+            print("INFORMATION :: Data Collection: length={}".format(len(self.data_entries)))
         for entry in self.data_entries:
-            # entry.writeDataEntry()
-            print("{}".format(entry.getData(mask)))
+            # entry.write_data_entry()
+            print("{}".format(entry.get_data(collection_mask)))
 
-    # TODO currently first appearing
-    # SHOULD: random or decidable
-    def equalDistribute(self, length):
+    def equal(self, length):
         """
         creates a new DataCollection of DataEntries containing length-many items of every strata.
         NOTE: currently if not enough DataEntries for a strata are found we return simply less items
@@ -195,51 +191,52 @@ class DataCollection:
                     "ERROR :: Could not find enough elements for strata {} (has:{} should:{})".format(i + 1, buckets[i],
                                                                                                       length))
 
-        newDataSet = DataCollection(equal_data_entries)
-        return newDataSet
+        new_data_set = DataCollection(equal_data_entries)
+        return new_data_set
 
-    def printToFile(self, fileName, mask):
+    def save_into_file(self, file_name, collection_mask):
         """
         prints the DataCollection into a file using a mask to indicate, which columns should be represented
 
-        :param fileName: the name to save the items into
-        :param mask: the mask to indicate column usage
+        :param file_name: the name to save the items into
+        :param collection_mask: the mask to indicate column usage
         :return: -undef-
         """
-        # self.computeIDs()
-        with open(fileName, "w+") as file:
-            file.write(get_used_headers(mask))
+        # self.compute_persons()
+        with open(file_name, "w+") as file:
+            file.write(get_used_headers(collection_mask))
 
             file.write("\n")
             for entry in self.data_entries:
-                file.write(''.join(entry.getData(mask)))
+                file.write(''.join(entry.get_data(collection_mask)))
                 file.write("\n")
 
-    def computeIDs(self):
+    def compute_persons(self):
         # USED_IDS = []
         if len(self.data_entries) == 0:
-            if args.debug: print("WARNING :: Can not compute the IDs because the list is empty")
+            if args.debug:
+                print("WARNING :: Can not compute the IDs because the list is empty")
         for i in range(0, len(self.data_entries)):
 
             curr = self.data_entries[i]
             prev = self.data_entries[i - 1]
 
             # compare if two adjacent DataEntrys are equal
-            if i > 0 and curr.compareTo(prev):
+            if i > 0 and curr.compare_to(prev):
                 # if so give them the same ID
-                curr.data[12] = prev.getPerson()
-                # print("{} : current ID = prev ID, so same Person with ID {}".format(i + 1, curr.getPerson().getID()))
-                curr.getPerson().add(curr)
+                curr.data[12] = prev.get_person()
+                # print("{} : current ID = prev ID, so same Person with ID {}".format(i + 1, curr.get_person().get_id()))
+                curr.get_person().add(curr)
             else:
                 # otherwise it gets a new ID
-                curr.computeID()
-                # print("New Person with ID:{} and size {}".format(curr.getPerson().getID(),
-                #                                                  len(curr.getPerson().movements)))
-                curr.getPerson().add(curr)
-                # print("now has size {}".format(len(curr.getPerson().movements)))
+                curr.create_person()
+                # print("New Person with ID:{} and size {}".format(curr.get_person().get_id(),
+                #                                                  len(curr.get_person().movements)))
+                curr.get_person().add(curr)
+                # print("now has size {}".format(len(curr.get_person().movements)))
 
     @DeprecationWarning
-    def findRandomEntry(self, strata):
+    def find_random_entry_of_strata(self, strata):
         """
         searches for a randomly placed DataEntry in the set, which is in the given strata
 
@@ -249,7 +246,7 @@ class DataCollection:
         """
         start = random.randint(0, len(self.data_entries) - 1)
         index = start
-        while (True):
+        while True:
             entry = self.data_entries[index]
             if int(entry.data[8]) == strata:
                 return entry
@@ -269,6 +266,7 @@ class DataCollection:
 
         # the absolute numbers in the original dataset
         # used for checking the ex. of that many elements
+        # WARNING: Only works with the complete set!
         absolute_numbers = [6963, 52265, 49404, 8772, 5536, 2038]
         # absolute_numbers = [6963, 52266, 49404, 8772, 5536, 2038]
         # the distribution in the original dataset
@@ -280,8 +278,8 @@ class DataCollection:
         for i in range(0, 6):
             abs_numbers.append(round(length * relative_numbers[i]))  # compute absolute number of values
             # abs_numbers.append(round(length * (relative_numbers[i] / 100)))  # compute absolute number of values
-            if args.debug: print(
-                "INFORMATION ::        Strata {} should contain {} elements".format(i + 1, abs_numbers[i]))
+            # if args.debug: print(
+            #     "INFORMATION ::        Strata {} should contain {} elements".format(i + 1, abs_numbers[i]))
 
             if abs_numbers[i] > absolute_numbers[i]:  # check availability
                 abs_numbers[i] = absolute_numbers[i]
@@ -292,7 +290,7 @@ class DataCollection:
 
             # for j in range(0, abs_numbers[i]):
             # check for duplicates
-            # new_data_entries.append(self.findRandomEntry(i + 1))
+            # new_data_entries.append(self.find_random_entry_of_strata(i + 1))
             count = 0
             index = 0
             while count < abs_numbers[i]:
@@ -310,11 +308,51 @@ class DataCollection:
         new__data_collection = DataCollection(new_data_entries)
         return new__data_collection
 
+    def create_all_test_sets(self, collection_mask):
+        """
+        creates all possible test sets considered, filtered by a mask.
+        All those sets get stored in the corresponding files directly
+        :param collection_mask: the mask used within the methods 'equal' and 'shrink'
+        :return: -none-
+        """
+        numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000]
+
+        for length in numbers:
+            # equal test sets
+            if length <= 2000:  # only possible till 2038 items per strata
+                if args.debug:
+                    print("INFORMATION :: create equal Testset of length: {}".format(length))
+                new_set_name = "generatedTestSet-{}-equal.txt".format(length)
+                new_test_set = self.equal(length)
+                new_test_set.save_into_file(new_set_name, collection_mask)
+
+            # normal test sets
+            new_set_name = "generatedTestSet-{}-normal.txt".format(length)
+            if args.debug:
+                print("INFORMATION ::    create normal Testset of length: {}".format(length))
+            new_test_set = self.shrink(length)
+            new_test_set.save_into_file(new_set_name, collection_mask)
+
+        # also create the complete Testset
+        if args.debug:
+            print("INFORMATION :: save complete Testset of length: 124979")
+        data_collection.save_into_file("generatedTestSet-full-with-ID.txt", collection_mask)
+
+        create_person_vector_file()
+
+        # 'Finished'-message
+        if args.debug:
+            print("INFORMATION :: finished creating all Testsets")
+            print("INFORMATION :: Programm finished")
+
 
 class Person:
-    # pid = -1
-    # movements = []
-    # parameters = []
+    """
+    a class to store a separate person defined by the parameters:
+        strata, age, and gender
+    In this class all movements considered to be from the same person are stored.
+    It also provides an ID.
+    """
 
     def __init__(self, pid, strata, age, gender):
         self.pid = pid
@@ -322,21 +360,35 @@ class Person:
         self.parameters = [strata, age, gender]
 
     def add(self, e):
+        """
+        adds a movement to the person
+        :param e: the new movement
+        :return: -none-
+        """
         self.movements.append(e)
 
     def print(self):
-        print("Person (id={}): {}".format(self.pid, self.movements))
+        """
+        prints a String of information about the person using 'get_data'
+        :return:
+        """
+        print(self.get_data())
+        # print("Person (id={}): {}".format(self.pid, self.movements))
 
-    def getID(self):
+    def get_id(self):
         return self.pid
 
-    def getData(self):
+    def get_data(self):
+        """
+
+        :return:
+        """
         return "id = {}; strata = {}; age = {}; gender = {}; |movements| = {}]".format(self.pid, self.parameters[0],
                                                                                        self.parameters[1],
                                                                                        self.parameters[2],
                                                                                        len(self.movements))
 
-    def computeVector(self):
+    def compute_vector(self):
         """
         The vetor has the form (with # as number):
          #origin1 ... #origin413 #destination1 ... #destination413 AM MD PM MN #reason1 ... #reason7 #MoT1...#MoT7 SD SS G A
@@ -377,15 +429,15 @@ class Person:
         return lst
 
 
-def get_used_headers(mask):
+def get_used_headers(header_mask):
     """
     returns the items of DATA_NAMES as a string seperated by tabulators
 
-    :param mask: the mask, which columns shall be represented
+    :param header_mask: the mask, which columns shall be represented
     :return: a string
     """
     s = ""
-    for i in itertools.compress(DATA_NAMES, mask):
+    for i in itertools.compress(DATA_NAMES, header_mask):
         s += i + "\t"
     return s
 
@@ -400,17 +452,17 @@ def read_file():
         return [re.sub('\s+', ' ', x) for x in content]
 
 
-def clean_up_list(linesOfFile):
+def clean_up_list():
     """
-    cleans up a list of strings considering the entries in IGNORE_LINE_VALUES. If an entry is contained in that list it's neglected
-    :param linesOfFile: the list of strings
+    cleans up a list of strings considering the entries in IGNORE_LINE_VALUES. If an entry is contained in that list
+    it gets neglected
     :return: the cleaned list of strings
     """
-    cleanLines = []
+    clean_lines = []
     for line in linesOfFile:
-        if not line in IGNORE_LINE_VALUES:
-            cleanLines.append(line)
-    return cleanLines
+        if line not in IGNORE_LINE_VALUES:
+            clean_lines.append(line)
+    return clean_lines
 
 
 def get_data_list(string):
@@ -420,81 +472,89 @@ def get_data_list(string):
     :param string: the string to split
     :return: a list of entries contained in the string
     """
-    list = re.split(" ", string)
-    if list[len(list) - 1] == "":
-        del list[-1]
-    return list
+    lst = re.split(" ", string)
+    if lst[len(lst) - 1] == "":
+        del lst[-1]
+    return lst
 
 
-def parse_DataEntry(string):
+def parse_data_entry(string):
     """
     parses a list of entries into the DataEntry class structure
     :param string: a list of data
     :return: a DataEntry instance
     """
-    list = get_data_list(string)
-    list.append("NO ID")
-    return DataEntry(list)
+    lst = get_data_list(string)
+    lst.append("NO ID")
+    return DataEntry(lst)
 
 
-def parse_lines_of_content(linesOfContent):
+def parse_lines_of_content():
     """
     parses the cleaned lines of a file and parses them into a DataEntries' list
-    :param linesOfContent: the cleaned lines of data
     :return: a list of DataEntries
     """
     data_entries = []
-    for element in linesOfContent:
-        data_entry = parse_DataEntry(element)
+    if args.debug:
+        print_progressbar(0, len(linesOfContent) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
+    for i in range(0, len(linesOfContent)):
+        element = linesOfContent[i]
+        if args.debug:
+            print_progressbar(i, len(linesOfContent) - 1, prefix='INFORMATION ::', suffix='Complete',
+                              length=50)
+        data_entry = parse_data_entry(element)
 
-        if data_entry.isBroken():
-            if args.debug: print("WARNING     :: BROKEN ENTITY! for element {}".format(element))
+        if data_entry.is_broken():
+            if args.debug:
+                print("WARNING     :: BROKEN ENTITY! for element {}".format(element))
         else:
             data_entries.append(data_entry)
     return data_entries
 
 
-def create_all_testsets(mask, data_collection):
-    numbers = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000]
-
-    for length in numbers:
-        # equal test sets
-        if length <= 2000:  # only possible till 2038 items per strata
-            if args.debug: print("INFORMATION :: create equal Testset of length: {}".format(length))
-            newSetName = "generatedTestSet-{}-equal.txt".format(length)
-            data_collection_changed = data_collection.equalDistribute(length)
-            data_collection_changed.printToFile(newSetName, mask)
-
-        # normal test sets
-        newSetName = "generatedTestSet-{}-normal.txt".format(length)
-        if args.debug: print("INFORMATION :: create normal Testset of length: {}".format(length))
-        data_collection_changed = data_collection.shrink(length)
-        data_collection_changed.printToFile(newSetName, mask)
-
-    # also create the complete Testset
-    if args.debug: print("INFORMATION :: save complete Testset of length: 124979")
-    data_collection.printToFile("generatedTestSet-full-with-ID.txt", mask)
-
-    create_Person_Vector_File()
-
-    # 'Finished'-message
-    if args.debug: print("INFORMATION :: finished creating all Testsets")
-
-
-def create_Person_Vector_File():
+def create_person_vector_file():
     """
     creates the file 'person_vector_data.txt' with a vector for each person.
 
     :return: -none-
     """
-    if args.debug: print("INFORMATION :: Vector Data of Persons")
-    file_Name = "person_vector_data.txt"
-    with open(file_Name, "w+") as file:
+    if args.debug:
+        print("INFORMATION :: Vector Data of Persons")
+    file_name = "person_vector_data.txt"
+    with open(file_name, "w+") as file:
 
         file.write("\n")
-        for person in PERSONS:
-            file.write(" ".join(str(x) for x in person.computeVector()))
+        if args.debug:
+            print_progressbar(0, len(PERSONS) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
+        # for person in PERSONS:
+        for i in range(0, len(PERSONS)):
+            person = PERSONS[i]
+            if args.debug:
+                print_progressbar(i, len(PERSONS) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
+            file.write(" ".join(str(x) for x in person.compute_vector()))
             file.write("\n")
+
+
+# Print iterations progress
+def print_progressbar(iteration, total, prefix='INFORMATION :: ', suffix='', decimals=1, length=100, fill='█'):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filled_length = int(length * iteration // total)
+    bar = fill * filled_length + '-' * (length - filled_length)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end='\r')
+    # Print New Line on Complete
+    if iteration == total:
+        print()
 
 
 # ---------------- START: arguments ----------------
@@ -536,27 +596,31 @@ parser.add_argument('-distType', metavar='distType', help='the type of distribut
 args = parser.parse_args()
 
 # if debug flag is set also output the arguments themself
-if args.debug: print('Choosen flags: {}'.format(args))
+if args.debug:
+    print('Choosen flags: {}'.format(args))
 # ---------------- END: arguments ----------------
 
 # ---------------- START: preprocessing ----------------
 
-if args.debug: print("INFORMATION :: Reading data file ({})".format(FILE_NAME))
+if args.debug:
+    print("INFORMATION :: Reading data file ({})".format(FILE_NAME))
 # read the whole file named FILE_NAME
 linesOfFile = read_file()
 # clean the file from empty lines and the header
-linesOfContent = clean_up_list(linesOfFile)
+linesOfContent = clean_up_list()
 # parse into a list of DataEntries structure
-dataEntries = parse_lines_of_content(linesOfContent)
+dataEntries = parse_lines_of_content()
 # create a new DataCollection
 data_collection = DataCollection(dataEntries)
 
 # TODO: create a set based an precomputed IDs
 # compute the IDs
-if args.debug: print("INFORMATION :: Compute IDs")
-data_collection.computeIDs()
+if args.debug:
+    print("INFORMATION :: Compute IDs")
+data_collection.compute_persons()
 
-if args.debug: print("INFORMATION :: Preprocessing finished")
+if args.debug:
+    print("INFORMATION :: Preprocessing finished")
 
 # ---------------- END: preprocessing ----------------
 
@@ -579,29 +643,29 @@ mask = [
 # ---------------- END: mask ----------------
 
 
-# data_collection.writeDataCollection(mask)
+# data_collection.print_data_collection(mask)
 
-# print(len(PERSONS[0].computeVector()))
+# print(len(PERSONS[0].compute_vector()))
 # create_Person_Vector_File()
 # for person in PERSONS:
-#     print(person.getData())
-# print(person.computeVector())
+#     print(person.get_data())
+# print(person.compute_vector())
 # exit()
 
 # create all testsets if all-flag
 # (NOTE: has to be checked against True, since it could be a size number and therefore is an int, but
 # 'if args.size:' would still be evaluated to True)
-if args.size == True:
+if args.size is True:
     if args.debug:
         print("INFORMATION :: All-Flag is set")
         print("INFORMATION :: Create equal testsets")
-    create_all_testsets(mask, data_collection)
-    exit()  # exit, because every standart set is created
+    data_collection.create_all_test_sets(mask)
+    exit()  # exit, because every standard set is created
 
 if args.vector:
     if args.debug:
         print("INFORMATION :: Create Person-Vector set")
-    create_Person_Vector_File()
+    create_person_vector_file()
     if args.debug:
         print("INFORMATION :: Person-Vector set saved in: 'person_vector_data.txt'")
 
@@ -612,8 +676,8 @@ if not args.size:
         print("INFORMATION :: Operation finished")
     exit()
 
-if args.debug: print(
-    "INFORMATION :: Create a Testset with {} elements using {} distribution. ".format(args.size, args.distType))
+if args.debug:
+    print("INFORMATION :: Create a Testset with {} elements using {} distribution. ".format(args.size, args.distType))
 newSetName = "generatedTestSet-{}-{}.txt".format(args.size, args.distType)  # the default name of the new set
 
 if args.distType == 'equal':
@@ -624,7 +688,7 @@ if args.distType == 'equal':
         print("WARNING     :: The maximal value for equal distribution is 2038.")
         print("           This value(2038) is further used.")
         args.size = 2038
-    data_collection_changed = data_collection.equalDistribute(args.size)
+    data_collection_changed = data_collection.equal(args.size)
 elif args.distType == "normal":
     # normal distribution
     data_collection_changed = data_collection.shrink(args.size)
@@ -636,6 +700,9 @@ else:
     print("                 - normal   have a total number of elements with the original distribution")
     exit()
 
-if args.debug: print("INFORMATION :: Start to save into file named: '{}'".format(newSetName))
-data_collection_changed.printToFile(newSetName, mask)  # save the new set
-if args.debug: print("INFORMATION :: Program successfully finished")
+if args.debug:
+    print("INFORMATION :: Start to save into file named: '{}'".format(newSetName))
+# noinspection PyUnboundLocalVariable
+data_collection_changed.save_into_file(newSetName, mask)  # save the new set
+if args.debug:
+    print("INFORMATION :: Program successfully finished")
