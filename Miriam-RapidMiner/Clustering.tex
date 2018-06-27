@@ -17,6 +17,7 @@ The Process does the following steps:
 
 \subsection{Original Data}
 
+\subsubsection{Searching for 6 Cluster}
 Applying this process to the original data you can see without alignment of strata and cluster, that the distribution of cluster and strata is not close to the same.
 
 \ref{fig:OrgDist}. 
@@ -37,3 +38,115 @@ Applying this process to the original data you can see without alignment of stra
 \caption{Distribution of original data}
 \label{fig:OrgDist}
 \end{figure}
+
+\subsubsection{Searching for 3 Cluster}
+
+The next idea is, that there are maybe just 3 obvious cluster to see and contain two 2 strata.
+
+\subsubsection{Applying on original data}
+
+For a clustering of 3 clusters we get a distributions that are complete different.\ref{fig:OrgDist}
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{ClusterOrigRapidStrata2Cluster.PNG}
+  \caption{Strata}
+  \label{fig:OrgSt}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{ClusterOrigRapidCluster2Cluster.PNG}
+  \caption{Cluster}
+  \label{fig:OrgCl}
+\end{subfigure}
+\caption{Distribution of original data}
+\label{fig:OrgDist}
+\end{figure}
+
+Also the distribution in the strata groups of the clustering shows, that there is no real connection of strata and the clustering.
+\includegraphics[width=0.9\textwidth]{ClusterOrigRapidDistribution2Cluster.PNG}
+
+\subsection{Combined Data}
+
+Because of the not really convincing result of the clustering like above we had the idea to combine for every ID the different pathes in one big vector. This garants us, that one person just can be in one cluster aswell. The idea is to sum up all pathes in one big vector.
+\subsubsection{Code}
+%hier darfst du dich gerne verewigen Timo. Gerne auch vorher und nachher noch mehr schreiben. Titel darf auch geändert werden
+\subsubsection{Searching for 6 Clusters}
+Applying the process with maximal 100 steps on the data gives us the following results.
+
+Like above we check first the total distribution of strata and clusters with a pie. You already see, that it is not the 
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{vectorclusteringcluster.PNG}
+  \caption{Strata}
+  \label{fig:OrgSt}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
+  \caption{Cluster}
+  \label{fig:OrgCl}
+\end{subfigure}
+\caption{Distribution of original data}
+\label{fig:OrgDist}
+\end{figure}
+
+Also the distribution in the strata groups of the clustering shows, that there is not really a connection of strata and the clustering to see.
+\includegraphics[width=0.9\textwidth]{vectorClustering.PNG}
+
+So we change the maximal stepsize to 1000 and let the algorithm run again.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{vectorclusteringcluster1000.PNG}
+  \caption{Strata}
+  \label{fig:OrgSt}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
+  \caption{Cluster}
+  \label{fig:OrgCl}
+\end{subfigure}
+\caption{Distribution of original data}
+\label{fig:OrgDist}
+\end{figure}
+
+So we already get the idea, that there are not 6 Clusters, but just 3. Checking the distribution still gives us no strong correlation between strata and cluster.
+
+\includegraphics[width=0.9\textwidth]{vectorClustering1000}
+
+\subsubsection{Searching for 3 Clusters}
+
+Because of the result in the last part, we checked the behavior of the clustering by just searching for 3 Cluster. The first try is with 100 steps again.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{vectorclusteringcluster3Cluster.PNG}
+  \caption{Strata}
+  \label{fig:OrgSt}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
+  \caption{Cluster}
+  \label{fig:OrgCl}
+\end{subfigure}
+\caption{Distribution of original data}
+\label{fig:OrgDist}
+\end{figure}
+
+This comes closer by the orginial distribution combining two stratas in one cluster.
+
+But having a look at the inbetween distribution does not show us a real correlation between cluster and strata.
+
+\includegraphics[width=0.9\textwidth]{vectorClustering3Cluster.PNG}
+
+We wanted to check what happens when giving the process 1000 steps maximal. 

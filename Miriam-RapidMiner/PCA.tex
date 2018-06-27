@@ -45,7 +45,7 @@ This is the basis for all datasets, where we set the role of id to id by adding 
 The first idea is to check, if on this way a clustering can be found, comparable to the strata groups. So we use the process for different datasets.
 
 \subsubsection{Applying on original data}
-Applying the PCA module on the original data without EST and a variance
+Applying the PCA module on the original data without strata and a variance
 threshold of 0.95 we get two Attributes, so we can assume, that the data is strongly connected. As expected the computating time decreases a lot. 
 
 For a clustering of 6 clusters we get a distributions that are complete different.\ref{fig:OrgDist}
@@ -67,5 +67,35 @@ For a clustering of 6 clusters we get a distributions that are complete differen
 \label{fig:OrgDist}
 \end{figure}
 
-Also the distribution in the strata groups of the clustering shows, that there is no real connection of strata and clustering.
+Also the distribution in the strata groups of the clustering shows, that there is no real connection of strata and the clustering.
 \includegraphics[width=0.9\textwidth]{ClusterPCAOrigRapidDistribution.PNG}
+
+\subsection{Searching for 3 Cluster}
+
+The next idea is, that there are maybe just 3 obvious cluster to see and contain two 2 strata.
+
+\subsubsection{Applying on original data}
+Applying the PCA module on the original data without strata and a variance
+threshold of 0.95 we get two Attributes, so we can assume, that the data is strongly connected. As expected the computating time decreases a lot. 
+
+For a clustering of 6 clusters we get a distributions that are complete different.\ref{fig:OrgDist}
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{ClusterPCAOrigRapidStrata2Cluster.PNG}
+  \caption{Strata}
+  \label{fig:OrgSt}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{ClusterPCAOrigRapidCluster2Cluster.PNG}
+  \caption{Cluster}
+  \label{fig:OrgCl}
+\end{subfigure}
+\caption{Distribution of original data}
+\label{fig:OrgDist}
+\end{figure}
+
+Also the distribution in the strata groups of the clustering shows, that there is no real connection of strata and the clustering.
+\includegraphics[width=0.9\textwidth]{ClusterPCAOrigRapidDistribution2Cluster.PNG}
