@@ -72,6 +72,34 @@ Also the distribution in the strata groups of the clustering shows, that there i
 Because of the not really convincing result of the clustering like above we had the idea to combine for every ID the different pathes in one big vector. This garants us, that one person just can be in one cluster aswell. The idea is to sum up all pathes in one big vector.
 \subsubsection{Code}
 %hier darfst du dich gerne verewigen Timo. Gerne auch vorher und nachher noch mehr schreiben. Titel darf auch geändert werden
+% boa das ist voll liep un soo weischt :D
+
+Instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person %TODO: ref zu code basics
+, and all movements from that person.\\
+Then we are able to compute the following vector, with 848 entries, for further usage:
+$$\underbrace{\#o_1, \dots, \#o_{413}, \#d_1, \dots, \#d_{413}}_{2\cdot 413} ,
+ \underbrace{\mathit{AM}, \mathit{MD}, \mathit{PM}, \mathit{MN}}_{4}, 
+ \underbrace{\#r_1, \dots, \#r_7}_{7}, 
+ \underbrace{\#\mathit{MoT}_1, \dots, \#\mathit{MoT}_7}_{7}, 
+ \underbrace{\mathit{SD}, \mathit{SS}, \mathit{G}, \mathit{A}}_{4}$$
+with the following abbreviations ($1 \le i \le 413$, $0 \le j \le 7$):
+\begin{multicols}{2}
+\begin{itemize}
+	\item[$o_i$:]  the $i$-th origin data point
+	\item[$d_i$:]  the $i$-th destination data point
+	\item[$\mathit{AM}$:] movements at time stamp AM
+	\item[$\mathit{MD}$:] movements at time stamp MD
+	\item[$\mathit{PM}$:] movements at time stamp PM
+	\item[$\mathit{MN}$:] movements at time stamp MN
+	\item[$r_j$:] the $j$-th reason
+	\item[$\mathit{MoT}_j$:] the $j$-th mean of transportation
+	\item[$\mathit{SD}$:] sum of all durations
+	\item[$\mathit{SS}$:] sum of all distances
+	\item[$\mathit{G}$:] the gender
+	\item[$\mathit{A}$:] the age
+\end{itemize}
+\end{multicols}
+
 \subsubsection{Searching for 6 Clusters}
 Applying the process with maximal 100 steps on the data gives us the following results.
 
