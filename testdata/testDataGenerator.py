@@ -337,6 +337,17 @@ class Person:
                                                                                        len(self.movements))
 
     def computeVector(self):
+        """
+        The vetor has the form (with # as number):
+         #origin1 ... #origin413 #destination1 ... #destination413 AM MD PM MN #reason1 ... #reason7 #MoT1...#MoT7 SD SS G A
+        where MoT= mean of transportation
+        SD = sum duration
+        SS = sum distance
+        G = gender
+        A = age
+        Concluded this has the size 848.
+        :return: the vector
+        """
         lst = [0] * (2 * 413 + 4 + 7 + 7)
         sum_of_duration = 0
         sum_of_way = 0
@@ -356,7 +367,7 @@ class Person:
             elif entry.data[5] == "MN":
                 lst[2 * 413 + 3] += 1
             lst[2 * 413 + 4 + int(float(entry.data[2])) - 1] += 1  # reason
-            lst[2 * 413 + 4 + 7 + int(float(entry.data[3])) - 1] += 1
+            lst[2 * 413 + 4 + 7 + int(float(entry.data[3])) - 1] += 1  # mean of trans
 
         lst.append(sum_of_duration)  # summe der dauer
         lst.append(sum_of_way)  # summe der strecke
@@ -464,12 +475,19 @@ def create_all_testsets(mask, data_collection):
     if args.debug: print("INFORMATION :: save complete Testset of length: 124979")
     data_collection.printToFile("generatedTestSet-full-with-ID.txt", mask)
 
+    create_Person_Vector_File()
+
     # 'Finished'-message
     if args.debug: print("INFORMATION :: finished creating all Testsets")
 
 
 def create_Person_Vector_File():
-    if args.debug: print("INFORMATION ::  Vector Data of Persons")
+    """
+    creates the file 'person_vector_data.txt' with a vector for each person.
+
+    :return: -none-
+    """
+    if args.debug: print("INFORMATION :: Vector Data of Persons")
     file_Name = "person_vector_data.txt"
     with open(file_Name, "w+") as file:
 
@@ -485,6 +503,7 @@ parser = argparse.ArgumentParser(
 # set defaults
 parser.set_defaults(size=False)
 parser.set_defaults(debug=False)
+parser.set_defaults(vector=False)
 parser.set_defaults(distType="equal")
 
 # create  exclusive group
@@ -494,11 +513,14 @@ size_parser.add_argument('-all', dest='size', action='store_true',
                          help="create all test sets considered to be possibly relevant. This creates for the "
                               "equally distributed version considering the lengths: 100, 200, 500, 1000, 2000 and for "
                               "the normally distributed the lengths: 100, 200, 500, 1000, 2000, 5000, 10000, 20000, "
-                              "50000, 100000, 124979")
+                              "50000, 100000, 124979. Also it generates a person vector file.")
 # create testset of desired size (NOTE: max 2038)
 size_parser.add_argument('-size', metavar='size', type=int,
                          help='the size of the new testset (NOTE: for equal distribution a max. value of 2038 is '
                               'possible)')
+
+# vector flag
+parser.add_argument('-vector', dest='vector', action='store_true', help='create a vector of person data')
 
 # debug output flag
 parser.add_argument('-debug', dest='debug', action='store_true', help='write (debug) information of current processes')
@@ -519,7 +541,7 @@ if args.debug: print('Choosen flags: {}'.format(args))
 
 # ---------------- START: preprocessing ----------------
 
-if args.debug: print("INFORMATION ::  Reading data file ({})".format(FILE_NAME))
+if args.debug: print("INFORMATION :: Reading data file ({})".format(FILE_NAME))
 # read the whole file named FILE_NAME
 linesOfFile = read_file()
 # clean the file from empty lines and the header
@@ -531,10 +553,10 @@ data_collection = DataCollection(dataEntries)
 
 # TODO: create a set based an precomputed IDs
 # compute the IDs
-if args.debug: print("INFORMATION ::  Compute IDs")
+if args.debug: print("INFORMATION :: Compute IDs")
 data_collection.computeIDs()
 
-if args.debug: print("INFORMATION ::  Preprocessing finished")
+if args.debug: print("INFORMATION :: Preprocessing finished")
 
 # ---------------- END: preprocessing ----------------
 
@@ -559,12 +581,12 @@ mask = [
 
 # data_collection.writeDataCollection(mask)
 
-print(len(PERSONS[0].computeVector()))
-create_Person_Vector_File()
+# print(len(PERSONS[0].computeVector()))
+# create_Person_Vector_File()
 # for person in PERSONS:
 #     print(person.getData())
 # print(person.computeVector())
-exit()
+# exit()
 
 # create all testsets if all-flag
 # (NOTE: has to be checked against True, since it could be a size number and therefore is an int, but
@@ -575,6 +597,20 @@ if args.size == True:
         print("INFORMATION :: Create equal testsets")
     create_all_testsets(mask, data_collection)
     exit()  # exit, because every standart set is created
+
+if args.vector:
+    if args.debug:
+        print("INFORMATION :: Create Person-Vector set")
+    create_Person_Vector_File()
+    if args.debug:
+        print("INFORMATION :: Person-Vector set saved in: 'person_vector_data.txt'")
+
+# quit if there is no size
+if not args.size:
+    if args.debug:
+        print("INFORMATION :: No size given")
+        print("INFORMATION :: Operation finished")
+    exit()
 
 if args.debug: print(
     "INFORMATION :: Create a Testset with {} elements using {} distribution. ".format(args.size, args.distType))
