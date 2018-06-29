@@ -9,7 +9,7 @@ The Process does the following steps:
 \begin{description}
 	\item[Retrieve] This Block gives the data in the process. For the comparison at the end we also retrieve the original data.
 	\item[Nominal to Numerical] This changes the nominal data to numerical data, so that we can apply PCA in the next step
-	\item[PCA] Here we apply the PCA reduction to the data with a variance threshold $0.95$
+	\item[PCA] Here we apply the PCA reduction to the data with a variance threshold $0.95$ \colorbox{red}{where?}
 	\item[Clustering] Here the number of Clusters has to be fixed. We decided, that 10 runs should be enough. We can choose between differen measure types and tried mixed euclidean and squared euclidean distance
 	\item[Select Attribute] Here we just pick the Strata data for comparing with the clustering
 	\item[Join] For comparing the Clustering and the Strata we join the two filtered data sets at the ID
