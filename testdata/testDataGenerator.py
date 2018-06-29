@@ -530,8 +530,10 @@ def compute_header_string():
     header_string += "AM MD PM MN "
     header_string += "r1 r2 r3 r4 r5 r6 r7 "
     header_string += "MoT1 MoT2 MoT3 MoT4 MoT5 MoT6 MoT7 "
-    header_string += "SDest SDist G A"
-    header_string += " strata"
+    header_string += "SDest SDist G A "
+    header_string += "strata "
+    header_string += "strataGrouped"
+
     return header_string
 
 
