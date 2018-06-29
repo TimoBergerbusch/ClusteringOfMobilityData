@@ -438,7 +438,7 @@ def get_used_headers(header_mask):
     """
     s = ""
     for i in itertools.compress(DATA_NAMES, header_mask):
-        s += i + "\t"
+        s += i + " "
     return s
 
 
