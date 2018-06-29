@@ -71,7 +71,10 @@ class DataEntry:
         s = ""
         for i in range(0, len(entry_mask)):
             if entry_mask[i]:
-                if i != 12:
+
+                if i == 8:
+                    s += "s_{}".format(self.data[i])
+                elif i != 12:
                     s += "{}".format(self.data[i])
                 else:
                     s += "{}".format(self.data[12].get_id())
