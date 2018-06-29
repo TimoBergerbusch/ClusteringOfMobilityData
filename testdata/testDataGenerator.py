@@ -610,6 +610,49 @@ def create_equal_person_vector_file(length):
                 file.write("\n")
 
 
+def create_equal_person_vector_file_aggregated(length, suffix=""):
+    if args.debug:
+        print("INFORMATION :: Vector Data of Persons")
+
+    file_name = "person_vector_data_with_strata_{}{}.txt".format(length, suffix)
+    with open(file_name, "w+") as file:
+        # generate header
+        header_string = compute_header_string()
+        file.write(header_string)
+        file.write("\n")
+
+        buckets = [0, 0, 0]
+        new_person_list = []
+        lst = list(range(len(PERSONS) - 1))
+        random.shuffle(lst)
+
+        item = 0
+        # for item in lst:
+        while sum(buckets) < 3 * length:
+            strata = int((PERSONS[item].get_strata() + 1) / 2)
+            if buckets[strata - 1] < length:
+                buckets[strata - 1] += 1
+                new_person_list.append(PERSONS[item])
+
+            item += 1
+
+            if item == len(PERSONS) - 1:
+                print("WARNING     :: There are not enough elements to have {} persons of each strata".format(length))
+                for i in range(0, 6):
+                    print("WARNING     :: There are currently {} persons for strata {}".format(buckets[i], i + 1))
+                print("ERROR       :: failed current Task")
+                exit()
+
+        # for person in new_person_list:
+        for person in new_person_list:
+            # if args.debug:
+            #     print_progressbar(i, len(PERSONS) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
+            # file.write(" ".join(str(x) for x in person.compute_vector()))
+            file.write(" ".join(str(x) for x in person.compute_vector_with_strata()))
+            if new_person_list.index(person) != len(new_person_list) - 1:
+                file.write("\n")
+
+
 # Print iterations progress
 def print_progressbar(iteration, total, prefix='INFORMATION :: ', suffix='', decimals=1, length=100, fill='█'):
     """
@@ -639,6 +682,7 @@ parser = argparse.ArgumentParser(
 parser.set_defaults(size=False)
 parser.set_defaults(debug=False)
 parser.set_defaults(vector=False)
+parser.set_defaults(agg=False)
 parser.set_defaults(distType="equal")
 
 # create  exclusive group
@@ -656,6 +700,8 @@ size_parser.add_argument('-size', metavar='size', type=int,
 
 parser.add_argument('-vector', dest='vector', action="store_true",
                     help='create a vector of person data including the strata')
+
+parser.add_argument('-agg', dest='agg', action='store_true', help='TODO')
 
 # debug output flag
 parser.add_argument('-debug', dest='debug', action='store_true', help='write (debug) information of current processes')
@@ -744,9 +790,12 @@ if args.vector is True:
     if args.size is False:
         print("INFORMATION :: Create Person-Vector set of full size")
         create_person_vector_file()
-    else:
+    elif args.agg is not True:
         print("INFORMATION :: Create Person-Vector set of size {}".format(args.size))
         create_equal_person_vector_file(args.size)
+    elif args.agg is True:
+        print("INFORMATION :: Create aggregated Person-Vector set of size {}".format(args.size))
+        create_equal_person_vector_file_aggregated(args.size, "_aggregated")
 
     if args.debug:
         print("INFORMATION :: Person-Vector set saved in: 'person_vector_data.txt'")
