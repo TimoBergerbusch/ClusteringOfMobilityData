@@ -522,9 +522,9 @@ def parse_lines_of_content():
 
 def compute_header_string():
     header_string = ""
-    for i in range(1, 413):
+    for i in range(1, 413 + 1):
         header_string += "o{} ".format(i)
-    for i in range(1, 413):
+    for i in range(1, 413 + 1):
         header_string += "d{} ".format(i)
     header_string += "AM MD PM MN "
     header_string += "r1 r2 r3 r4 r5 r6 r7 "
