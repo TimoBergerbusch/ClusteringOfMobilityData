@@ -367,7 +367,7 @@ class Person:
         """
         self.movements.append(e)
 
-    def print(self):
+    def print_line(self):
         """
         prints a String of information about the person using 'get_data'
         :return:
@@ -377,6 +377,9 @@ class Person:
 
     def get_id(self):
         return self.pid
+
+    def get_strata(self):
+        return int(float(self.parameters[0]))
 
     def get_data(self):
         """
@@ -426,6 +429,11 @@ class Person:
         lst.append(int(float(self.parameters[2])))  # geschlecht
         lst.append(int(float(self.parameters[1])))  # alter
 
+        return lst
+
+    def compute_vector_with_strata(self):
+        lst = self.compute_vector()
+        lst.append("s_{}".format(self.parameters[0]))
         return lst
 
 
@@ -512,6 +520,21 @@ def parse_lines_of_content():
     return data_entries
 
 
+def compute_header_string(has_strata=False):
+    header_string = ""
+    for i in range(1, 413):
+        header_string += "o{} ".format(i)
+    for i in range(1, 413):
+        header_string += "d{} ".format(i)
+    header_string += "AM MD PM MN "
+    header_string += "r1 r2 r3 r4 r5 r6 r7 "
+    header_string += "MoT1 MoT2 MoT3 MoT4 MoT5 MoT6 MoT7 "
+    header_string += "SDest SDist G A"
+    if has_strata:
+        header_string += "strata"
+    return header_string
+
+
 def create_person_vector_file():
     """
     creates the file 'person_vector_data.txt' with a vector for each person.
@@ -522,20 +545,12 @@ def create_person_vector_file():
         print("INFORMATION :: Vector Data of Persons")
     file_name = "person_vector_data.txt"
     with open(file_name, "w+") as file:
-    
+
         # generate header 
-        header_string = ""
-        for i in range(1, 413):
-            header_string += "o{} ".format(i)
-        for i in range(1, 413):
-            header_string += "d{} ".format(i)
-        header_string += "AM MD PM MN "
-        header_string += "r1 r2 r3 r4 r5 r6 r7 "
-        header_string += "MoT1 MoT2 MoT3 MoT4 MoT5 MoT6 MoT7 "
-        header_string += "SD SS G A"
-        
+        header_string = compute_header_string()
+
         file.write(header_string)
-        
+
         file.write("\n")
         if args.debug:
             print_progressbar(0, len(PERSONS) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
@@ -544,8 +559,46 @@ def create_person_vector_file():
             person = PERSONS[i]
             if args.debug:
                 print_progressbar(i, len(PERSONS) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
-            file.write(" ".join(str(x) for x in person.compute_vector()))
-            file.write("\n")
+            # file.write(" ".join(str(x) for x in person.compute_vector()))
+            file.write(" ".join(str(x) for x in person.compute_vector_with_strata()))
+            if i != len(PERSONS) - 1:
+                file.write("\n")
+
+
+def create_equal_person_vector_file(length):
+    if args.debug:
+        print("INFORMATION :: Vector Data of Persons")
+
+    file_name = "person_vector_data_with_strata_{}.txt".format(length)
+    with open(file_name, "w+") as file:
+        # generate header
+        header_string = compute_header_string(True)
+        file.write(header_string)
+        file.write("\n")
+
+        buckets = [0, 0, 0, 0, 0, 0]
+        new_person_list = []
+        lst = list(range(len(PERSONS) - 1))
+        random.shuffle(lst)
+
+        item = 0
+        # for item in lst:
+        while sum(buckets) < 6 * length:
+            strata = PERSONS[item].get_strata()
+            if buckets[strata - 1] < length:
+                buckets[strata - 1] += 1
+                new_person_list.append(PERSONS[item])
+
+            item += 1
+
+        # for person in new_person_list:
+        for person in new_person_list:
+            # if args.debug:
+            #     print_progressbar(i, len(PERSONS) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
+            # file.write(" ".join(str(x) for x in person.compute_vector()))
+            file.write(" ".join(str(x) for x in person.compute_vector_with_strata()))
+            if new_person_list.index(person) != len(new_person_list) - 1:
+                file.write("\n")
 
 
 # Print iterations progress
@@ -592,8 +645,8 @@ size_parser.add_argument('-size', metavar='size', type=int,
                          help='the size of the new testset (NOTE: for equal distribution a max. value of 2038 is '
                               'possible)')
 
-# vector flag
-parser.add_argument('-vector', dest='vector', action='store_true', help='create a vector of person data')
+parser.add_argument('-vector', dest='vector', action="store_true",
+                    help='create a vector of person data including the strata')
 
 # debug output flag
 parser.add_argument('-debug', dest='debug', action='store_true', help='write (debug) information of current processes')
@@ -635,6 +688,9 @@ data_collection.compute_persons()
 if args.debug:
     print("INFORMATION :: Preprocessing finished")
 
+# create_equal_person_vector_file(1)
+# exit()
+
 # ---------------- END: preprocessing ----------------
 
 # ---------------- START: mask ----------------
@@ -675,12 +731,17 @@ if args.size is True:
     data_collection.create_all_test_sets(mask)
     exit()  # exit, because every standard set is created
 
-if args.vector:
-    if args.debug:
-        print("INFORMATION :: Create Person-Vector set")
-    create_person_vector_file()
+if args.vector is True:
+    if args.size is False:
+        print("INFORMATION :: Create Person-Vector set of full size")
+        create_person_vector_file()
+    else:
+        print("INFORMATION :: Create Person-Vector set of size {}".format(args.size))
+        create_equal_person_vector_file(args.size)
+
     if args.debug:
         print("INFORMATION :: Person-Vector set saved in: 'person_vector_data.txt'")
+    exit()
 
 # quit if there is no size
 if not args.size:
