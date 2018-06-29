@@ -13,7 +13,7 @@
     <parameter key="encoding" value="SYSTEM"/>
     <process expanded="true">
       <operator activated="true" class="retrieve" compatibility="8.1.003" expanded="true" height="68" name="Retrieve" width="90" x="45" y="136">
-        <parameter key="repository_entry" value="//Local Repository/generatedTestSet-200-equal"/>
+        <parameter key="repository_entry" value="data/Praktikum/generatedTestSet-full-with-ID"/>
       </operator>
       <operator activated="true" class="replace_missing_values" compatibility="8.1.003" expanded="true" height="103" name="Replace Missing Values" width="90" x="112" y="340">
         <parameter key="return_preprocessing_model" value="false"/>
@@ -96,10 +96,8 @@
           <operator activated="true" class="h2o:deep_learning" compatibility="7.6.001" expanded="true" height="82" name="Deep Learning" width="90" x="179" y="85">
             <parameter key="activation" value="Rectifier"/>
             <enumeration key="hidden_layer_sizes">
-              <parameter key="hidden_layer_sizes" value="10"/>
-              <parameter key="hidden_layer_sizes" value="10"/>
-              <parameter key="hidden_layer_sizes" value="10"/>
-              <parameter key="hidden_layer_sizes" value="10"/>
+              <parameter key="hidden_layer_sizes" value="50"/>
+              <parameter key="hidden_layer_sizes" value="50"/>
             </enumeration>
             <enumeration key="hidden_dropout_ratios"/>
             <parameter key="reproducible_(uses_1_thread)" value="false"/>
