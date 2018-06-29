@@ -522,7 +522,20 @@ def create_person_vector_file():
         print("INFORMATION :: Vector Data of Persons")
     file_name = "person_vector_data.txt"
     with open(file_name, "w+") as file:
-
+    
+        # generate header 
+        header_string = ""
+        for i in range(1, 413):
+            header_string += "o{} ".format(i)
+        for i in range(1, 413):
+            header_string += "d{} ".format(i)
+        header_string += "AM MD PM MN "
+        header_string += "r1 r2 r3 r4 r5 r6 r7"
+        header_string += "MoT1 MoT2 MoT3 MoT4 MoT5 MoT6 MoT7"
+        header_string += "SD SS G A"
+        
+        file.write(header_string)
+        
         file.write("\n")
         if args.debug:
             print_progressbar(0, len(PERSONS) - 1, prefix='INFORMATION ::', suffix='Complete', length=50)
