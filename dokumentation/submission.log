@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.1.18)  24 JUN 2018 16:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.1.18)  29 JUN 2018 18:18
 entering extended mode
 **./submission.tex
 (submission.tex
@@ -250,18 +250,18 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 {C:/Users/Timo Bergerbusch/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] 
 (submission.aux) ) 
 Here is how much of TeX's memory you used:
- 1911 strings out of 493333
- 25652 string characters out of 3144357
+ 1913 strings out of 493333
+ 25681 string characters out of 3144357
  91299 words of memory out of 3000000
- 5442 multiletter control sequences out of 15000+200000
- 5107 words of font info for 19 fonts, out of 3000000 for 9000
+ 5444 multiletter control sequences out of 15000+200000
+ 5712 words of font info for 21 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,4n,25p,238b,170s stack positions out of 5000i,500n,10000p,200000b,50000s
 <D:/Tools/MikTex/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D
 :/Tools/MikTex/fonts/type1/public/amsfonts/cm/cmbx9.pfb><D:/Tools/MikTex/fonts/
 type1/public/amsfonts/cm/cmr10.pfb><D:/Tools/MikTex/fonts/type1/public/amsfonts
 /cm/cmr9.pfb><D:/Tools/MikTex/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on submission.pdf (1 page, 62246 bytes).
+Output written on submission.pdf (1 page, 63503 bytes).
 PDF statistics:
  26 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

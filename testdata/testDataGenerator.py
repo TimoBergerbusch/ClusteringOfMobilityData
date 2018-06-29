@@ -433,7 +433,7 @@ class Person:
 
     def compute_vector_with_strata(self):
         lst = self.compute_vector()
-        lst.append("s_{}".format(self.parameters[0]))
+        lst.append("s_{}".format(self.get_strata()))
         return lst
 
 
@@ -520,7 +520,7 @@ def parse_lines_of_content():
     return data_entries
 
 
-def compute_header_string(has_strata=False):
+def compute_header_string():
     header_string = ""
     for i in range(1, 413):
         header_string += "o{} ".format(i)
@@ -530,8 +530,7 @@ def compute_header_string(has_strata=False):
     header_string += "r1 r2 r3 r4 r5 r6 r7 "
     header_string += "MoT1 MoT2 MoT3 MoT4 MoT5 MoT6 MoT7 "
     header_string += "SDest SDist G A"
-    if has_strata:
-        header_string += "strata"
+    header_string += " strata"
     return header_string
 
 
@@ -572,7 +571,7 @@ def create_equal_person_vector_file(length):
     file_name = "person_vector_data_with_strata_{}.txt".format(length)
     with open(file_name, "w+") as file:
         # generate header
-        header_string = compute_header_string(True)
+        header_string = compute_header_string()
         file.write(header_string)
         file.write("\n")
 
