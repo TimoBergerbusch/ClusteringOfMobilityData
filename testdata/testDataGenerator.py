@@ -434,6 +434,7 @@ class Person:
     def compute_vector_with_strata(self):
         lst = self.compute_vector()
         lst.append("s_{}".format(self.get_strata()))
+        lst.append("s_{}".format(int((self.get_strata() + 1) / 2)))
         return lst
 
 
@@ -589,6 +590,13 @@ def create_equal_person_vector_file(length):
                 new_person_list.append(PERSONS[item])
 
             item += 1
+
+            if item == len(PERSONS) - 1:
+                print("WARNING     :: There are not enough elements to have {} persons of each strata".format(length))
+                for i in range(0, 6):
+                    print("WARNING     :: There are currently {} persons for strata {}".format(buckets[i], i + 1))
+                print("ERROR       :: failed current Task")
+                exit()
 
         # for person in new_person_list:
         for person in new_person_list:
