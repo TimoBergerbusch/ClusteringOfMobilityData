@@ -341,7 +341,7 @@ class DataCollection:
             print("INFORMATION :: save complete Testset of length: 124979")
         data_collection.save_into_file("generatedTestSet-full-with-ID.txt", collection_mask)
 
-        create_person_vector_file()
+        # create_person_vector_file_()
 
         # 'Finished'-message
         if args.debug:
@@ -451,6 +451,7 @@ def get_used_headers(header_mask):
     s = ""
     for i in itertools.compress(DATA_NAMES, header_mask):
         s += i + " "
+
     return s
 
 
@@ -546,8 +547,6 @@ def create_person_vector_file():
 
     :return: -none-
     """
-    if args.debug:
-        print("INFORMATION :: Vector Data of Persons")
     file_name = "person_vector_data.txt"
     with open(file_name, "w+") as file:
 
@@ -572,7 +571,7 @@ def create_person_vector_file():
 
 def create_equal_person_vector_file(length):
     if args.debug:
-        print("INFORMATION :: Vector Data of Persons")
+        print("INFORMATION :: Vector Data of equally many Persons of length {}".format(length))
 
     file_name = "person_vector_data_with_strata_{}.txt".format(length)
     with open(file_name, "w+") as file:
@@ -615,7 +614,7 @@ def create_equal_person_vector_file(length):
 
 def create_equal_person_vector_file_aggregated(length, suffix=""):
     if args.debug:
-        print("INFORMATION :: Vector Data of Persons")
+        print("INFORMATION :: Vector Data of aggregated Persons of length {}".format(length))
 
     file_name = "person_vector_data_with_strata_{}{}.txt".format(length, suffix)
     with open(file_name, "w+") as file:
@@ -785,8 +784,19 @@ mask = [
 if args.size is True:
     if args.debug:
         print("INFORMATION :: All-Flag is set")
-        print("INFORMATION :: Create equal testsets")
+        print("INFORMATION :: Create testsets")
     data_collection.create_all_test_sets(mask)
+    if args.debug:
+        print("INFORMATION :: Vector Data of Persons")
+        create_person_vector_file()
+
+    if args.debug:
+        print("INFORMATION :: Create Person Vector files")
+
+    for length in [100, 200, 595]:
+        create_equal_person_vector_file(length)
+        create_equal_person_vector_file_aggregated(length)
+
     exit()  # exit, because every standard set is created
 
 if args.vector is True:
