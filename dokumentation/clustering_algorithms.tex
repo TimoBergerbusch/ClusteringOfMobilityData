@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath} % Math
+\usepackage{amssymb} % Math symbols
+\usepackage[english]{babel} % Language
+\usepackage{fancyhdr} % Header
+\usepackage[a4paper, total={15cm, 20cm}]{geometry} % Dimensions of the paper and the text area
+\usepackage[utf8]{inputenc} % encoding in UTF, needed for umlauts if German
+\usepackage{mathtools} % Text above arrows
+\usepackage{msc} % Drawing MSCs
+\usepackage{multicol} % Multiple columns
+\usepackage[explicit]{titlesec} % Automatic section titles
+\usepackage{tikz} % Diagrams
+\usetikzlibrary{arrows.meta, automata, shapes, matrix}
+
+
+% Other packages that might be useful in the future
+\usepackage{mathptmx,amssymb,amsmath}
+%\usepackage{lingmacros}
+%\usepackage{tree-dvips}
+%\usepackage{ulem}
+%\usepackage{amsthm}
+%\usepackage{amsbsy}
+%\usepackage{textcomp,gensymb}
+%\usepackage{graphicx}
+%\usepackage{mathtools}
+
+% Custom variant of msc environment:
+% - No "msc" keyword, longer partial messages
+% - Increased vertical distance between messages
+% - Less distance to the frame left and right
+% - Less distance between header and processes
+% - Less distance between footer and frame
+% - Passing all given options down to the msc environment
+\newenvironment{cmsc}[1][]{\msc[msc keyword={}, self message width=1.1cm, level height=0.6cm, environment distance=1.2cm, head top distance=0.75cm, foot distance=0.5cm, #1]}{\endmsc}
+
+% No indentation at new paragraphs
+\setlength{\parindent}{0pt}
+
+% Distance between columns
+\setlength{\columnsep}{1cm}
+% Vertical line between columns
+\setlength{\columnseprule}{0.5pt}
+\def\columnseprulecolor{\color{gray}}
+
+% Settings
+%\newcommand{\sheetNr}{1}
+
+%% Header
+\fancyhf{}
+\pagestyle{fancy}
+\lhead{Clustering of Mobility Data}
+%\rhead{Timo Bergerbusch: 344408}
+\setlength{\headheight}{28pt}
+
+%% Automatic section titles
+%\titleformat{\section}{\normalfont\Large\bfseries}{}{0em}{Exercise #1}
+%\titleformat{\subsection}{\normalfont\large\bfseries}{}{0em}{#1)}
+
+\begin{document}
+
+\section*{Clustering the data}
+
+In the field of \textit{Data Mining}, \textit{Cluster Analysis} or \textit{Clustering} is a process of grouping data objects from a dataset into multiple groups or clusters. The essential criterion for the quality of the clustering is a certain \textit{similarity}, such that data objects are similar to other objects in the same cluster and dissimilar to objects from other clusters. 
+
+In the scope of this work, we decided to use well-known partitioning methods such as k-means or k-medoids. In general, given $n$ data objects, partitioning methods distribute the data object into $k$ clusters with $k<n$, using a distance measure to evaluate the repsective similarity. Partitioning methods form exclusive clusters by ensuring that each cluster contains at least one object. Note that the number $k$ of clusters has to be chosen manually prior to the partitioning process.
+
+\subsection{k-Means}
+
+As pointed above, k-Means is one of the most used clustering algorithms. k-means is a \textit{centroid based technique}, which means that each cluster is represented by a data point that also is the center of the cluster. A distance measure is then used to assigns every remaining data object from the data set to the best fitting cluster according to it's similarity to the center of this cluster and it's dissimilarity to the centers of any other cluster.
+
+The data objects within a dataset are considered to reside in a euclidean space. Thus, the euclidean distance is used to calculate a score for the similarity of two data points. When using k-Means, the quality of a cluster $C_i$ can b1e evaluated by computing the sum of squared erros between all data points and the centroid in $C_i$. This method is known as \textit{within-cluster variation} and defined as follows: 
+
+[TODO: LEAST SQUARES]
+
+Given $k$, the first step of k-Means is to select $k$ random objects in the data set as initial representatives for the cluster centers. After that, each remaining data object is assigned to the best fitting cluster in terms of similarity, based on a similarity score that is determined by the euclidean distance between the data point and every cluster center. The overall goal of k-Means clustering is to iteratively optimize the within-cluster variation. In order to achieve this, for each cluster centroid is reassigned as the mean of all objects within that cluster. By considering the updated centroids, every data point is redistributed to the now best fitting cluster. This iterative process will continue, until no better clustering can be found, which means that the latest clustering equals the previous distribution.
+
+[TODO: ALGORITHMUS]
+
+\subsection{k-Medoids}
+
+By the choic1e of using euclidean distance as a similarity meaasure, k-Means is sensitive to outliers in a wây, that they can heavily distort the mean of a cluster and, as a result, worsen the within-cluster variation.
+
+k-medoids is a modification of k-means, 
+
+\end{document}
