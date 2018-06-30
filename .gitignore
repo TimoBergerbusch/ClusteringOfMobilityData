@@ -8,3 +8,4 @@ procedure.log
 *.log
 dokumentation/submission.log
 dokumentation/submission.out
+*.log

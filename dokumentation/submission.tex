@@ -74,7 +74,7 @@
 	%
 	%
 	\section{Introduction}
-	\section{Preprocessing}
+	\section{Preprocessing}\label{sec: proprocessing}
 	In order to classify the given data into smaller test sets or mask different aspects, we have to perform analysis.\\
 	We observe that even though we have 124979 individual lines defining a movement, there is one line defining a \texttt{NotANumber}-exception and therefore gets neglected for further usage.	\\
 	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments the script is able to create all test sets considered by our clustering and neural net approaches.\\
@@ -137,11 +137,18 @@
 	
 	\subsection{Classification}
 	\subsection{Neural Net}
-	Also we have a max. of 595 persons for strata 6 to have an equally distributed test set.\\	
-	All using the vector data\\
+	For all the neural net computations done we considered person vector data sets of different sizes (c.f. \Cref{subsec: person vector data}).\\
+	We do this, because results on the normal datasets had an unacceptable performance. An example is given in \Cref{fig: NN without vector}.	
+	\begin{figure}
+		\centering
+		\includegraphics[scale = 0.4]{src/pic/NN_without_vector.png}
+		\caption{An example of a neural net trained without person vector data.}
+		\label{fig: NN without vector}
+	\end{figure}
 	
-	We consider 3 neural nets $\mathcal{N}_1,\mathcal{N}_2$ and $\mathcal{N}_3$, all having 4 hidden layers, 50 epochs and 10 iterations.	
-	As an example of other strata aggregation we combine the stratas 1--2, 3--4 and 5--6 together and call them $\mathcal{N}_i^\star$, for $i \in \{5,10,20\}$. For that we take an equal distribution of all original stratas and map them correspondingly to the new stratas. 	
+	In the following we consider 3 neural nets $\mathcal{N}_1,\mathcal{N}_2$ and $\mathcal{N}_3$, all having 4 hidden layers, 50 epochs and 10 iterations.	
+	As an example of other strata aggregation we combine the stratas 1--2, 3--4 and 5--6 together and call them $\mathcal{N}_i^\star$, for $i \in \{5,10,20\}$. This builds a superset of the original stratas and since the stratas themselves are logically connected this task should be easier to fulfill.\\
+	The sets are provided by the \texttt{testDataGenerator} from \Cref{sec: proprocessing}.
 	\setlength\tabcolsep{.2cm}
 	\begin{figure}[H]
 	\centering
@@ -162,10 +169,13 @@
 	% mittels deep-learning-vector-average
 	\end{figure}
 
+	For each we performed 5 independent runs and take an average over those accuracy values in order to have a sophisticated statement.\\
 
-If we take 50 neurons per layer we have $14 \cdot 50^4 \cdot 6 \approxeq 525.000.000$ synapses for which the input data set would be to small to have sufficient training.\\
 
-The greater the population, the more the borders between the stratas blur. 
+	The size of larger nets in terms of neurons is counter-productive, since if we take 50 neurons per layer we have $14 \cdot 50^4 \cdot 6 \approxeq 525.000.000$ synapses for which the input data set would be to small to have sufficient training.\\
+
+	%TODO: what can we oberve?
+%	The greater the population, the more the borders between the stratas blur. 
 
 	
 	
