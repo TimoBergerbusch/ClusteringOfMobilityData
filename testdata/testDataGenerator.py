@@ -275,7 +275,7 @@ class DataCollection:
         # the distribution in the original dataset
         relative_numbers = []
         for i in range(0, 6):
-            relative_numbers.append(absolute_numbers[i] / 124979)
+            relative_numbers.append(absolute_numbers[i] / 124978)
         abs_numbers = []
         new_data_entries = []
         for i in range(0, 6):
@@ -701,9 +701,13 @@ size_parser.add_argument('-size', metavar='size', type=int,
                               'possible)')
 
 parser.add_argument('-vector', dest='vector', action="store_true",
-                    help='create a vector of person data including the strata')
+                    help='create a vector of person data including the strata.'
+                         'This can be combined with the "-size size" and/or "-agg" flag ')
 
-parser.add_argument('-agg', dest='agg', action='store_true', help='TODO')
+parser.add_argument('-agg', dest='agg', action='store_true',
+                    help='creates the person vector data for the aggregation of strata 1-2, 3-4 and 5-6. '
+                         'Also the mapping is done before picking a possible test set and therefore may contain for '
+                         'the field of 1-2, only entries from strata 2')
 
 # debug output flag
 parser.add_argument('-debug', dest='debug', action='store_true', help='write (debug) information of current processes')
@@ -714,7 +718,7 @@ parser.add_argument('-debug', dest='debug', action='store_true', help='write (de
 # only if rapidminer can set flags
 
 # change the distribution
-parser.add_argument('-distType', metavar='distType', help='the type of distribution: (0) equal; (1) normal')
+parser.add_argument('-distType', metavar='distType', help='the type of distribution: "equal" (default); "normal"')
 # parse the arguments
 args = parser.parse_args()
 

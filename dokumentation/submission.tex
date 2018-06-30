@@ -75,13 +75,36 @@
 	%
 	\section{Introduction}
 	\section{Preprocessing}
-	\begin{itemize}
-		\item max equal of 2038 for a strata 
-		\item max equal of 595 per persona in strata
-		\item vector calc.
-	\end{itemize}
-	\subsection{Vector}
-	Instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person %TODO: ref zu code basics
+	In order to classify the given data into smaller test sets or mask different aspects, we have to perform analysis.\\
+	We observe that even though we have 124979 individual lines defining a movement, there is one line defining a \texttt{NotANumber}-exception and therefore gets neglected for further usage.	\\
+	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments the script is able to create all test sets considered by our clustering and neural net approaches.\\
+	%TODO: should this be within the paper or more in a ReadMe-file delivered with the script itself?
+%	The possible flags and an explanation can be taken from \Cref{fig: testdatagenerator flags}.	
+%	\begin{figure}[H]
+%		\centering
+%		\includegraphics[scale=0.5]{src/pic/testDataGenerator-h.PNG}
+%		\caption{The possible arguments to the \texttt{testDataGenerator}}
+%		\label{fig: testdatagenerator flags}
+%	\end{figure}
+	We observe the following distribution over the whole dataset:\\
+	{\hspace*{2cm}\setlength\tabcolsep{.2cm}\begin{tabular}{c|ccccccc}
+		strata &  1   &   2   &   3   &  4   &  5   &  6   & $\Sigma$ \\ \hline
+		 abs   & 6963 & 52265 & 49404 & 8772 & 5536 & 2038 &  124978  \\
+		  \%   & 5.57 & 41.82 & 39.53 & 7.02 & 4.43 & 1.63 &   100
+	\end{tabular}}\\
+	We observe that there is an upper bound on equal distribution through strata 6. It has at most 2038 individual elements.
+	
+	In addition to the original paper we compute the value \texttt{ID}, which is used to combine movements considered to be from the same person.
+	We consider two movements to coincide on the underlying person, if and only if they are consecutive in the original dataset and have the same strata, age and gender.
+	{\hspace*{2cm}\setlength\tabcolsep{.2cm}\begin{tabular}{c|ccccccc}
+		strata &  1   &   2   &   3   &  4   &  5   &  6  & $\Sigma$ \\ \hline
+		 abs   & 3153 & 23367 & 21418 & 3497 & 2083 & 595 &  54113   \\
+		  \%   & 5.83 & 43.18 & 39.58 & 6.46 & 3.85 & 1.1 &   100
+	\end{tabular}}\\
+	So we also have through strata 6 an upper bound of 595 for equally distributed person vector data (see \Cref{subsec: person vector data}).
+	
+	\subsection{Vector}\label{subsec: person vector data}
+	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person %TODO: ref zu code basics
 	, and all movements from that person.\\
 	Then we are able to compute the following vector, with 848 entries, for further usage, that combines all movements of the person:
 	\begin{align*}
