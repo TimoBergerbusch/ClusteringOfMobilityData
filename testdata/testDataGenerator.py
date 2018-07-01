@@ -437,7 +437,8 @@ class Person:
     def compute_vector_with_strata(self):
         lst = self.compute_vector()
         lst.append("s_{}".format(self.get_strata()))
-        lst.append("s_{}".format(int((self.get_strata() + 1) / 2)))
+        if args.agg:
+            lst.append("s_{}".format(int((self.get_strata() + 1) / 2)))
         return lst
 
 
@@ -536,7 +537,8 @@ def compute_header_string():
     header_string += "MoT1 MoT2 MoT3 MoT4 MoT5 MoT6 MoT7 "
     header_string += "SDest SDist G A "
     header_string += "strata "
-    header_string += "strataGrouped"
+    if args.agg:
+        header_string += "strataGrouped"
 
     return header_string
 
