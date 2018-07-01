@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><process version="8.1.003">
+<?xml version="1.0" encoding="UTF-8"?><process version="8.2.001">
   <context>
     <input/>
     <output/>
     <macros/>
   </context>
-  <operator activated="true" class="process" compatibility="8.1.003" expanded="true" name="Process">
+  <operator activated="true" class="process" compatibility="8.2.001" expanded="true" name="Process">
     <parameter key="logverbosity" value="init"/>
     <parameter key="random_seed" value="2001"/>
     <parameter key="send_mail" value="never"/>
@@ -12,10 +12,10 @@
     <parameter key="process_duration_for_mail" value="30"/>
     <parameter key="encoding" value="SYSTEM"/>
     <process expanded="true">
-      <operator activated="true" class="retrieve" compatibility="8.1.003" expanded="true" height="68" name="Retrieve" width="90" x="45" y="136">
+      <operator activated="true" class="retrieve" compatibility="8.2.001" expanded="true" height="68" name="Retrieve" width="90" x="112" y="85">
         <parameter key="repository_entry" value="data/Praktikum/generatedTestSet-full-with-ID"/>
       </operator>
-      <operator activated="true" class="replace_missing_values" compatibility="8.1.003" expanded="true" height="103" name="Replace Missing Values" width="90" x="112" y="340">
+      <operator activated="true" class="replace_missing_values" compatibility="8.2.001" expanded="true" height="103" name="Replace Missing Values" width="90" x="246" y="85">
         <parameter key="return_preprocessing_model" value="false"/>
         <parameter key="create_view" value="false"/>
         <parameter key="attribute_filter_type" value="all"/>
@@ -33,7 +33,7 @@
         <parameter key="default" value="average"/>
         <list key="columns"/>
       </operator>
-      <operator activated="true" class="discretize_by_user_specification" compatibility="8.1.003" expanded="true" height="103" name="Discretize" width="90" x="313" y="289">
+      <operator activated="true" class="discretize_by_user_specification" compatibility="8.2.001" expanded="true" height="103" name="Discretize" width="90" x="380" y="85">
         <parameter key="return_preprocessing_model" value="false"/>
         <parameter key="create_view" value="false"/>
         <parameter key="attribute_filter_type" value="subset"/>
@@ -58,12 +58,12 @@
           <parameter key="7" value="7.0"/>
         </list>
       </operator>
-      <operator activated="true" class="set_role" compatibility="8.1.003" expanded="true" height="82" name="Set Role" width="90" x="447" y="391">
+      <operator activated="true" class="set_role" compatibility="8.2.001" expanded="true" height="82" name="Set Role" width="90" x="514" y="85">
         <parameter key="attribute_name" value="strata"/>
         <parameter key="target_role" value="label"/>
         <list key="set_additional_roles"/>
       </operator>
-      <operator activated="true" class="discretize_by_user_specification" compatibility="8.1.003" expanded="true" height="103" name="Discretize (2)" width="90" x="648" y="340">
+      <operator activated="true" class="discretize_by_user_specification" compatibility="8.2.001" expanded="true" height="103" name="Discretize (2)" width="90" x="648" y="85">
         <parameter key="return_preprocessing_model" value="false"/>
         <parameter key="create_view" value="false"/>
         <parameter key="attribute_filter_type" value="subset"/>
@@ -84,7 +84,7 @@
           <parameter key="5-6" value="7.0"/>
         </list>
       </operator>
-      <operator activated="true" class="concurrency:cross_validation" compatibility="8.1.003" expanded="true" height="145" name="Cross Validation" width="90" x="715" y="136">
+      <operator activated="true" class="concurrency:cross_validation" compatibility="8.2.000" expanded="true" height="145" name="Cross Validation" width="90" x="782" y="85">
         <parameter key="split_on_batch_attribute" value="false"/>
         <parameter key="leave_one_out" value="false"/>
         <parameter key="number_of_folds" value="10"/>
@@ -93,7 +93,7 @@
         <parameter key="local_random_seed" value="1992"/>
         <parameter key="enable_parallel_execution" value="true"/>
         <process expanded="true">
-          <operator activated="true" class="h2o:deep_learning" compatibility="7.6.001" expanded="true" height="82" name="Deep Learning" width="90" x="179" y="85">
+          <operator activated="true" class="h2o:deep_learning" compatibility="8.2.000" expanded="true" height="82" name="Deep Learning" width="90" x="179" y="85">
             <parameter key="activation" value="Rectifier"/>
             <enumeration key="hidden_layer_sizes">
               <parameter key="hidden_layer_sizes" value="50"/>
@@ -138,11 +138,11 @@
           <portSpacing port="sink_through 1" spacing="0"/>
         </process>
         <process expanded="true">
-          <operator activated="true" class="apply_model" compatibility="8.1.003" expanded="true" height="82" name="Apply Model" width="90" x="112" y="136">
+          <operator activated="true" class="apply_model" compatibility="8.2.001" expanded="true" height="82" name="Apply Model" width="90" x="112" y="136">
             <list key="application_parameters"/>
             <parameter key="create_view" value="false"/>
           </operator>
-          <operator activated="true" class="performance_classification" compatibility="8.1.003" expanded="true" height="82" name="Performance" width="90" x="246" y="136">
+          <operator activated="true" class="performance_classification" compatibility="8.2.001" expanded="true" height="82" name="Performance" width="90" x="246" y="136">
             <parameter key="main_criterion" value="first"/>
             <parameter key="accuracy" value="true"/>
             <parameter key="classification_error" value="false"/>
