@@ -40,23 +40,42 @@ For simplicity a powerful software system with a variety of different ways for c
 \subsubsection*{Corrupted Data}
 The first visible thing is that the data is corrupted, i. e. there are missing values for some data points, which are not allowed for the clustering operators. To fix this issue the missing values are replaced with the average value of the respective attribute. Furthermore it is not known if there are correlations between different data points, i. e. if two different data points are associated with the very same person, which is critical for clustering analysis to ensure that one person is not part of different clusters. Consider two travels, one at morning and one at midnight, which form a cycle, i. e. the start (end) of the first travel is equal to the end (start) of the second one. This type of correlation reflects, that people normally leave the house in the morning and get home at the end of the day, which is not well handled by the Euclidian Distance and could lead to bad clustering.
 
-Since the data has both categorical and numerical values, the mixed euclidian distance is used as similarity measure to calculate the difference between two data points with both numerical and categorical attributes.
+%Since the data has both categorical and numerical values, the mixed euclidian distance is used as similarity measure to calculate the difference between two data points with both numerical and categorical attributes.
+%
+%\subsubsection*{Mixed Euclidian Distance}
+%The Euclidian distance for numerical vectors is given by
+%$$d(p,q) = \sqrt{(p_1-q_1)^2+...+(p_n-q_n)^2} \text{ with }p=(p_1,...,p_n) \text{and }q=(q_1,...,q_n)$$
+%which can be extended to measure the similarity of mixed vectors with both numerical and categorical types by defining
+%$$(p_i-q_i)^2 = \begin{cases}
+%0,& \text{if } p_i=q_i\\
+%1,& \text{otherwise}\\
+%\end{cases}$$ as distance between two categorical values.
 
-\subsubsection*{Mixed Euclidian Distance}
-The Euclidian distance for numerical vectors is given by
-$$d(p,q) = \sqrt{(p_1-q_1)^2+...+(p_n-q_n)^2} \text{ with }p=(p_1,...,p_n) \text{and }q=(q_1,...,q_n)$$
-which can be extended to measure the similarity of mixed vectors with both numerical and categorical types by defining
-$$(p_i-q_i)^2 = \begin{cases}
-0,& \text{if } p_i=q_i\\
-1,& \text{otherwise}\\
-\end{cases}$$ as distance between two categorical values.
+\subsection*{Data Analysis}
+\begin{minipage}[c]{0.48\textwidth}
+\begin{figure}[H]
+	\centering
 
-\begin{enumerate}
+		\centering
+		\includegraphics[width=3.0in]{../Martin-RapidMiner/diagramme/strata_age_reasonLearnWorkRetire.png}
+		\caption{Reason for movement of people at different ages grouped by strata}
+		\label{fig:strata_reason_age}
+
+\end{figure}
+	\end{minipage}
+\begin{minipage}{0.48\textwidth}
+	We are looking for clusters inside the whole dataset by generating different charts which visualize a subset of attributes of all data points. Firstly, before neglecting the strata data of the data set, we consider chart \ref{fig:strata_reason_age} which visualizes the different reasons why people move at which age grouped by socio-economic classes. Throughout the classes each cloud of points is very similar, i. e. young people are mostly studying, adults are mostly working and older people are moving for recreation or health. Therefore categorizing people by taking the reason for their movements into account is not an option. The only difference that is not caused by outliers is the smaller size of the first and last economic class. 
+	 
+\end{minipage}
+
+
+
+%\begin{enumerate}
 	
-	\item Exponential distribution of travels regarding traveling distance\\\\
+%	\item Exponential distribution of travels regarding traveling distance\\\\
 	
-	\includegraphics[width=0.5\textwidth]{data_findings/exponential distr.png}
-\end{enumerate}
+%	\includegraphics[width=0.5\textwidth]{data_findings/exponential distr.png}
+%\end{enumerate}
 
 \end{document}
 
