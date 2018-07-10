@@ -9,9 +9,8 @@
 \usepackage{msc} % Drawing MSCs
 \usepackage{multicol} % Multiple columns
 \usepackage[explicit]{titlesec} % Automatic section titles
-\usepackage{tikz} % Diagrams
-\usetikzlibrary{arrows.meta, automata, shapes, matrix}
 
+\usepackage{biblatex}
 
 % Other packages that might be useful in the future
 \usepackage{mathptmx,amssymb,amsmath}
@@ -60,23 +59,25 @@
 
 \section*{Gower Distance}
 
-When clustering data with algorithms such as \textit{k-means} or \textit{k-medoids}, the distance between datapoints is usually calculated by measures such as the Euclidean or Manhatten norm. These distance measures come with constraints though, since they are only defined for numerical variables. In the scope of this work, we are facing data points with mixed variable types, therefore our choice of an appropriate distance measure fell on the Gower distance measure to calculate an overall \textit{similarity} between mixed data points. The gower similarity distance distinguishes between three types of variables:\\
+TODO: citations
 
-\textbf{Binary} variables, where two variables of value 0 are \textit{not} considered a match [CITE]. In the scope of this work, the only considerable candidate for a binary variable would have been \textit{gender}. Though, during our research process, we concluded that the similarity measure for binary variables was not a suitable choice, as the distance does not match 0 values. Hence, we consider all variables, that are not explicitly numerical, as categorical variables.
+When clustering data with algorithms such as \textit{k-means} or \textit{k-medoids}, the distance between datapoints is usually calculated by measures such as the Euclidean or Manhatten norm. These distance measures come with constraints though, since they are only defined for numerical variables. In the scope of this work, we are facing data points with mixed variable types, therefore we investigated the \textbf{Gower distance measure} as an appropriate measure to calculate an overall \textit{similarity} between mixed data points. The Gower distance measure distinguishes between three types of variables:\\
 
-\textbf{Categorical} variables form a set of unordered values and are comparible to ENUMs in programming languages.
+\textbf{Binary} variables, where two variables of value 0 are \textit{not} considered a match \cite{gower1971general}. In the scope of this work, the only considerable candidate for a binary variable would have been \textit{gender}. Though, during our research process, we concluded that the similarity measure for binary variables was not a suitable choice, as the distance does not match 0 values. Hence, we consider all variables, that are not explicitly numerical, as categorical variables.
+
+\textbf{Categorical} variables form a set of unordered values and are comparable to ENUMs in programming languages.
 
 \textbf{Numerical} variables hold ordered numerical values that support arithmetic operations.
 
 \subsection*{Calculating the distances}
 
 Given two data points $x$ and $y$, that each form a tuple of $v$ variables of arbitrary type, the similarity coefficient between the two points is given by
-\begin{equation*}
+\begin{equation}\label{eq1}
   S_{xy} = \sum_{k=1}^{v} s_{xy,k} / \sum_{k=1}^{v} \delta_{xy,k} 
-\end{equation*} 
-where $s_{xy,k}$ denotes a score for the similarity of variables of index $k$ between the data points $x$ and $y$, that's definition is dependent on the type of the variable, as defined below. In the divisor, $\delta_{xy,k}$ basically represents the possibility of comparing the two variables at index $k$, where the value 1 means, when variables are comparable and 0 when not. This could happen, if some values are not defined. Within this work, the dataset is complete, therefore, the sum of $\delta_{xy,k}$ for all $0 <= k <= v$ equals to $v$, the number of considered variables in each data point. Thus, the similarity coefficient can be interpreted as the average value of all similarity scores.\\  
+\end{equation} 
+where $s_{xy,k}$ denotes a \textit{score for the similarity} of the two variables at position $k$ in the data points $x$ and $y$. Note, that the definition of the score dependends on the type of the variable, as defined below. In the divisor, $\delta_{xy,k}$ basically represents the possibility of comparing the two variables at index $k$, such that it evaluates to 1, when the two variables are comparable and to 0 when not. For example, variables are not comparable, if values are undefined in the data points or the variable types do not match at index $k$, among other reasons. Within this work, the dataset is complete, therefore, $\sum_{k=1}^{v} \delta_{xy,k}=v$, the number of considered variables in each data point, for all $x, y$ in the data set. Thus, the similarity coefficient in (\ref{eq1}) can be interpreted as the average value of all similarity scores.\\  
 
-With respect to the variable type, $s_{xy,k}$ is defined by
+With respect to the variable type, the similarity score $s_{xy,k}$ is defined as follows:
 \begin{itemize}
 	\item \textbf{Binary:} The score for binary variables is basically the result of an logical AND operation. As pointed above, 0 values are not considered a match and even further, not considered to be comparable. Hence, the values result as in the table
 	\begin{center}\begin{tabular}{l | c c c r}
@@ -90,10 +91,22 @@ With respect to the variable type, $s_{xy,k}$ is defined by
     \item \textbf{Categorical:} The similarity score of categorical variables is 1, if the variables are completely identical in $x$ and $y$ and 0, if they differ.
     
     \item \textbf{Numerical:} for numerical variables, the similarity score is calculated by
-    \begin{equation}
+    \begin{equation*}
       s_{xy,k} = 1 - \frac{\vert x_k - y_k \vert}{range(k)}
-    \end{equation}
+    \end{equation*}
     where $range(k)$ is the total range of values, that the numerical variable at index $k$ can accept. This can be a global range of acceptable values for variable $k$ or chosen on the basis of the dataset.
 \end{itemize}
-TODO: sources, citations
+
+
+\begin{thebibliography}{9}
+	
+	\bibitem{gower1971general}
+	Gower, John C,
+	\emph{A general coefficient of similarity and some of its properties},
+	Biometrics, JSTOR pp. 857-871,
+	1971.
+	
+\end{thebibliography}
+
+
 \end{document}
