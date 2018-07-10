@@ -93,15 +93,14 @@
 		  \%   & 5.57 & 41.82 & 39.53 & 7.02 & 4.43 & 1.63 &   100
 	\end{tabular}}\\
 	We observe that there is an upper bound on equal distribution through strata 6. It has at most 2038 individual elements.
+	Furthermore we have to make sure that  two different data points, which belong to the very same person, are assigned to the same cluster. To do so we compute the value \texttt{ID} which identifies each person and can be used to combine movements that are considered to be from the same person, i. e. two movements correspond with the very same person, if and only if they are consecutive in the original dataset and have the same strata, age and gender. This approach is taken since the surveys are concatenated sequentially and it is unlikely, that multiple consecutive movements with same strata, age, gender belong to two different persons.
 	
-	In addition to the original paper we compute the value \texttt{ID}, which is used to combine movements considered to be from the same person.
-	We consider two movements to coincide on the underlying person, if and only if they are consecutive in the original dataset and have the same strata, age and gender.
 	{\hspace*{2cm}\setlength\tabcolsep{.2cm}\begin{tabular}{c|ccccccc}
 		strata &  1   &   2   &   3   &  4   &  5   &  6  & $\Sigma$ \\ \hline
 		 abs   & 3153 & 23367 & 21418 & 3497 & 2083 & 595 &  54113   \\
 		  \%   & 5.83 & 43.18 & 39.58 & 6.46 & 3.85 & 1.1 &   100
 	\end{tabular}}\\
-	So we also have through strata 6 an upper bound of 595 for equally distributed person vector data (see \Cref{subsec: person vector data}).
+	In Section \Cref{subsec: person vector data} we introduce vectors representing single persons. Since strata 6 is the smallest strata with 595 persons, it limits the size of an equally distributed dataset where each data point coincides with one person.
 	
 	\subsection{Vector}\label{subsec: person vector data}
 	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person %TODO: ref zu code basics
@@ -174,7 +173,7 @@
 	\end{figure}
 
 
-	The size of larger nets in terms of neurons is counter-productive, since if we take 50 neurons per layer we have $14 \cdot 50^4 \cdot 6 \approxeq 525.000.000$ synapses for which the input data set would be to small to have sufficient training.\\
+	The size of larger nets in terms of neurons is counter-productive, since if we take 50 neurons per layer we have $14 \cdot 50^4 \cdot 6 \approxeq 525.000.000$ synapses for which the input data set would be too small to have sufficient training.\\
 
 	%TODO: what can we oberve?
 %	The greater the population, the more the borders between the stratas blur. 
