@@ -65,8 +65,7 @@
 	\maketitle              % typeset the header of the contribution
 	%
 	\begin{abstract} %TODO
-		The abstract should briefly summarize the contents of the paper in
-		150--250 words.
+		We analyze movements in the urban environment of the columbian city Medellín. Each movement is given as spatiotemporal pattern of with additional information about the reason, means of transportation and the corresponding person like the socio-economic status (strata), the age and gender. Since in most cases we do not have information about the actual socio-economic status of persons we firstly try different unsupervised approaches to find natural clusters. Due to bad results we introduce our preprocessing steps and switch to supervised learning. Decision trees and neural networks did neither match our performance expectations which leads to our conclusion that we need more data and information about the data in order to find a proper social stratification and to predict the given socio-economic status accurately.
 		
 		\keywords{Clustering \and Rapidminer \and Cluster \and Data Mining} %TODO: maybe more
 	\end{abstract}
@@ -135,7 +134,7 @@
 	\section{Predicting}
 	
 	\subsection{Classification}
-%	\input{MiriamClustering}
+	\input{MiriamClustering}
 	\subsection{Neural Net}
 	For all the neural net computations we considered person vector data sets of different sizes (c.f. \Cref{subsec: person vector data}).\\
 	
