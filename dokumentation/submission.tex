@@ -43,13 +43,17 @@
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
 
 \begin{document}
+	
+	
 	%
-	\title{Clustering Analysis of Mobility Data}
+%	\title{Clustering Analysis of Mobility Data}
+	\title{Are you moving predictably?}
 	%
 	%\titlerunning{Abbreviated paper title}
 	% If the paper title is too long for the running head, you can set
 	% an abbreviated paper title here
 	%
+	%TODO: Order by Lastname?
 	\author{Miriam Wagner\and
 		Martin Breuer\and
 		Moritz Werthebach\and
@@ -68,50 +72,58 @@
 		The abstract should briefly summarize the contents of the paper in
 		150--250 words.
 		
-		\keywords{Clustering \and Rapidminer \and Cluster \and Data Mining} %TODO: maybe more
+		\keywords{Data Mining \and Clustering \and Rapidminer \and Cluster \and Neural Nets} %TODO: maybe more
 	\end{abstract}
 	%
 	%
 	%
 	\section{Introduction}
+%	TODO (1 page)
+	% could at more in depth 
+	Within the time of Industry 4.0 and various data sources the question arises, if one can define who we are by the data collected? In particular is it possible to determine the wealth of a person, only given movements of a single day?
+	For this we considered the dataset stated in \cite{rich_do_not_rise_early}. There we have a set of 124979 rows of movement data from various persons from a Columbian town, called Medellín. All the data was collected at a single day, with possibly multiple entries referring to the same person.\\
+	The data entries consist of data about the movement, like endpoints or length, and also some meta parameters like gender, age or the so-called strata of the person. The strata defines the socio-economic group, reflecting the affluence and therefore impose the ancillary costs.\\
+	Our goal is to ascertain if there is a correlation between the movements and the strata. 
+	
 	\section{Preprocessing}\label{sec: proprocessing}
-	In order to classify the given data into smaller test sets or mask different aspects, we have to perform analysis.\\
+	In order to classify the given data into smaller test sets or mask different aspects, we have to perform some analysis.\\
 	We observe that even though we have 124979 individual lines defining a movement, there is one line defining a \texttt{NotANumber}-exception and therefore gets neglected for further usage.	\\
-	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments the script is able to create all test sets considered by our clustering and neural net approaches.\\
-	%TODO: should this be within the paper or more in a ReadMe-file delivered with the script itself?
-%	The possible flags and an explanation can be taken from \Cref{fig: testdatagenerator flags}.	
-%	\begin{figure}[H]
-%		\centering
-%		\includegraphics[scale=0.5]{src/pic/testDataGenerator-h.PNG}
-%		\caption{The possible arguments to the \texttt{testDataGenerator}}
-%		\label{fig: testdatagenerator flags}
-%	\end{figure}
+	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments, the script is able to create all test sets considered by our clustering and neural net approaches.\\
 	We observe the following distribution over the whole dataset:\\
-	{\hspace*{2cm}\setlength\tabcolsep{.2cm}\begin{tabular}{c|ccccccc}
-		strata &  1   &   2   &   3   &  4   &  5   &  6   & $\Sigma$ \\ \hline
-		 abs   & 6963 & 52265 & 49404 & 8772 & 5536 & 2038 &  124978  \\
-		  \%   & 5.57 & 41.82 & 39.53 & 7.02 & 4.43 & 1.63 &   100
-	\end{tabular}}\\
+	\begin{figure}[H]
+		\centering
+		\setlength\tabcolsep{.2cm}
+		\begin{tabular}{c|ccccccc}
+			strata &  1   &   2   &   3   &  4   &  5   &  6   & $\Sigma$ \\ \hline
+			abs   & 6963 & 52265 & 49404 & 8772 & 5536 & 2038 &  124978  \\
+			\%   & 5.57 & 41.82 & 39.53 & 7.02 & 4.43 & 1.63 &   100
+		\end{tabular}
+		\label{table: distribution normal}
+	\end{figure}
 	We observe that there is an upper bound on equal distribution through strata 6. It has at most 2038 individual elements.
 	
 	In addition to the original paper we compute the value \texttt{ID}, which is used to combine movements considered to be from the same person.
 	We consider two movements to coincide on the underlying person, if and only if they are consecutive in the original dataset and have the same strata, age and gender.
-	{\hspace*{2cm}\setlength\tabcolsep{.2cm}\begin{tabular}{c|ccccccc}
-		strata &  1   &   2   &   3   &  4   &  5   &  6  & $\Sigma$ \\ \hline
-		 abs   & 3153 & 23367 & 21418 & 3497 & 2083 & 595 &  54113   \\
-		  \%   & 5.83 & 43.18 & 39.58 & 6.46 & 3.85 & 1.1 &   100
-	\end{tabular}}\\
+	\begin{figure}[H]
+		\centering
+		\setlength\tabcolsep{.2cm}
+		\begin{tabular}{c|ccccccc}
+			strata &  1   &   2   &   3   &  4   &  5   &  6  & $\Sigma$ \\ \hline
+			 abs   & 3153 & 23367 & 21418 & 3497 & 2083 & 595 &  54113   \\
+			  \%   & 5.83 & 43.18 & 39.58 & 6.46 & 3.85 & 1.1 &   100
+		\end{tabular}
+	\end{figure}
 	So we also have through strata 6 an upper bound of 595 for equally distributed person vector data (see \Cref{subsec: person vector data}).
 	
-	\subsection{Vector}\label{subsec: person vector data}
+	\subsection{Stratified Person Data}\label{subsec: person vector data}
 	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person %TODO: ref zu code basics
 	, and all movements from that person.\\
-	Then we are able to compute the following vector, with 848 entries, for further usage, that combines all movements of the person:
+	Then we are able to compute the following vector, with 850 entries, for further usage, that combines all movements of the person:
 	\begin{align*}
 	\underbrace{\#o_1, \dots, \#o_{413}, \#d_1, \dots, \#d_{413}}_{2\cdot 413} ,
 	\underbrace{\mathit{AM}, \mathit{MD}, \mathit{PM}, \mathit{MN}}_{4}, 
 	\underbrace{\#r_1, \dots, \#r_7}_{7}, \\
-	\underbrace{\#\mathit{MoT}_1, \dots, \#\mathit{MoT}_7}_{7}, \underbrace{\mathit{SDest}, \mathit{SDist}, \mathit{G}, \mathit{A} ,\mathit{strata}, \mathit{strataGrouped}}_{6}
+	\underbrace{\#\mathit{MoT}_1, \dots, \#\mathit{MoT}_7}_{7}, \underbrace{\mathit{S_{Dest}}, \mathit{S_{Dist}}, \mathit{G}, \mathit{A} ,\mathit{strata}, \mathit{strataGrouped}}_{6}
 	\end{align*}
 	with the following abbreviations ($1 \le i \le 413$, $1 \le j \le 7$):
 	\begin{multicols}{2}
@@ -125,8 +137,8 @@
 			\item[$\mathit{MN}$:] movements at time stamp MN
 			\item[$r_j$:] the $j$-th reason
 			\item[$\mathit{MoT}_j$:] the $j$-th mean of transportation
-			\item[$\mathit{SDest}$:] sum of all durations
-			\item[$\mathit{SDist}$:] sum of all distances
+			\item[$\mathit{S_{Dest}}$:] sum of all durations
+			\item[$\mathit{S_{Dist}}$:] sum of all distances
 			\item[$\mathit{G}$:] the gender
 			\item[$\mathit{A}$:] the age
 			\item[$strata$:] the strata (used for comparison)
@@ -135,7 +147,13 @@
 	\end{multicols}
 	\section{Predicting}
 	
+	\subsection{Distance Measures}
+	%TODO: distance measures
+	TODO (1 page)
+	
 	\subsection{Classification}
+	%TODO: clustering
+	TODO (5 pages)	
 %	\input{MiriamClustering}
 	\subsection{Neural Net}
 	For all the neural net computations we considered person vector data sets of different sizes (c.f. \Cref{subsec: person vector data}).\\
@@ -173,12 +191,47 @@
 	% mittels deep-learning-vector-average
 	\end{figure}
 
-
+	%TODO: recompute
 	The size of larger nets in terms of neurons is counter-productive, since if we take 50 neurons per layer we have $14 \cdot 50^4 \cdot 6 \approxeq 525.000.000$ synapses for which the input data set would be to small to have sufficient training.\\
 
-	%TODO: what can we oberve?
+	\section{Observations}
+%	TODO (1 page)
+%	TODO: restructure. Have like 3 parts
 %	The greater the population, the more the borders between the stratas blur. 
+	As an overall result we get, that we can not determine the strata based on the information we have.
+	Using various datasets (c.f. \Cref{sec: proprocessing}), we witnessed that having equally distributed datasets lead to an overall higher accuracy. This rules out the bias observed in the original data, where strata 2 and 3 are very dominant (c.f. \Cref{table: distribution normal}), but also reduces the set size from originally 124978 to $6*2038=12228$ entries equally distributed over all stratas.\\
+	During clustering we observed, that using a different distance measure formula would not lead to a huge difference. Also, we detected that reducing the numbers of clusters leads to better results, which reduces the significance of result that could be stated.\\
+	Using a different neural net architecture will most likely not chance the accuracy value drastically. As stated, more complex nets need more training data, which is restricted as mentioned above.\\
+	What we can observe is, that using the stratified vectors, we are able to increase the performance and accuracy, but still have no sufficient predictions. Therefore we see that the more data we have the higher the variance within the stratas themselves is. We cannot draw some kind of lines to distinguish between different entries. Datapoints, which were outliers in the smaller sets, are now not considered to be outliers, because of large numbers having the same characteristics. So the lines, we were able to draw for smaller datasets, are blurring and create some kind of transition phase.\\ %TODO: letzter satz doof	
+	
+
+	\section{Discussion}
+	%TODO: discussion
+	TODO (2 page)
 
 
-
+\begin{thebibliography}{8}
+	\bibitem{rich_do_not_rise_early}
+	Lotero, Laura, et al. "Rich do not rise early: spatio-temporal patterns in the mobility networks of different socio-economic classes." Royal Society open science 3.10 (2016): 150654.
+	
+	\bibitem{strata_def}
+	Hudson, Rex A. Colombia: A country study. Government Printing Office, 2010.
+	
+%	\bibitem{ref_lncs1}
+%	Author, F., Author, S.: Title of a proceedings paper. In: Editor,
+%	F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1--13.
+%	Springer, Heidelberg (2016). \doi{10.10007/1234567890}
+%	
+%	\bibitem{ref_book1}
+%	Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
+%	Location (1999)
+%	
+%	\bibitem{ref_proc1}
+%	Author, A.-B.: Contribution title. In: 9th International Proceedings
+%	on Proceedings, pp. 1--2. Publisher, Location (2010)
+%	
+%	\bibitem{ref_url1}
+%	LNCS Homepage, \url{http://www.springer.com/lncs}. Last accessed 4
+%	Oct 2017
+\end{thebibliography}
 \end{document}
