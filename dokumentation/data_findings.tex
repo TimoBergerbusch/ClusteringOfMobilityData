@@ -75,13 +75,10 @@ The first visible thing is that the data is corrupted, i. e. there are missing v
 \begin{minipage}{0.48\textwidth}
 	We are looking for clusters inside the whole dataset by generating different charts which visualize a subset of attributes of all data points. Firstly, before neglecting the strata data of the data set, we consider chart \ref{fig:strata_reason_age} which visualizes the different reasons why people move at which age grouped by socio-economic classes. Throughout the classes each cloud of points is very similar, i. e. young people are mostly studying, adults are mostly working and older people are moving for recreation or health. Therefore categorizing people by taking the reason for their movements into account is not an option. The only difference that is not caused by outliers is the smaller size of the first and last economic class.\\
 	
-	In figure \ref{fig:origin_destination_reason} we see the reason (color of dots) why people move from their origin to a destination. It can be seen, that the vast majority of people are working and that there are metropoliton areas inside the city.  
-	
-	
-	
+	In figure \ref{fig:origin_destination_reason} we see the reason (color of dots) why people move from their origin to a destination. It can be seen, that the vast majority of people is working and that there are metropoliton areas inside the city. Some areas, for example around 180, tend to be more visited for academic purposes but since no matter what socio-economic strata people belong, they educate themselves i. e. there is not enough correlation between origin, destination and reason to see clusters which resemble the stratification just by plotting the data in this way. As in the original paper stated (TOOD: cite), there are differences between the stratas, which can be seen when plotting the strata as color column. For example plotting the means of transportation and the reason of travel by taking an equally distributed subset of the data set into account, the richest and poorest people have the most remarkable properties, i. e. the population of strata 1 is only working, studying and returning home by using first and second means of transportation, whilst the reasons for movements of people from strata 6 are more spread but mostly using the third means of transportation, which seems to be only affordable for wealthy people.	 
+\end{minipage}\\
 
-	 
-\end{minipage}
+We observe, that there are visible differences between the different given stratifications. But since the population of each strata is not homogenous and the clear distinction of two succeeding is not given, we can not see clusters by plotting the data without knowing the result. In the following sections we are therefore investigating approaches to find clusters using different clustering algorithms.
 
 
 
