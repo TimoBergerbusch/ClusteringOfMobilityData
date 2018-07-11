@@ -1,5 +1,6 @@
 %Miriam Clustering
 The first question was: is it possible without knowing the social classes to reproduce them based on the movement data. Therefore we wanted to look for clusters and compare those with the strata. Also we had a look if the possibly found clusters have special properties.
+
 \subsubsection{Clustering with RapidMiner}
 
 RapidMiner has different Modules for Clustering already implemented. We decided to concentrate on the k-means clustering algorithm.
@@ -11,7 +12,7 @@ RapidMiner has different Modules for Clustering already implemented. We decided 
 \end{figure}
 
 
-The Process, figure \ref{fig: kclust} contains the following steps:
+The Process, figure \ref{fig: kclust}, contains the following steps:
 \begin{description}
 	\item[Retrieve] gives the data into the process. 
   \item[Generate ID] creates an ID such that we can make the comparsion step at the end through joining the sets
@@ -30,13 +31,13 @@ In the first step we tried to cluster the \textbf{Original Data} in \textbf{6 Cl
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{ClusterOrigRapidStrata.PNG}
+  \includegraphics[width=.8\linewidth]{ClusterOrigRapidStrata.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{ClusterOrigRapidCluster.PNG}
+  \includegraphics[width=.8\linewidth]{ClusterOrigRapidCluster.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}
@@ -51,131 +52,89 @@ We asked ourselfs, if 6 cluster is not too fine, so we searched for \textbf{3 cl
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{ClusterOrigRapidStrata2Cluster.PNG}
+  \includegraphics[width=.8\linewidth]{ClusterOrigRapidStrata2Cluster.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{ClusterOrigRapidCluster2Cluster.PNG}
+  \includegraphics[width=.8\linewidth]{ClusterOrigRapidCluster2Cluster.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}
-\caption{Distribution of original data}
-\label{fig:OrgDist}
+\caption{Distribution of original data for just 3 clusters}
+\label{fig:OrgDist3Cl}
 \end{figure}
 
-Also the distribution in the strata groups of the clustering shows, that there is no real connection of strata and the clustering.
+\begin{figure}[!htbp]
+\centering
 \includegraphics[width=0.9\textwidth]{ClusterOrigRapidDistribution2Cluster.PNG}
-
-\subsection{Combined Data}
-
-Because of the not really convincing result of the clustering like above we had the idea to combine for every ID the different pathes in one big vector. This garants us, that one person just can be in one cluster aswell. The idea is to sum up all pathes in one big vector.
-\subsubsection{Code}
-%hier darfst du dich gerne verewigen Timo. Gerne auch vorher und nachher noch mehr schreiben. Titel darf auch geändert werden
-% boa das ist voll liep un soo weischt :D
-
-Instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person %TODO: ref zu code basics
-, and all movements from that person.\\
-Then we are able to compute the following vector, with 848 entries, for further usage, that combines all movements of the person:
-$$\underbrace{\#o_1, \dots, \#o_{413}, \#d_1, \dots, \#d_{413}}_{2\cdot 413} ,
- \underbrace{\mathit{AM}, \mathit{MD}, \mathit{PM}, \mathit{MN}}_{4}, 
- \underbrace{\#r_1, \dots, \#r_7}_{7}, 
- \underbrace{\#\mathit{MoT}_1, \dots, \#\mathit{MoT}_7}_{7}, 
- \underbrace{\mathit{SD}, \mathit{SS}, \mathit{G}, \mathit{A}}_{4}$$
-with the following abbreviations ($1 \le i \le 413$, $0 \le j \le 7$):
-\begin{multicols}{2}
-\begin{itemize}
-	\item[$o_i$:]  the $i$-th origin data point
-	\item[$d_i$:]  the $i$-th destination data point
-	\item[$\mathit{AM}$:] movements at time stamp AM
-	\item[$\mathit{MD}$:] movements at time stamp MD
-	\item[$\mathit{PM}$:] movements at time stamp PM
-	\item[$\mathit{MN}$:] movements at time stamp MN
-	\item[$r_j$:] the $j$-th reason
-	\item[$\mathit{MoT}_j$:] the $j$-th mean of transportation
-	\item[$\mathit{SD}$:] sum of all durations
-	\item[$\mathit{SS}$:] sum of all distances
-	\item[$\mathit{G}$:] the gender
-	\item[$\mathit{A}$:] the age
-\end{itemize}
-\end{multicols}
-
-\subsubsection{Searching for 6 Clusters}
-Applying the process with maximal 100 steps on the data gives us the following results.
-
-Like above we check first the total distribution of strata and clusters with a pie. You already see, that it is not the 
-\begin{figure}[h]
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.4\linewidth]{vectorclusteringcluster.PNG}
-  \caption{Strata}
-  \label{fig:OrgSt}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
-  \caption{Cluster}
-  \label{fig:OrgCl}
-\end{subfigure}
-\caption{Distribution of original data}
-\label{fig:OrgDist}
+\caption{Distribution of the clusters in between the grouped strata}
+\label{fig:Groupdist}
 \end{figure}
 
-Also the distribution in the strata groups of the clustering shows, that there is not really a connection of strata and the clustering to see.
-\includegraphics[width=0.9\textwidth]{vectorClustering.PNG}
+After having a look at the pie charts, \ref{fig:OrgDist3Cl} and so the distribution in between the variable it seems to be a better result, so we had a look at the cluster distribution in the 3 grouped stratas, \ref{fig:Groupdist}. This figure shows clearly, that there is no real correlation between strata 
 
-So we change the maximal stepsize to 1000 and let the algorithm run again.
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width=\linewidth]{ClusterOrigRapidDistribution2038eq.PNG}
+\caption{For 6 clusters}
+\label{fig:2038_6}
+\end{subfigure}
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width=\linewidth]{ClusterOrigRapidDistribution2038eq2.PNG}
+\caption{For 3 clusters}
+\label{fig:2038_3}
+\end{subfigure}
+\caption{Distribution of the clusters in between the strata}
+\label{fig:2038_Clust}
+\end{figure}
+
+The result for different datasizes and equal distribution of the stratas does not change the result. The biggest equal distributed dataset has 2038 data rows for every strata and 4076 in between the grouped strata. In figure \ref{fig:2038_Clust} the two clustering results can be seen. Again we could not really see a significant correlation.
+
+\textbf{Stratified Person Data}
+
+After those not really convincing results we applied the process on the stratified person data, because those represented the movement of one person.
 
 \begin{figure}[h]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{vectorclusteringcluster1000.PNG}
+  \includegraphics[width=.9\linewidth]{vectorclusteringcluster.PNG}
   \caption{Strata}
-  \label{fig:OrgSt}
+  \label{fig:VecSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
+  \includegraphics[width=.9\linewidth]{vectorclusteringstrata.PNG}
   \caption{Cluster}
-  \label{fig:OrgCl}
+  \label{fig:VecCl}
 \end{subfigure}
-\caption{Distribution of original data}
-\label{fig:OrgDist}
+\caption{Distribution of stratified person data}
+\label{fig:VecDist}
 \end{figure}
 
-So we already get the idea, that there are not 6 Clusters, but just 3. Checking the distribution still gives us no strong correlation between strata and cluster.
-
-\includegraphics[width=0.9\textwidth]{vectorClustering1000}
-
-\subsubsection{Searching for 3 Clusters}
-
-Because of the result in the last part, we checked the behavior of the clustering by just searching for 3 Cluster. The first try is with 100 steps again.
-
-\begin{figure}[h]
+\begin{figure}[!htbp]
 \centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.4\linewidth]{vectorclusteringcluster3Cluster.PNG}
-  \caption{Strata}
-  \label{fig:OrgSt}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
-  \caption{Cluster}
-  \label{fig:OrgCl}
-\end{subfigure}
-\caption{Distribution of original data}
-\label{fig:OrgDist}
+\includegraphics[width=0.3\textwidth]{vectorclusteringcluster1000.PNG}
+\includegraphics[width=0.69\textwidth]{vectorClustering1000.PNG}
+\caption{1000 steps clustering in 6 clusters}
+\label{fig:1000vect}
 \end{figure}
 
-This comes closer by the orginial distribution combining two stratas in one cluster.
+The results for the whole data set without equalization are shown in figure \ref{fig:2038_Clust}. We changed the number of steps to 1000 for comparsion and the result, \ref{fig:1000vect}, let us assume, that 3 clusters better would fit. 
 
-But having a look at the inbetween distribution does not show us a real correlation between cluster and strata.
 
-\includegraphics[width=0.9\textwidth]{vectorClustering3Cluster.PNG}
+So we applied the process on the \textbf{stratified person data} and searched for \textbf{3 clusters}. We directly run the algorithm 1000 steps.
 
-We wanted to check what happens when giving the process 1000 steps maximal. 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.69\textwidth]{vectorClustering31000.PNG}
+\caption{1000 steps clustering in 3 clusters}
+\label{fig:1000vect3}
+\end{figure}
+
+Figure \ref{fig:1000vect3} shows clearly, that again no correlation can be found. Furthermore we applied this for the different datasets we generated, but the result was always similar.
+
+

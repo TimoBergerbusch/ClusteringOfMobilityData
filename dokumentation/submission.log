@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.6.7)  11 JUL 2018 12:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.6.7)  11 JUL 2018 15:23
 entering extended mode
 **"C:/Users/Miriam Wagner/Desktop/ClusteringOfMobilityData/dokumentation/submis
 sion.tex"
@@ -1023,7 +1023,32 @@ istings.cfg"
 File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
 Package: listings 2015/06/04 1.6 (Carsten Heinz)
- (submission.aux)
+ (submission.aux
+
+LaTeX Warning: Label `fig:OrgSt' multiply defined.
+
+
+LaTeX Warning: Label `fig:OrgSt@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:OrgSt' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:OrgSt@cref' multiply defined.
+
+
+LaTeX Warning: Label `fig:OrgCl' multiply defined.
+
+
+LaTeX Warning: Label `fig:OrgCl@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:OrgCl' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:OrgCl@cref' multiply defined.
+
+)
 \openout1 = `submission.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
@@ -1153,381 +1178,180 @@ Underfull \vbox (badness 1688) has occurred while \output is active []
 
  [2]
 (MiriamClustering.tex
+<ClusteringRapid.PNG, id=37, 486.81876pt x 259.97125pt>
+File: ClusteringRapid.PNG Graphic file (type png)
+<use ClusteringRapid.PNG>
+Package pdftex.def Info: ClusteringRapid.PNG  used on input line 9.
+(pdftex.def)             Requested size: 312.40906pt x 166.83325pt.
+ [3]
+<ClusterOrigRapidStrata.PNG, id=58, 439.14063pt x 362.85562pt>
+File: ClusterOrigRapidStrata.PNG Graphic file (type png)
+<use ClusterOrigRapidStrata.PNG>
+Package pdftex.def Info: ClusterOrigRapidStrata.PNG  used on input line 34.
+(pdftex.def)             Requested size: 138.84993pt x 114.73198pt.
+<ClusterOrigRapidCluster.PNG, id=59, 454.19687pt x 363.85938pt>
+File: ClusterOrigRapidCluster.PNG Graphic file (type png)
+<use ClusterOrigRapidCluster.PNG>
+Package pdftex.def Info: ClusterOrigRapidCluster.PNG  used on input line 40.
+(pdftex.def)             Requested size: 138.84993pt x 111.2351pt.
+<ClusterOrigRapidStrata2Cluster.PNG, id=63, 537.50812pt x 363.85938pt>
+File: ClusterOrigRapidStrata2Cluster.PNG Graphic file (type png)
+<use ClusterOrigRapidStrata2Cluster.PNG>
+Package pdftex.def Info: ClusterOrigRapidStrata2Cluster.PNG  used on input line
+ 55.
+(pdftex.def)             Requested size: 138.84993pt x 93.99048pt.
+<ClusterOrigRapidCluster2Cluster.PNG, id=64, 439.14063pt x 363.3575pt>
+File: ClusterOrigRapidCluster2Cluster.PNG Graphic file (type png)
+<use ClusterOrigRapidCluster2Cluster.PNG>
+Package pdftex.def Info: ClusterOrigRapidCluster2Cluster.PNG  used on input lin
+e 61.
+(pdftex.def)             Requested size: 138.84993pt x 114.89067pt.
 
-LaTeX Warning: File `ClusteringRapid.PNG' not found on input line 8.
+Underfull \vbox (badness 1142) has occurred while \output is active []
 
-
-! Package pdftex.def Error: File `ClusteringRapid.PNG' not found: using draft s
-etting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8 ...s[width=0.9\textwidth]{ClusteringRapid.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: Reference `fig: kclust' on page 3 undefined on input line 14.
-
-[3] [4]
-
-LaTeX Warning: Reference `fig:OrgDist' on page 5 undefined on input line 28.
-
-
-LaTeX Warning: File `ClusterOrigRapidStrata.PNG' not found on input line 33.
-
-
-! Package pdftex.def Error: File `ClusterOrigRapidStrata.PNG' not found: using 
-draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.33 ...=.4\linewidth]{ClusterOrigRapidStrata.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `ClusterOrigRapidCluster.PNG' not found on input line 39.
-
-
-! Package pdftex.def Error: File `ClusterOrigRapidCluster.PNG' not found: using
- draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.39 ....4\linewidth]{ClusterOrigRapidCluster.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: Reference `fig:OrgDist' on page 5 undefined on input line 47.
-
-
-LaTeX Warning: Reference `fig:OrgSt' on page 5 undefined on input line 47.
-
-
-LaTeX Warning: Reference `fig:OrgCl' on page 5 undefined on input line 47.
-
-
-LaTeX Warning: File `ClusterOrigRapidStrata2Cluster.PNG' not found on input lin
-e 54.
-
-
-! Package pdftex.def Error: File `ClusterOrigRapidStrata2Cluster.PNG' not found
-: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.54 ...width]{ClusterOrigRapidStrata2Cluster.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `ClusterOrigRapidCluster2Cluster.PNG' not found on input li
-ne 60.
-
-
-! Package pdftex.def Error: File `ClusterOrigRapidCluster2Cluster.PNG' not foun
-d: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.60 ...idth]{ClusterOrigRapidCluster2Cluster.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `ClusterOrigRapidDistribution2Cluster.PNG' not found on inp
-ut line 69.
-
-
-! Package pdftex.def Error: File `ClusterOrigRapidDistribution2Cluster.PNG' not
- found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.69 ...{ClusterOrigRapidDistribution2Cluster.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (165.20253pt too wide) in paragraph at lines 68--70
-\OT1/cmr/m/n/10 no real con-nec-tion of strata and the clus-ter-ing. [] 
- []
-
-
+ [4 <./ClusteringRapid.PNG> <./ClusterOrigRapidStrata.PNG> <./ClusterOrigRapidC
+luster.PNG>]
+<ClusterOrigRapidDistribution2Cluster.PNG, id=74, 541.52313pt x 366.87062pt>
+File: ClusterOrigRapidDistribution2Cluster.PNG Graphic file (type png)
+<use ClusterOrigRapidDistribution2Cluster.PNG>
+Package pdftex.def Info: ClusterOrigRapidDistribution2Cluster.PNG  used on inpu
+t line 71.
+(pdftex.def)             Requested size: 312.40906pt x 211.65431pt.
+<ClusterOrigRapidDistribution2038eq.PNG, id=77, 542.52687pt x 348.80313pt>
+File: ClusterOrigRapidDistribution2038eq.PNG Graphic file (type png)
+<use ClusterOrigRapidDistribution2038eq.PNG>
+Package pdftex.def Info: ClusterOrigRapidDistribution2038eq.PNG  used on input 
+line 81.
+(pdftex.def)             Requested size: 312.40906pt x 200.8636pt.
+<ClusterOrigRapidDistribution2038eq2.PNG, id=78, 541.52313pt x 367.87437pt>
+File: ClusterOrigRapidDistribution2038eq2.PNG Graphic file (type png)
+<use ClusterOrigRapidDistribution2038eq2.PNG>
+Package pdftex.def Info: ClusterOrigRapidDistribution2038eq2.PNG  used on input
+ line 86.
+(pdftex.def)             Requested size: 312.40906pt x 212.23338pt.
+[5 <./ClusterOrigRapidStrata2Cluster.PNG> <./ClusterOrigRapidCluster2Cluster.PN
+G> <./ClusterOrigRapidDistribution2Cluster.PNG>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5]
-Overfull \hbox (96.92725pt too wide) detected at line 85
-[]\OML/cmm/m/it/10 ; []; []; []; []
- []
+ [6 <./ClusterOrigRapidDistribution2038eq.PNG> <./ClusterOrigRapidDistribution2
+038eq2.PNG>]
+<vectorclusteringcluster.PNG, id=95, 488.82625pt x 365.365pt>
+File: vectorclusteringcluster.PNG Graphic file (type png)
+<use vectorclusteringcluster.PNG>
+Package pdftex.def Info: vectorclusteringcluster.PNG  used on input line 104.
+(pdftex.def)             Requested size: 156.20453pt x 116.75194pt.
+<vectorclusteringstrata.PNG, id=96, 448.67625pt x 369.38pt>
+File: vectorclusteringstrata.PNG Graphic file (type png)
+<use vectorclusteringstrata.PNG>
+Package pdftex.def Info: vectorclusteringstrata.PNG  used on input line 110.
+(pdftex.def)             Requested size: 156.20453pt x 128.5973pt.
+<vectorclusteringcluster1000.PNG, id=97, 473.26813pt x 353.32pt>
+File: vectorclusteringcluster1000.PNG Graphic file (type png)
+<use vectorclusteringcluster1000.PNG>
+Package pdftex.def Info: vectorclusteringcluster1000.PNG  used on input line 12
+0.
+(pdftex.def)             Requested size: 104.1381pt x 77.74141pt.
+<vectorClustering1000.PNG, id=98, 490.83376pt x 375.90437pt>
+File: vectorClustering1000.PNG Graphic file (type png)
+<use vectorClustering1000.PNG>
+Package pdftex.def Info: vectorClustering1000.PNG  used on input line 121.
+(pdftex.def)             Requested size: 239.51608pt x 183.43188pt.
 
-[6]
+Underfull \vbox (badness 3965) has occurred while \output is active []
 
-LaTeX Warning: File `vectorclusteringcluster.PNG' not found on input line 112.
-
-
-! Package pdftex.def Error: File `vectorclusteringcluster.PNG' not found: using
- draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.112 ...4\linewidth]{vectorclusteringcluster.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `vectorclusteringstrata.PNG' not found on input line 118.
-
-
-! Package pdftex.def Error: File `vectorclusteringstrata.PNG' not found: using 
-draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.118 ....4\linewidth]{vectorclusteringstrata.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `vectorClustering.PNG' not found on input line 127.
-
-
-! Package pdftex.def Error: File `vectorClustering.PNG' not found: using draft 
-setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.127 ...idth=0.9\textwidth]{vectorClustering.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (210.53592pt too wide) in paragraph at lines 126--128
-\OT1/cmr/m/n/10 not re-ally a con-nec-tion of strata and the clus-ter-ing to se
-e. [] 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7]
-
-LaTeX Warning: File `vectorclusteringcluster1000.PNG' not found on input line 1
-35.
-
-
-! Package pdftex.def Error: File `vectorclusteringcluster1000.PNG' not found: u
-sing draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.135 ...newidth]{vectorclusteringcluster1000.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `vectorclusteringstrata.PNG' not found on input line 141.
-
-
-! Package pdftex.def Error: File `vectorclusteringstrata.PNG' not found: using 
-draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.141 ....4\linewidth]{vectorclusteringstrata.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: File `vectorClustering1000' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.151 ...idth=0.9\textwidth]{vectorClustering1000}
-                                                  
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `vectorclusteringcluster3Cluster.PNG' not found on input li
-ne 161.
-
-
-! Package pdftex.def Error: File `vectorclusteringcluster3Cluster.PNG' not foun
-d: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.161 ...dth]{vectorclusteringcluster3Cluster.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `vectorclusteringstrata.PNG' not found on input line 167.
-
-
-! Package pdftex.def Error: File `vectorclusteringstrata.PNG' not found: using 
-draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.167 ....4\linewidth]{vectorclusteringstrata.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \vbox (badness 4752) has occurred while \output is active []
-
- [8]
-
-LaTeX Warning: File `vectorClustering3Cluster.PNG' not found on input line 179.
-
-
-
-! Package pdftex.def Error: File `vectorClustering3Cluster.PNG' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.179 ...\textwidth]{vectorClustering3Cluster.PNG}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-) [9]
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
+ [7 <./vectorclusteringcluster.PNG> <./vectorclusteringstrata.PNG> <./vectorclu
+steringcluster1000.PNG> <./vectorClustering1000.PNG>]
+<vectorClustering31000.PNG, id=112, 485.31313pt x 365.365pt>
+File: vectorClustering31000.PNG Graphic file (type png)
+<use vectorClustering31000.PNG>
+Package pdftex.def Info: vectorClustering31000.PNG  used on input line 133.
+(pdftex.def)             Requested size: 239.51608pt x 180.31824pt.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
 
  []
 
-<src/pic/NN_without_vector.png, id=90, 830.35219pt x 216.81pt>
+<src/pic/NN_without_vector.png, id=116, 830.35219pt x 216.81pt>
 File: src/pic/NN_without_vector.png Graphic file (type png)
 <use src/pic/NN_without_vector.png>
-Package pdftex.def Info: src/pic/NN_without_vector.png  used on input line 162.
+Package pdftex.def Info: src/pic/NN_without_vector.png  used on input line 165.
 
 (pdftex.def)             Requested size: 332.135pt x 86.72246pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 167--169
+Underfull \vbox (badness 2922) has occurred while \output is active []
+
+ [8 <./vectorClustering31000.PNG>]
+Underfull \hbox (badness 10000) in paragraph at lines 170--172
 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [10 <./src/pic/NN_without_vector.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+Underfull \hbox (badness 10000) in paragraph at lines 195--196
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 198--203
+Underfull \hbox (badness 10000) in paragraph at lines 201--206
 
  []
 
-[11] [12]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 218.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 218.
+[9 <./src/pic/NN_without_vector.png>] [10]
+Underfull \hbox (badness 10000) in paragraph at lines 241--243
+
+ []
+
+[11]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 255.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 255.
  (submission.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 218.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 218.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 255.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 255.
 Package rerunfilecheck Info: File `submission.out' has not changed.
 (rerunfilecheck)             Checksum: 38533DB49C1800A6CE96BFED76687A6F;63.
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 218.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 255.
  ) 
 Here is how much of TeX's memory you used:
- 25347 strings out of 493305
- 505048 string characters out of 3126321
+ 25426 strings out of 493305
+ 507631 string characters out of 3126321
  598689 words of memory out of 3000000
- 28363 multiletter control sequences out of 15000+200000
- 14085 words of font info for 52 fonts, out of 3000000 for 9000
+ 28454 multiletter control sequences out of 15000+200000
+ 13570 words of font info for 50 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,16n,71p,1025b,575s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{figure.caption.4} has been referenced but does no
-t exist, replaced by a fixed one
-
-{C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/
-8r.enc}<C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmbx10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Miriam Wagner/AppDat
-a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/
-Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmex10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Miriam Wagner/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Use
-rs/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmmi9.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Miriam Wagner/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/User
+{C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/bas
+e/8r.enc}<C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmbx10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Miriam Wagner/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/User
 s/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmr9.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Miriam Wagner/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Use
-rs/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmti10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmti7.pfb><C:/Users/Miriam Wagner/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/Miriam Wa
-gner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/U
-sers/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/zapfding/u
-zdr.pfb>
-Output written on submission.pdf (12 pages, 268286 bytes).
+m/cmex10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Miriam Wagner/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Miriam Wagner/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/U
+sers/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmmi9.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Miriam Wagner/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Miriam Wagner/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Us
+ers/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmr9.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Miriam Wagner/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Miriam Wagner/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/U
+sers/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmti10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/Miriam Wagner/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/Miriam 
+Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:
+/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/zapfding
+/uzdr.pfb>
+Output written on submission.pdf (11 pages, 1082624 bytes).
 PDF statistics:
- 196 PDF objects out of 1000 (max. 8388607)
+ 231 PDF objects out of 1000 (max. 8388607)
  43 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 91 words of extra memory for PDF output out of 10000 (max. 10000000)
 
