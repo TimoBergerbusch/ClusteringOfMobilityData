@@ -11,17 +11,32 @@ Decision trees are a good manner to figure out, which parts of the data set have
 RapidMiner does the following steps, to see in figure \ref{fig: RapDec}:
 \begin{description}
 	\item[Retrieve] includes the dataset
-	\item[Generate Attribute] changes the Numerical Attribute strata to four binomial ones
+	\item[Select Attributes] makes it possible to or have a look at grouped strata or normal strata
 	\item[Set Role] gives strata the label role, so that the decision tree has those as leafs
+	\item[Multiply] clones the data set 
 	\item[Decision Tree] creates the decision tree
+	\item[Apply Model] is used creates the labeled data set for the \textbf{Performance} step
+	\item[Performance] gives the performance result of the created model
 \end{description}
 
 Furthermore we choose information gain as splitting criterium (minimal gain 0.1) and a confidence of 0.25. Other configuration does not show different results.
 
-In the first step we applied the process on the whole data set and the resulting tree was just the leaf "strata 2". So we tried it with different other data sets and the best result we got was for \textbf{stratified person data} equally distributed 3 stratas and just 200 in every aggerated strata group.
+In the first step we applied the process on the whole data set and the resulting tree was just the leaf "strata 2". So we tried it with different other data sets and the best result we got was for \textbf{stratified person data} equally distribute and just 200 in every strata group.
 
 \begin{figure}[!htbp]
 \centering
-\begin{subfigure}{0.7\textwidth}
-\includegraphics
-{}
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width = \linewidth]{Dec200eqPrec.PNG}
+\caption{200 in every strata}
+\label{fig:decvec200}
+\end{subfigure}
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width= \linewidth]{decvec585pre.PNG}
+\caption{585 in every strata}
+\label{fig:DecVec585}
+\end{subfigure}
+\caption{Performance for stratified person data}
+\label{fig:DecVec}
+\end{figure}
+
+In figure \ref{fig:DecVec} the best and worst outcome can be seen for 6 clusters. For all othe configurations the outcome was similar, so just small data sets had a good result and big data sets had no really good result for our question, such that we still had no explicit result with which we could work.
