@@ -4,7 +4,7 @@
 
 RapidMiner has different Modules for Clustering already implemented. We apply the k-Means algorithm with mixed measure (euclidean).
 
-\includegraphics[width=0.9\textwidth]{../Miriam-RapidMiner/ClusteringRapid.PNG}
+\includegraphics[width=0.9\textwidth]{ClusteringRapid.PNG}
 
 
 The Process does the following steps:
@@ -27,13 +27,13 @@ Applying this process to the original data you can see without alignment of stra
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/ClusterPCAOrigRapidStrata.PNG}
+  \includegraphics[width=.4\linewidth]{ClusterPCAOrigRapidStrata.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/ClusterPCAOrigRapidCluster.PNG}
+  \includegraphics[width=.4\linewidth]{ClusterPCAOrigRapidCluster.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}
@@ -52,13 +52,13 @@ For a clustering of 3 clusters we get a distributions that are complete differen
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/ClusterOrigRapidStrata2Cluster.PNG}
+  \includegraphics[width=.4\linewidth]{ClusterOrigRapidStrata2Cluster.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/ClusterOrigRapidCluster2Cluster.PNG}
+  \includegraphics[width=.4\linewidth]{ClusterOrigRapidCluster2Cluster.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}
@@ -67,7 +67,7 @@ For a clustering of 3 clusters we get a distributions that are complete differen
 \end{figure}
 
 Also the distribution in the strata groups of the clustering shows, that there is no real connection of strata and the clustering.
-\includegraphics[width=0.9\textwidth]{../Miriam-RapidMiner/ClusterOrigRapidDistribution2Cluster.PNG}
+\includegraphics[width=0.9\textwidth]{ClusterOrigRapidDistribution2Cluster.PNG}
 
 \subsection{Combined Data}
 
@@ -110,13 +110,13 @@ Like above we check first the total distribution of strata and clusters with a p
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/vectorclusteringcluster.PNG}
+  \includegraphics[width=.4\linewidth]{vectorclusteringcluster.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/vectorclusteringstrata.PNG}
+  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}
@@ -125,7 +125,7 @@ Like above we check first the total distribution of strata and clusters with a p
 \end{figure}
 
 Also the distribution in the strata groups of the clustering shows, that there is not really a connection of strata and the clustering to see.
-\includegraphics[width=0.9\textwidth]{../Miriam-RapidMiner/vectorClustering.PNG}
+\includegraphics[width=0.9\textwidth]{vectorClustering.PNG}
 
 So we change the maximal stepsize to 1000 and let the algorithm run again.
 
@@ -133,13 +133,13 @@ So we change the maximal stepsize to 1000 and let the algorithm run again.
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/vectorclusteringcluster1000.PNG}
+  \includegraphics[width=.4\linewidth]{vectorclusteringcluster1000.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/vectorclusteringstrata.PNG}
+  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}
@@ -149,7 +149,7 @@ So we change the maximal stepsize to 1000 and let the algorithm run again.
 
 So we already get the idea, that there are not 6 Clusters, but just 3. Checking the distribution still gives us no strong correlation between strata and cluster.
 
-\includegraphics[width=0.9\textwidth]{../Miriam-RapidMiner/vectorClustering1000}
+\includegraphics[width=0.9\textwidth]{vectorClustering1000}
 
 \subsubsection{Searching for 3 Clusters}
 
@@ -159,13 +159,13 @@ Because of the result in the last part, we checked the behavior of the clusterin
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/vectorclusteringcluster3Cluster.PNG}
+  \includegraphics[width=.4\linewidth]{vectorclusteringcluster3Cluster.PNG}
   \caption{Strata}
   \label{fig:OrgSt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{../Miriam-RapidMiner/vectorclusteringstrata.PNG}
+  \includegraphics[width=.4\linewidth]{vectorclusteringstrata.PNG}
   \caption{Cluster}
   \label{fig:OrgCl}
 \end{subfigure}
@@ -177,6 +177,6 @@ This comes closer by the orginial distribution combining two stratas in one clus
 
 But having a look at the inbetween distribution does not show us a real correlation between cluster and strata.
 
-\includegraphics[width=0.9\textwidth]{../Miriam-RapidMiner/vectorClustering3Cluster.PNG}
+\includegraphics[width=0.9\textwidth]{vectorClustering3Cluster.PNG}
 
 We wanted to check what happens when giving the process 1000 steps maximal. 
