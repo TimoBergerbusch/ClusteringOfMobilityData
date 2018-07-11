@@ -208,7 +208,7 @@
 	%\subsection{Neural Net}
 	%TODO (5 pages)	
 	\subsection{Neural Net} \label{subsec: neural net}
-	For all the neural net computations we considered person vector data sets of different sizes (c.f. \Cref{subsec: person vector data}).\\
+	In this section we want to further improve the accuracy of predicting the strata of one person by using neural networks. Like in the previous section, when we used decision trees, we need ground truth, in this case the strata, to be able to train the neural networks. For all the neural net computations we considered person vector data sets of different sizes (c.f. \Cref{subsec: person vector data}).\\
 	
 	We do this, because results on the normal datasets had an unacceptable performance, since only single movements and not complete paths of individuals are considered. An example training and performance measure is given in \Cref{fig: NN without vector} where unprocessed data is used. The performance is measured using 10-fold cross validation, i. e. the data is split into 10 subsets where in each iteration exactly one data set is used as test set and the other 9 as training set. The average value of the accuracy values lead
 	to the total accuracy value of the neural net.
