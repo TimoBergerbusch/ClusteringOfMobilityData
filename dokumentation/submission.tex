@@ -84,6 +84,57 @@
 	The data entries consist of data about the movement, like endpoints or length, and also some meta parameters like gender, age or the so-called strata of the person. The strata defines the socio-economic group, reflecting the affluence and therefore impose the ancillary costs.\\
 	Our goal is to ascertain if there is a correlation between the movements and the strata. 
 	
+	\section{Theoretical backgrounds}
+	
+	\subsection{Clustering the data}
+	
+	In the field of \textit{Data Mining}, \textit{Cluster Analysis} or \textit{Clustering} is a process of grouping data objects from a dataset into multiple groups or clusters. The essential criterion for the quality of the clustering is a certain \textit{similarity}, such that data objects are similar to other objects in the same cluster and dissimilar to objects from other clusters. 
+	
+	In the scope of this work, we decided to use well-known partitioning methods such as k-means or k-medoids. In general, given $n$ data objects, partitioning methods distribute the data object into $k$ clusters with $k<n$, using a distance measure to evaluate the repsective similarity. Partitioning methods form exclusive clusters by ensuring that each cluster contains at least one object. Note that the number $k$ of clusters has to be chosen manually prior to the partitioning process.
+	
+	\subsubsection{k-Means}
+	
+	is a \textit{centroid based technique}, which means that each cluster is represented by a data point that also is the center of the cluster. A distance measure is then used to assigns every remaining data object from the data set to the best fitting cluster according to it's similarity to the center of this cluster and it's dissimilarity to the centers of any other cluster.
+	
+	The data objects within a dataset are considered to reside in a euclidean space. Thus, the euclidean distance is used to calculate a score for the similarity of two data points. When using k-Means, the quality of a cluster $C_i$ can be evaluated by computing the sum of squared erros between all data points $p$ in the object space and the centroids $c_i \in C_i$ of every cluster. This method is known as \textit{within-cluster variation} \cite{data_mining} and defined as follows: 
+	\begin{equation}
+		E = \sum_{i=1}^{k} \sum_{p \in C_i} dist(p, c_i)^2,
+	\end{equation}
+	Given $k$, the first step of k-Means is to select $k$ random objects in the data set as initial representatives for the cluster centers. After that, each remaining data object is assigned to the best fitting cluster in terms of similarity, based on a similarity score that is determined by the euclidean distance between the data point and every cluster center. The overall goal of k-Means clustering is to iteratively optimize the within-cluster variation. In order to achieve this, each cluster centroid is reassigned as the mean of all objects within that cluster. By considering the updated centroids, every data point is redistributed to the now best fitting cluster. This iterative process will continue, until no better clustering can be found, which means that the latest clustering equals the previous distribution.
+	
+	\subsection{Gower Distance}\label{gower}
+	
+	When clustering data with algorithms such as \textit{k-means}, the distance between datapoints is usually calculated by measures such as the Euclidean or Manhatten norm. These distance measures come with constraints though, since they are only defined for numerical variables. In the scope of this work, we are facing data points with mixed variable types, therefore we investigated the \textbf{Gower distance measure} as an appropriate measure to calculate an overall \textit{similarity} between mixed data points. The Gower distance measure distinguishes between three types of variables:\\
+	\\ \textbf{Binary} variables, where two variables of value 0 are \textit{not} considered a match \cite{gower1971general}. In the scope of this work, the only considerable candidate for a binary variable would have been \textit{gender}. Though, during our research process, we concluded that the similarity measure for binary variables was not a suitable choice, as the distance does not match 0 values. Hence, we consider all variables, that are not explicitly numerical, as categorical variables.\\
+	\textbf{Categorical} variables form a set of unordered values and are comparable to ENUMs in programming languages.\\	
+	\textbf{Numerical} variables hold ordered numerical values that support arithmetic operations.
+	
+	\subsubsection{Calculating the distances.}
+	
+	Given two data points $x$ and $y$, that each form a tuple of $v$ variables of arbitrary type, the similarity coefficient between the two points is given by
+	\begin{equation}\label{eq1}
+	S_{xy} = \sum_{k=1}^{v} s_{xy,k} / \sum_{k=1}^{v} \delta_{xy,k} 
+	\end{equation} 
+	where $s_{xy,k}$ denotes a \textit{score for the similarity} of the two variables at position $k$ in the data points $x$ and $y$. Note, that the definition of the score dependends on the type of the variable, as defined below. In the divisor, $\delta_{xy,k}$ basically represents the possibility of comparing the two variables at index $k$, such that it evaluates to 1, when the two variables are comparable and to 0 when not. For example, variables are not comparable, if values are undefined in the data points or the variable types do not match at index $k$, among other reasons. Within this work, the dataset is complete, therefore, $\sum_{k=1}^{v} \delta_{xy,k}=v$, the number of considered variables in each data point, for all $x, y$ in the data set. Thus, the similarity coefficient in (\ref{eq1}) can be interpreted as the average value of all similarity scores. 
+	With respect to the variable type, the similarity score $s_{xy,k}$ is defined as follows:\\
+	\\ \textbf{Binary:} The score for binary variables is basically the result of an logical AND operation. As pointed above, 0 values are not considered a match and even further, not considered to be comparable. Hence, the values result as in the table
+		\begin{center}
+			\begin{tabular}{l | c c c r}
+				i & 1 & 1 & 0 & 0 \\
+				j & 1 & 0 & 1 & 0 \\
+				\hline
+				$s_{xy,k}$ & 1 & 0 & 0 & 0 \\
+				$\delta_{xy,k}$ & 1 & 1 & 1 & 0
+			\end{tabular}
+		\end{center}	
+	\textbf{Categorical:} The similarity score of categorical variables is 1, if the variables are completely identical in $x$ and $y$ and 0, if they differ.\\
+	\\ \textbf{Numerical:} for numerical variables, the similarity score is calculated by
+		\begin{equation*}
+		s_{xy,k} = 1 - \frac{\vert x_k - y_k \vert}{range(k)}
+		\end{equation*}
+		where $range(k)$ is the total range of values, that the numerical variable at index $k$ can accept. This can be a global range of acceptable values for variable $k$ or chosen on the basis of the dataset.
+
+	
 	\section{Preprocessing}\label{sec: proprocessing}
 	In order to classify the given data into smaller test sets or mask different aspects, we have to perform some analysis.\\
 	We observe that even though we have 124979 individual lines defining a movement, there is one line defining a \texttt{NotANumber}-exception and therefore gets neglected for further usage.	\\
@@ -252,5 +303,16 @@
 		\bibitem{strata_def}
 		Hudson, Rex A. Colombia: A country study. Government Printing Office, 2010.
 		
+		\bibitem{gower1971general}
+		Gower, John C,
+		\emph{A general coefficient of similarity and some of its properties},
+		Biometrics, pp. 857-871,
+		1971.
+		
+		\bibitem{data_mining}
+		Han, Jiawei and Pei, Jian and Kamber, Micheline,
+		\emph{Data mining: concepts and techniques},
+		Elsevier, pp. 444-454,
+		2011.
 	\end{thebibliography}
 \end{document}
