@@ -1,0 +1,22 @@
+\contentsline {title}{Are you moving predictably?}{1}{chapter.1}
+\authcount {5}
+\contentsline {author}{Miriam Wagner\and Martin Breuer\and Moritz Werthebach\and Timo Bergerbusch\and Walter Schikowski}{1}{chapter.1}
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1.1}
+\contentsline {section}{\numberline {2}Methods}{2}{section.1.2}
+\contentsline {subsection}{\numberline {2.1}Preprocessing}{2}{subsection.1.2.1}
+\contentsline {subsubsection}{Stratified Person Data}{3}{section*.5}
+\contentsline {subsection}{\numberline {2.2}Unsupervised learning}{4}{subsection.1.2.2}
+\contentsline {subsubsection}{Clustering the data}{4}{section*.6}
+\contentsline {subsubsection}{k-Means}{4}{section*.7}
+\contentsline {subsubsection}{Gower Distance}{5}{section*.9}
+\contentsline {subsubsection}{Calculating the distances}{6}{section*.10}
+\contentsline {section}{\numberline {3}Predicting}{7}{section.1.3}
+\contentsline {subsection}{\numberline {3.1}Classification}{7}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {3.2}Decision Tree}{11}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {3.3}Neural Net}{13}{subsection.1.3.3}
+\contentsline {section}{\numberline {4}Observations}{14}{section.1.4}
+\contentsline {section}{\numberline {5}Discussion}{14}{section.1.5}
+\contentsline {subsection}{\numberline {5.1}Representativity of the day}{15}{subsection.1.5.1}
+\contentsline {subsection}{\numberline {5.2}People living over/under standards}{15}{subsection.1.5.2}
+\contentsline {subsection}{\numberline {5.3}Individuality of lifestyle}{15}{subsection.1.5.3}
+\contentsline {subsection}{\numberline {5.4}Inverse behavior in a strata}{15}{subsection.1.5.4}

@@ -1,30 +1,33 @@
 \setlength{\parindent}{0em}
-\subsection{Decision Tree} \label{subsec: decisiontree}
-Decision trees are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore labeled data is needed and we have given the strata. We used again \textbf{RapidMiner} for building trees based on different data sets. 
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width = 0.9\textwidth]{DecisionTreeRapidModel.PNG}
-\caption{Process for decision trees in RapidMiner}
-\label{fig: RapDec}
-\end{figure}
+\subsection{Supervised learning}
 
-RapidMiner does the following steps, to see in figure \ref{fig: RapDec}:
-\begin{description}
-	\item[Retrieve] includes the dataset
-	\item[Select Attributes] makes it possible to or have a look at grouped strata or normal strata
-	\item[Set Role] gives strata the label role, so that the decision tree has those as leafs
-	\item[Multiply] clones the data set 
-	\item[Decision Tree] creates the decision tree
-	\item[Apply Model] is used creates the labeled data set for the \textbf{Performance} step
-	\item[Performance] gives the performance result of the created model
-\end{description}
+\textbf{Decision Trees} \label{subsec: decisiontree}
+%Decision trees are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore labeled data is needed and we have given the strata. We used again \textbf{RapidMiner} for building trees based on different data sets. 
+%
+%\begin{figure}[!htbp]
+%\centering
+%\includegraphics[width = 0.9\textwidth]{DecisionTreeRapidModel.PNG}
+%\caption{Process for decision trees in RapidMiner}
+%\label{fig: RapDec}
+%\end{figure}
+%
+%RapidMiner does the following steps, to see in figure \ref{fig: RapDec}:
+%\begin{description}
+%	\item[Retrieve] includes the dataset
+%	\item[Select Attributes] makes it possible to or have a look at grouped strata or normal strata
+%	\item[Set Role] gives strata the label role, so that the decision tree has those as leafs
+%	\item[Multiply] clones the data set 
+%	\item[Decision Tree] creates the decision tree
+%	\item[Apply Model] is used creates the labeled data set for the \textbf{Performance} step
+%	\item[Performance] gives the performance result of the created model
+%\end{description}
+%
+%Furthermore we choose information gain as splitting criterium (minimal gain 0.1) and a confidence of 0.25. Other configuration does not show different results.
 
-Furthermore we choose information gain as splitting criterium (minimal gain 0.1) and a confidence of 0.25. Other configuration does not show different results.
+In the first step we apply the process on the \textit{original data set} and the resulting tree is just the leaf `strata 2'. So we try it with different other data sets and the best result we get is for \textit{stratified person data} equally distributed and just 200 data entries in every strata.
 
-In the first step we applied the process on the whole data set and the resulting tree was just the leaf "strata 2". So we tried it with different other data sets and the best result we got was for \textbf{stratified person data} equally distribute and just 200 in every strata group.
-
-\begin{figure}[!htbp]
+\begin{figure}[H]
 \centering
 \begin{subfigure}{0.9\textwidth}
 \includegraphics[width = \linewidth]{Dec200eqPrec.PNG}
@@ -40,4 +43,4 @@ In the first step we applied the process on the whole data set and the resulting
 \label{fig:DecVec}
 \end{figure}
 
-In figure \ref{fig:DecVec} the best and worst outcome can be seen for 6 clusters. For all othe configurations the outcome was similar, so just small data sets had a good result and big data sets had no really good result for our question, such that we still had no explicit result with which we could work.
+In \Cref{fig:DecVec} the best and worst outcome can be seen for 6 clusters. For all other configurations the outcome is similar, so just small data sets have an acceptable result and larger datasets have no sufficient results for our question.\\

@@ -1,0 +1,8 @@
+\section{Introduction} \label{sec: introduction}
+	% could add more in depth 
+	Within the time of Industry 4.0 and various data sources the question arises, if one can define who we are by the collected data? In particular is it possible to determine the wealth of a person, only given movements of a single day?
+	For this we considered the dataset stated in \cite{rich_do_not_rise_early}. There we have a set of 124979 rows of movement data of various persons from the Columbian town Medellín, which is the second largest Colombian town with an estimated population of 2.5 million as of 2017 \cite{population_number} . All the data was collected at a single day, with possibly multiple entries referring to the same person.\\
+	The data entries consist of data about the movement, like endpoints, length, and also some meta parameters like gender, age or the so-called strata of the person. The strata defines the socio-economic group, reflecting the affluence and therefore impose the ancillary costs. Those costs are defined by Colombians laws, which classifies households to regulate the access to public utility services, having as a result six socio-economic strata \cite{rich_do_not_rise_early}.\\
+	Our goal is to ascertain, if there is a correlation between the movements and the strata, in order to be able to predict the strata based on the movements. This is done in two steps:\\
+	First, by clustering using the k-means algorithm, considering different distance measures, with optionally including the principal component analysis (PCA).\\
+	And second, a decision tree and neural net were trained and tested.

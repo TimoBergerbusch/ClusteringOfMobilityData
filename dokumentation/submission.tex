@@ -32,7 +32,7 @@
 \usepackage{amsmath}
 \usepackage{cleveref}
 \usepackage{listings}
-
+\setlength{\parindent}{0em}
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
 % Used for displaying a sample figure. If possible, figure files should
@@ -68,234 +68,38 @@
 	%
 	\maketitle              % typeset the header of the contribution
 	%
-	\begin{abstract} %TODO
+	\begin{abstract}
 		We analyze movements in the urban environment of the Columbian city Medellín. Each movement is given as spatiotemporal pattern of with additional information about the reason, means of transportation and the corresponding person like the socio-economic status (strata), the age and gender. 
 		% Marías sentence
-		The objective of the paper is twofold: try to find groups of movement patterns and see whether they correspond to socio-economic stratus, and then, since we have the economic stratus of each person in the data set, we will apply supervised learning to classify patterns into stratus.
+		The objective of the paper is twofold: try to find groups of movement patterns and see, whether they correspond to socio-economic status, and then, since we have the economic status of each person in the data set, we will apply supervised learning to classify patterns into socio-economic status.
 %		Since in most cases we do not have information about the actual socio-economic status of persons we firstly try different unsupervised approaches to find natural clusters. Due to bad results we introduce our preprocessing steps and switch to supervised learning.		
-		Decision trees and neural networks did neither match our performance expectations which leads to our conclusion that we need more data and information about the data in order to find a proper social stratification and to predict the given socio-economic status accurately.
+		Decision trees and neural networks did neither match our performance expectations, which leads to our conclusion that we need more data and information about the data in order to find a proper social stratification and to predict the given socio-economic status accurately.
 		
-		\keywords{Data Mining \and Clustering \and Rapidminer \and Cluster \and Neural Nets} %TODO: maybe more
+		\keywords{Data Mining \and Clustering \and Rapidminer \and Cluster \and Neural Nets}
 	\end{abstract}
 	%
 	%
-	%
-	\section{Introduction} \label{sec: introduction}
-	% could add more in depth 
-	Within the time of Industry 4.0 and various data sources the question arises, if one can define who we are by the data collected? In particular is it possible to determine the wealth of a person, only given movements of a single day?
-	For this we considered the dataset stated in \cite{rich_do_not_rise_early}. There we have a set of 124979 rows of movement data from various persons from a Columbian town, called Medellín, which is the second largest Colombian town with an estimated population of 2.5 million as of 2017 \cite{population_number} . All the data was collected at a single day, with possibly multiple entries referring to the same person.\\
-	The data entries consist of data about the movement, like endpoints or length, and also some meta parameters like gender, age or the so-called strata of the person. The strata defines the socio-economic group, reflecting the affluence and therefore impose the ancillary costs. Those costs are defined by Colombians laws, which classifies households to regulate the access to public utility servies, having as a result six socio-economic strata \cite{rich_do_not_rise_early}\\
-	Our goal is to ascertain if there is a correlation between the movements and the strata, in order to be able to predict the strata based on the movements. This is done by clustering using the k-means algorithm, considering different distance measures, with optionally including the principal component analysis (PCA). In order to figure out the most important aspects of the data, a decision tree and neural net gets also trained and tested.
+	%	
+	\input{introduction.tex}
 	
-	\section{Theoretical backgrounds}
-	
-	\subsection{Clustering the data}
-	
-	In the field of \textit{Data Mining}, \textit{Cluster Analysis} or \textit{Clustering} is a process of grouping data objects from a dataset into multiple groups or clusters. The essential criterion for the quality of the clustering is a certain \textit{similarity}, such that data objects are similar to other objects in the same cluster and dissimilar to objects from other clusters. 
-	
-	In the scope of this work, we decided to use well-known partitioning methods such as k-means or k-medoids. In general, given $n$ data objects, partitioning methods distribute the data object into $k$ clusters with $k<n$, using a distance measure to evaluate the repsective similarity. Partitioning methods form exclusive clusters by ensuring that each cluster contains at least one object. Note that the number $k$ of clusters has to be chosen manually prior to the partitioning process.
-	
-	\subsubsection{k-Means}
-	
-	is a \textit{centroid based technique}, which means that each cluster is represented by a data point that also is the center of the cluster. A distance measure is then used to assigns every remaining data object from the data set to the best fitting cluster according to it's similarity to the center of this cluster and it's dissimilarity to the centers of any other cluster.
-	
-	The data objects within a dataset are considered to reside in a euclidean space. Thus, the euclidean distance is used to calculate a score for the similarity of two data points. When using k-Means, the quality of a cluster $C_i$ can be evaluated by computing the sum of squared erros between all data points $p$ in the object space and the centroids $c_i \in C_i$ of every cluster. This method is known as \textit{within-cluster variation} \cite{data_mining} and defined as follows: 
-	\begin{equation}
-		E = \sum_{i=1}^{k} \sum_{p \in C_i} dist(p, c_i)^2,
-	\end{equation}
-	Given $k$, the first step of k-Means is to select $k$ random objects in the data set as initial representatives for the cluster centers. After that, each remaining data object is assigned to the best fitting cluster in terms of similarity, based on a similarity score that is determined by the euclidean distance between the data point and every cluster center. The overall goal of k-Means clustering is to iteratively optimize the within-cluster variation. In order to achieve this, each cluster centroid is reassigned as the mean of all objects within that cluster. By considering the updated centroids, every data point is redistributed to the now best fitting cluster. This iterative process will continue, until no better clustering can be found, which means that the latest clustering equals the previous distribution.
-	
-	\subsection{Gower Distance}\label{gower}
-	
-	When clustering data with algorithms such as \textit{k-means}, the distance between datapoints is usually calculated by measures such as the Euclidean or Manhatten norm. These distance measures come with constraints though, since they are only defined for numerical variables. In the scope of this work, we are facing data points with mixed variable types, therefore we investigated the \textbf{Gower distance measure} as an appropriate measure to calculate an overall \textit{similarity} between mixed data points. The Gower distance measure distinguishes between three types of variables:\\
-	\\ \textbf{Binary} variables, where two variables of value 0 are \textit{not} considered a match \cite{gower1971general}. In the scope of this work, the only considerable candidate for a binary variable would have been \textit{gender}. Though, during our research process, we concluded that the similarity measure for binary variables was not a suitable choice, as the distance does not match 0 values. Hence, we consider all variables, that are not explicitly numerical, as categorical variables.\\
-	\textbf{Categorical} variables form a set of unordered values and are comparable to ENUMs in programming languages.\\	
-	\textbf{Numerical} variables hold ordered numerical values that support arithmetic operations.
-	
-	\subsubsection{Calculating the distances.}
-	
-	Given two data points $x$ and $y$, that each form a tuple of $v$ variables of arbitrary type, the similarity coefficient between the two points is given by
-	\begin{equation}\label{eq1}
-	S_{xy} = \sum_{k=1}^{v} s_{xy,k} / \sum_{k=1}^{v} \delta_{xy,k} 
-	\end{equation} 
-	where $s_{xy,k}$ denotes a \textit{score for the similarity} of the two variables at position $k$ in the data points $x$ and $y$. Note, that the definition of the score dependends on the type of the variable, as defined below. In the divisor, $\delta_{xy,k}$ basically represents the possibility of comparing the two variables at index $k$, such that it evaluates to 1, when the two variables are comparable and to 0 when not. For example, variables are not comparable, if values are undefined in the data points or the variable types do not match at index $k$, among other reasons. Within this work, the dataset is complete, therefore, $\sum_{k=1}^{v} \delta_{xy,k}=v$, the number of considered variables in each data point, for all $x, y$ in the data set. Thus, the similarity coefficient in (\ref{eq1}) can be interpreted as the average value of all similarity scores. 
-	With respect to the variable type, the similarity score $s_{xy,k}$ is defined as follows:\\
-	\\ \textbf{Binary:} The score for binary variables is basically the result of an logical AND operation. As pointed above, 0 values are not considered a match and even further, not considered to be comparable. Hence, the values result as in the table
-		\begin{center}
-			\begin{tabular}{l | c c c r}
-				i & 1 & 1 & 0 & 0 \\
-				j & 1 & 0 & 1 & 0 \\
-				\hline
-				$s_{xy,k}$ & 1 & 0 & 0 & 0 \\
-				$\delta_{xy,k}$ & 1 & 1 & 1 & 0
-			\end{tabular}
-		\end{center}	
-	\textbf{Categorical:} The similarity score of categorical variables is 1, if the variables are completely identical in $x$ and $y$ and 0, if they differ.\\
-	\\ \textbf{Numerical:} for numerical variables, the similarity score is calculated by
-		\begin{equation*}
-		s_{xy,k} = 1 - \frac{\vert x_k - y_k \vert}{range(k)}
-		\end{equation*}
-		where $range(k)$ is the total range of values, that the numerical variable at index $k$ can accept. This can be a global range of acceptable values for variable $k$ or chosen on the basis of the dataset.
+	\input{theoreticalBackground.tex}
 
+%	\input{preprocessing.tex}
 	
-	\section{Preprocessing}\label{sec: proprocessing}
-	In order to classify the given data into smaller test sets or mask different aspects, we have to perform some analysis.\\
-	We observe that even though we have 124979 individual lines defining a movement, there is one line defining a \texttt{NotANumber}-exception and therefore gets neglected for further usage.	\\
-	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments, the script is able to create all test sets considered by our clustering and neural net approaches.\\
-	We observe the following distribution over the whole dataset:\\
-	\begin{figure}[H]
-		\centering
-		\setlength\tabcolsep{.2cm}
-		\begin{tabular}{c|ccccccc}
-			strata &  1   &   2   &   3   &  4   &  5   &  6   & $\Sigma$ \\ \hline
-			abs   & 6963 & 52265 & 49404 & 8772 & 5536 & 2038 &  124978  \\
-			\%   & 5.57 & 41.82 & 39.53 & 7.02 & 4.43 & 1.63 &   100
-		\end{tabular}
-		\label{table: distribution normal}
-	\end{figure}
-	We observe that there is an upper bound on equal distribution through strata 6. It has at most 2038 individual elements.
-	Furthermore we have to make sure that  two different data points, which belong to the very same person, are assigned to the same cluster. To do so we compute the value \texttt{ID} which identifies each person and can be used to combine movements that are considered to be from the same person, i. e. two movements correspond with the very same person, if and only if they are consecutive in the original dataset and have the same strata, age and gender. This approach is taken since the surveys are concatenated sequentially and it is unlikely, that multiple consecutive movements with same strata, age, gender belong to two different persons.
-	\begin{figure}[H]
-		\centering
-		\setlength\tabcolsep{.2cm}
-		\begin{tabular}{c|ccccccc}
-			strata &  1   &   2   &   3   &  4   &  5   &  6  & $\Sigma$ \\ \hline
-			abs   & 3153 & 23367 & 21418 & 3497 & 2083 & 595 &  54113   \\
-			\%   & 5.83 & 43.18 & 39.58 & 6.46 & 3.85 & 1.1 &   100
-		\end{tabular}
-	\end{figure}
-	In Section \Cref{subsec: person vector data} we introduce vectors representing single persons. Since strata 6 is the smallest strata with 595 persons, it limits the size of an equally distributed dataset where each data point coincides with one person.
+	\section{Results}
+		
+	\subsection{Natural Clusters} \label{subsec: classification}
 	
-	\subsection{Stratified Person Data}\label{subsec: person vector data}
-	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person (c.f. \Cref{sec: proprocessing}), and all movements from that person.\\
-	Then we are able to compute the following vector, with 850 entries, for further usage, that combines all movements of the person:
-	\begin{align*}
-	\underbrace{\#o_1, \dots, \#o_{413}, \#d_1, \dots, \#d_{413}}_{2\cdot 413} ,
-	\underbrace{\mathit{AM}, \mathit{MD}, \mathit{PM}, \mathit{MN}}_{4}, 
-	\underbrace{\#r_1, \dots, \#r_7}_{7}, \\
-	\underbrace{\#\mathit{MoT}_1, \dots, \#\mathit{MoT}_7}_{7}, \underbrace{\mathit{S_{Dest}}, \mathit{S_{Dist}}, \mathit{G}, \mathit{A} ,\mathit{strata}, \mathit{strataGrouped}}_{6}
-	\end{align*}
-	with the following abbreviations ($1 \le i \le 413$, $1 \le j \le 7$):
-	\begin{multicols}{2}
-		\begin{itemize}
-			\setlength{\itemindent}{.4cm}
-			\item[$o_i$:]  the $i$-th origin data point
-			\item[$d_i$:]  the $i$-th destination data point
-			\item[$\mathit{AM}$:] movements at time stamp AM
-			\item[$\mathit{MD}$:] movements at time stamp MD
-			\item[$\mathit{PM}$:] movements at time stamp PM
-			\item[$\mathit{MN}$:] movements at time stamp MN
-			\item[$r_j$:] the $j$-th reason
-			\item[$\mathit{MoT}_j$:] the $j$-th mean of transportation
-			\item[$\mathit{S_{Dest}}$:] sum of all durations
-			\item[$\mathit{S_{Dist}}$:] sum of all distances
-			\item[$\mathit{G}$:] the gender
-			\item[$\mathit{A}$:] the age
-			\item[$strata$:] the strata (used for comparison)
-			\item[$strataGrouped$:] the aggregated stratas
-		\end{itemize}
-	\end{multicols}
-	\section{Predicting}
-	
-	\subsection{Distance Measures} \label{subsec: distance measures}
-	%TODO: distance measures
-	%TODO (1 page)
-	
-	\subsection{Classification} \label{subsec: classification}
-	%TODO: clustering
-	%TODO (5 pages)	
 	\input{MiriamClustering}
 
 	\input{DecisionTree}
-	%\subsection{Neural Net}
-	%TODO (5 pages)	
-	\subsection{Neural Net} \label{subsec: neural net}
-	In this section we want to further improve the accuracy of predicting the strata of one person by using neural networks. Like in the previous section, when we used decision trees, we need ground truth, in this case the strata, to be able to train the neural networks. For all the neural net computations we considered person vector data sets of different sizes (c.f. \Cref{subsec: person vector data}).\\
 	
-	We do this, because results on the normal datasets had an unacceptable performance, since only single movements and not complete paths of individuals are considered. An example training and performance measure is given in \Cref{fig: NN without vector} where unprocessed data is used. The performance is measured using 10-fold cross validation, i. e. the data is split into 10 subsets where in each iteration exactly one data set is used as test set and the other 9 as training set. The average value of the accuracy values lead
-	to the total accuracy value of the neural net.
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale = 0.4]{src/pic/NN_without_vector.png}
-		\caption{An example of a neural net trained without person vector data.}
-		\label{fig: NN without vector}
-	\end{figure}
+	\input{neuralnet.tex}
 	
-	In the following we consider 3 neural nets $\mathcal{N}_1,\mathcal{N}_2$ and $\mathcal{N}_3$, all having 4 hidden layers, 50 epochs and 10 iterations.	
-	As an example of other strata aggregation we combine the stratas 1--2, 3--4 and 5--6 together and call them $\mathcal{N}_i^\star$, for $i \in \{5,10,20\}$. This builds a superset of the original stratas and since the stratas themselves are logically connected this task should be easier to fulfill.\\
-	
-	For each neural net we are using equally distributed data sets with 100, 200 and the maximal amount of 595 individuals per strata which are provided by the \texttt{testDataGenerator} from \Cref{sec: proprocessing}. For every neural net and every set size we performed 5 independent runs and calculated the average over those accuracy values in order to have a sophisticated, comparable statements. 
-	\setlength\tabcolsep{.2cm}
-	\begin{figure}[H]
-		\centering
-		\begin{tabular}{|c|c|c|c|c|c|}
-			\hline
-			&   \#    &        & \multicolumn{3}{c|}{Set size} \\
-			Name           & Neurons &   AG   &  100  &  200  &      595      \\ \hline
-			$\mathcal{N}_5$      &    5    & \xmark & 60.03 & 59.92 &     60.18     \\
-			$\mathcal{N}_5^\star$   &    5    & \cmark & 87.6  & 89.7  &     71.05     \\
-			$\mathcal{N}_{10}$    &   10    & \xmark & 75.83 & 73.54 &     69.56     \\
-			$\mathcal{N}_{10}^\star$ &   10    & \cmark & 92.93 & 93.48 &     74.58     \\		
-			%		$\mathcal{N}_{10}^\star$ &   10    & \cmark & 88.33 {\small $\pm$7.49} & 90.67{\small $\pm$2.81} & 92.14 {\small $\pm$ 2.59} \\
-			$\mathcal{N}_{20}$    &   20    & \xmark & 75.45 & 71.14 &     61.87     \\
-			$\mathcal{N}_{20}^\star$ &   20    & \cmark & 92.87 & 94.4  &     78.32     \\ \hline
-		\end{tabular}
-		\caption{The accuracy values of the neural nets. (See excel-spreadsheet)}
-		\label{tab: nn-accuracy}
-		% mittels deep-learning-vector-average
-	\end{figure}
-	
-	%TODO: recompute
-	The size of larger nets in terms of neurons is counter-productive, since if we take 50 neurons per layer we have $14 \cdot 50^4 \cdot 6 \approxeq 525.000.000$ synapses for which the input data set would be too small to have sufficient training.\\
-	
-	\section{Observations} \label{sec: observation}
-	%	TODO (1 page)
-	%	TODO: restructure. Have like 3 parts
-	%	The greater the population, the more the borders between the stratas blur. 
-	As an overall result we get, that we can not determine the strata based on the information we have.
-	Using various datasets (c.f. \Cref{sec: proprocessing}), we witnessed that having equally distributed datasets lead to an overall higher accuracy. This rules out the bias observed in the original data, where strata 2 and 3 are very dominant (c.f. \Cref{table: distribution normal}), but also reduces the set size from originally 124978 to $6*2038=12228$ entries equally distributed over all stratas.\\
-	During clustering we observed, that using a different distance measure formula would not lead to a huge difference. Also, we detected that reducing the numbers of clusters leads to better results, which reduces the significance of result that could be stated.\\
-	Using a different neural net architecture will most likely not chance the accuracy value drastically. As stated, more complex nets need more training data, which is restricted as mentioned above.\\
-	What we can observe is, that using the stratified vectors, we are able to increase the performance and accuracy, but still have no sufficient predictions. Therefore we see that the more data we have the higher the variance within the stratas themselves is. We cannot draw some kind of lines to distinguish between different entries. Datapoints, which were outliers in the smaller sets, are now not considered to be outliers, because of large numbers having the same characteristics. So the lines, we were able to draw for smaller datasets, are blurring and create some kind of transition phase.\\ %TODO: letzter satz doof	
+	\input{observation.tex}
 	
 	
-	\section{Discussion} \label{sec: discussion}
-	%TODO: discussion
-%	TODO (2 page)
-%	\begin{itemize}
-%		\item repr. working day
-%		\item over/under std's
-%		\item indiv. of lifestyle
-%		\item inv. behaviour in same strata
-%	\end{itemize}
-	Regarding the results, of not predicting the strata and also not observing any meaningful clusters throughout the data in given and stratified form, we though about various aspects having an impact on the movement. We state 4 main influencing aspects, explaining the variance throughout the data.
-	
-	\subsection{Representativity of the day}
-	The day the data was collected on (c.f. \Cref{sec: introduction}) is not mentioned. Therefore we can not infer that it is representative. The people asked to enter their movement could have a exceptional day, like a vacation day, a doctors appointment or a broken car and therefore behave different from a usual day. \\
-	Also the day itself is not mentioned, so we don't have information if it was even a working day or a weekend. This influences the behavior drastically.
-	
-	\subsection{People living over/under standards}
-	There are a lot of people spending more or less money than they actually have. So for example there are people not earning a lot of money, but still having a car. Or people earning a lot, but spend it just on holidays or never for bad times.
-
-	\subsection{Individuality of lifestyle}
-	Obviously, people are individual in their way of life. So there are people, with enough money to buy for example a car, but refuse to in order to reduce CO$_2$ emission, or simply don't like driving. On the other end of the spectrum, some people, who have little money still own and drive a car daily in order to go to work, since they can't afford an other apartment.\\
-	One can think of multitude scenarios, of people behaving different, cause by their individuality.
-	
-	\subsection{Inverse behavior in a strata}
-	As an example, take a look at the strata 6, which denotes the richest people considered. Their we have inter alia two groups: 
-	\begin{enumerate}
-		\setlength{\itemindent}{1cm}
-		\item[1. Group]
-		Hard working people, laboring 60+ hours per weak to earn their money. One can imagine that they have to move quite a lot since they are always busy.
-		\item[2. Group]
-		People, who are rich just by birth, which don't have the necessity to work or move at all. They could possibly stay home and don't have to leave at all.
-	\end{enumerate} 
-	Those two groups are completely opposite, but still belong to the same strata. Now also considering strata one, we can find the exact same movement behavior in there as well. Within the poorest there are people that are wandering around the town via feet or bike, since they have no objective, like work. Also there are people, who don't move at all, because of the same reason.	
-	
-	So we can see that based on the information we have it is very unlikely to have a precise correlation between the given data and the strata. However given more information about the previously mentioned aspects and more entries in general there could be some kind correlation to be found.\\
-	Future work could include a component analysis of the decision tree and neural network in order to ascertain the influencing parts and therefore improve the data gathering. Also one could use different network visualization tools in order to infer their own patterns. An example would be to take the origin (destination) sectors as nodes, an edge if there is a movement, directed or undirected, and a different thickness or color gradient based on the number of this edge being taken.\\
-	
-	Overall we can conclude that with the data we got we are not able to find a correlation.
+	\input{conclusion}
 	
 	
 	\begin{thebibliography}{8}
@@ -319,5 +123,8 @@
 		
 		\bibitem{population_number}
 		Estimates and projections of the total national, departmental and municipal population by area 1985-2020 (XLS). NADS. Retrieved 1 September 2014.
+		
+		\bibitem{neuralNet}
+		Nasrabadi, Nasser M. "Pattern recognition and machine learning." Journal of electronic imaging 16.4 (2007): 049901.
 	\end{thebibliography}
 \end{document}

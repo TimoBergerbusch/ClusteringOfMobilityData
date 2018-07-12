@@ -1,0 +1,71 @@
+\subsection{Preprocessing}\label{sec: proprocessing}
+	In order to classify the given data into smaller test sets or mask different aspects, we have to perform some analysis.\\
+	We observe that even though we have 124979 individual lines defining a movement, there is one line defining a \texttt{NotANumber}-exception and therefore gets neglected for further usage.	\\
+	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments, the script is able to create all test sets used by our clustering and neural net approaches.\\
+	We observe the following distribution over the whole dataset:\\
+	
+	\vspace*{-3em}
+	\begin{figure}[H]
+		\centering		
+		\setlength\tabcolsep{.2cm}
+		\begin{tabular}{c|ccccccc}
+			strata &  1   &   2   &   3   &  4   &  5   &  6   & $\Sigma$ \\ \hline
+			abs   & 6963 & 52265 & 49404 & 8772 & 5536 & 2038 &  124978  \\
+			\%   & 5.57 & 41.82 & 39.53 & 7.02 & 4.43 & 1.63 &   100
+		\end{tabular}
+		\vspace*{-2.5em}
+		\label{table: distribution normal}
+	\end{figure}
+	There is an upper bound on equal distribution through strata 6. It has at most 2038 individual elements.
+	Furthermore we have to make sure that two different data points, which belong to the very same person, are assigned to the same cluster. To do so, we compute the value \texttt{ID}, which identifies each person and can be used to combine movements that are considered to be from the same person. I.e. two movements correspond with the very same person, if and only if they are consecutive in the original dataset and have the same strata, age and gender. This approach is taken since the surveys are concatenated sequentially and it is unlikely, that multiple consecutive movements with same strata, age, gender belong to two different persons.\\
+	
+	\vspace*{-3em}
+	\begin{figure}[H]
+		\centering
+		\setlength\tabcolsep{.2cm}
+		\begin{tabular}{c|ccccccc}
+			strata &  1   &   2   &   3   &  4   &  5   &  6  & $\Sigma$ \\ \hline
+			abs   & 3153 & 23367 & 21418 & 3497 & 2083 & 595 &  54113   \\
+			\%   & 5.83 & 43.18 & 39.58 & 6.46 & 3.85 & 1.1 &   100
+		\end{tabular}
+		\vspace*{-2.5em}
+	\end{figure}
+	Following, we introduce vectors representing single persons. Since strata 6 is the smallest strata with 595 persons, it limits the size of an equally distributed dataset where each data point coincides with one person.\\
+	
+	\textbf{Stratified Person Data}\label{subsubsec: person vector data}\\
+	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person (c.f. \Cref{sec: proprocessing}), and all movements from that person.\\
+	Then we are able to compute the following vector, with 850 entries, for further usage, that combines all movements of the person:
+	\begin{align*}
+	\underbrace{\#o_1, \dots, \#o_{413}, \#d_1, \dots, \#d_{413}}_{2\cdot 413} ,
+	\underbrace{\mathit{AM}, \mathit{MD}, \mathit{PM}, \mathit{MN}}_{4}, 
+	\underbrace{\#r_1, \dots, \#r_7}_{7}, \\
+	\underbrace{\#\mathit{MoT}_1, \dots, \#\mathit{MoT}_7}_{7}, \underbrace{\mathit{S_{Dest}}, \mathit{S_{Dist}}, \mathit{G}, \mathit{A} ,\mathit{strata}, \mathit{strataGrouped}}_{6}
+	\end{align*}
+	with the following abbreviations ($1 \le i \le 413$, $1 \le j \le 7$):
+	\begin{figure}[H]
+		\centering
+		\hspace*{-.3cm}
+		\begin{subfigure}{0.50\textwidth}
+		\begin{itemize}
+			\setlength{\itemindent}{.4cm}
+			\item[$o_i$:]  the $i$-th origin data point
+			\item[$d_i$:]  the $i$-th destination data point
+			\item[$\mathit{AM}$:] movements at time stamp AM
+			\item[$\mathit{MD}$:] movements at time stamp MD
+			\item[$\mathit{PM}$:] movements at time stamp PM
+			\item[$\mathit{MN}$:] movements at time stamp MN
+			\item[$r_j$:] the $j$-th reason
+		\end{itemize}
+	\end{subfigure}\hspace*{1cm}
+	\begin{subfigure}{0.48\textwidth}
+	\begin{itemize}
+			\item[$\mathit{MoT}_j$:] the $j$-th mean of transportation
+			\item[$\mathit{S_{Dest}}$:] sum of all durations
+			\item[$\mathit{S_{Dist}}$:] sum of all distances
+			\item[$\mathit{G}$:] the gender
+			\item[$\mathit{A}$:] the age
+			\item[$strata$:] the strata (used for comparison)
+			\item[$strataGrouped$:] the aggregated stratas
+		\end{itemize}
+	\end{subfigure}
+	\end{figure}

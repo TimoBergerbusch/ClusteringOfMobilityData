@@ -1,0 +1,139 @@
+\section{Methods}
+	
+	\input{preprocessing.tex}
+	
+	\subsection{Unsupervised learning}
+	\subsubsection{Clustering the data}
+	
+	is in the field of \textit{Data Mining}, \textit{Cluster Analysis} or \textit{Clustering} a process of grouping data objects from a dataset into multiple groups. The essential criterion, for the quality of the clustering, is \textit{similarity}, such that data objects are similar to other objects in the same cluster and dissimilar to objects from other clusters. 
+	
+	In the scope of this work, we decided to use the well-known partitioning methods k-means. In general, given $n$ data objects partitioning methods distribute the data objects into $k$ clusters with $k\le n$, using a distance measure to evaluate the respective similarity. 
+%	Those methods form exclusive clusters by ensuring that each cluster contains at least one object.
+	Note that the number $k$ of clusters has to be chosen manually a-priori and given to the partitioning process.
+	
+	\subsubsection{k-Means}
+	
+	is a \textit{centroid based technique}, which means that each cluster is represented by a data point, that also is the centre of the cluster. A distance measure is then used to assign every remaining data object from the data set to the best fitting cluster. This is done according to its similarity to the centre of this cluster and its dissimilarity to the centres of any other cluster.
+	
+	The data objects within a dataset are considered to reside in a euclidean space. Thus, the euclidean distance is used to calculate a score for the similarity of two data points. When using k-Means, the quality of a cluster $C_i$ can be evaluated by computing the sum of squared errors between all data points $p$ in the object space and the centroids $c_i \in C_i$ of every cluster. This method is known as \textit{within-cluster variation} \cite{data_mining} and defined as follows: 
+	\begin{equation}
+		E = \sum_{i=1}^{k} \sum_{p \in C_i} dist(p, c_i)^2,
+	\end{equation}
+	Given $k$, the first step of k-Means is to select $k$ random points as cluster centres. Those do not have to be actual data points.
+%	objects in the data set as initial representatives for the cluster centres.
+	After that, each remaining data object is assigned to the best fitting cluster based on a similarity score between the data point and every cluster centre. The overall goal of k-Means clustering is to iteratively optimize the within-cluster variation. In order to achieve this, each cluster centroid is redefined as the mean of all objects within that cluster. By considering the updated centroids, every data point is reassigned to the now best fitting cluster. This iterative process will continue until no better clustering can be found.\\
+%	\subsubsection{Clustering with RapidMiner}	
+	As a tool we considered RapidMiner, since it has many modules already efficiently implemented and is easy to adapt.
+	\vspace*{-2em}
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.9\textwidth]{ClusteringRapid.PNG}
+		\caption{Process of k-means clustering}
+		\label{fig: kclust}
+		\vspace*{-2em}
+	\end{figure}
+
+	The Process, \Cref{fig: kclust}, contains the following steps:\\
+	\begin{tabular}{r c l}
+		\textbf{Retrieve} & : &  gives the data into the process \\
+		\textbf{Generate ID} & : & creates an ID such that we can make the comparison\\
+		 & & step at the end through joining the sets\\
+		\textbf{Multiply} & : & creates two identical data sets\\
+		\textbf{Select Attributes} & : &  troughs away the strata before the clustering step,\\
+		& & everything except cluster and id after the clustering \\
+		& & and just keeps id and strata for the join step\\
+		\textbf{Clustering} & : &  runs the k-means clustering algorithm. The number of \\
+		& & Clusters has to be fixed \\
+		\textbf{Join} & : & For comparing the clustering result and the strata we \\
+		& & join the two filtered data sets by the id \\
+	\end{tabular}
+	
+	In the clustering block, we can choose between different distance measures and maximal step numbers. We keep the default configuration and choose the mixed euclidean distance measure.
+%	We decide to concentrate on almost everywhere basic configurations and chose the squared euclidean distance in the mixed version.
+\vspace*{-1em}
+	\subsubsection{Gower Distance}\label{gower}, in contrast to the popular distance measures, can also handle the mixed data within the given dataset. The Gower distance measure distinguishes between three types of variables: binary, categorical and numerical.
+%	When clustering data with algorithms such as \textit{k-means}, the distance between data points is usually calculated by measures such as the Euclidean or Manhattan norm.
+%	These distance measures come with constraints though, since they are only defined for numerical variables. 
+	%In the scope of this work, we are facing data points with mixed variable types.
+	%, therefore we investigated the \textbf{Gower distance measure} as an appropriate measure to calculate an overall \textit{similarity} between mixed data points. 
+%	\\ \textbf{Binary} variables, where two variables of value 0 are \textit{not} considered as match \cite{gower1971general}. In the scope of this work, the only considerable candidate for a binary variable would have been \textit{gender}. Though, during our research process, we concluded that the similarity measure for binary variables was not a suitable choice, as the distance does not match 0 values. Hence, we consider all variables, that are not explicitly numerical, as categorical variables.\\
+%	\textbf{Categorical} variables form a set of unordered values and are comparable to ENUMs in programming languages.\\	
+%	\textbf{Numerical} variables hold ordered numerical values that support arithmetic operations.
+%	\subsubsection{Calculating the distances}
+	The distance can be calculated as follows:
+	
+	Given two data points $x$ and $y$, each form a tuple of $v$ variables of arbitrary type, the similarity coefficient is given by
+	\begin{equation}\label{eq1}
+	S_{xy} = \sum_{k=1}^{v} s_{xy,k} / \sum_{k=1}^{v} \delta_{xy,k} 
+	\end{equation} 
+	where $s_{xy,k}$ denotes a \textit{score for the similarity} of the two variables at the $k$-th entry in the data points $x$ and $y$. Note, that the definition of the score depends on the
+	%Timo nervt
+	type of the variable, as defined below. In the divisor, $\delta_{xy,k}$ basically represents the possibility of comparing the two variables at index $k$, such that it evaluates to 1, if the two variables are comparable and to 0 if not. %PASS AUF
+	For example, variables are not comparable, if values are undefined in the data points or the variable types do not match. Within this work, the dataset is complete, therefore, $\sum_{k=1}^{v} \delta_{xy,k}=v$. Thus, the similarity coefficient in \hyperref[eq1]{(2)} can be interpreted as the average value of all similarity scores. 
+	With respect to the variable type, the similarity score $s_{xy,k}$ is defined as follows:\\
+	\\ \textbf{Binary:} The score for binary variables is basically the result of an logical AND operation. As pointed above, 0 values are not considered as a match and even further, not considered to be comparable. Hence, the values result as in the table
+		\begin{center}
+			\begin{tabular}{l | c c c r}
+				i & 1 & 1 & 0 & 0 \\
+				j & 1 & 0 & 1 & 0 \\
+				\hline
+				$s_{xy,k}$ & 1 & 0 & 0 & 0 \\
+				$\delta_{xy,k}$ & 1 & 1 & 1 & 0
+			\end{tabular}
+		\end{center}	
+	\textbf{Categorical:} The similarity score of categorical variables is 1, if the variables are completely identical in $x$ and $y$, and 0, if they differ.
+	
+	\textbf{Numerical:} For numerical variables, the similarity score is calculated by
+		\begin{equation*}
+		s_{xy,k} = 1 - \frac{\vert x_k - y_k \vert}{range(k)}
+		\end{equation*}
+		where $range(k)$ is the total range of values, that the numerical variable at index $k$ can accept. This can be a global maximum of acceptable values for variable $k$, or chosen on the basis of the dataset.
+		
+		
+	\subsection{Supervised learning}
+	
+	\subsubsection{Decision Trees} are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore labelled data is needed and we have given the strata. We used again RapidMiner for building trees based on different data sets. 
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width = 0.9\textwidth]{DecisionTreeRapidModel.PNG}
+		\caption{Process for decision trees in RapidMiner}
+		\label{fig: RapDec}
+	\end{figure}
+	
+	RapidMiner does the following steps, illustrated in \Cref{fig: RapDec}:
+	
+	\begin{tabular}{r c l}
+		\textbf{Retrieve} & : & includes the dataset\\
+		\textbf{Select Attributes} & : & makes it possible to or have a look at grouped\\
+		&& strata or normal strata\\
+		\textbf{Set Role} & : & gives strata the label role, so that the decision tree\\
+		&& has those as leafs\\
+		\textbf{Multiply} & : & clones the data set \\
+		\textbf{Decision Tree} &: & creates the decision tree\\
+		\textbf{Apply Model} & : & creates the labelled data set for the \textbf{Performance} step\\
+		\textbf{Performance} & : & gives the performance result of the created model\\
+	\end{tabular}
+	
+	Furthermore we choose information gain as splitting criterion (minimal gain 0.1) and a confidence of 0.25. Other configurations do not show different results.
+	
+	\subsubsection{Neural Net}
+	% TODO
+	% like k-means
+	are based on biology. In detail based on the neurons and synapses within the human brain. There a neuron fires to any further connected neurons, if a weighted sum minus a bias value is above a certain threshold.
+%	The individual weights and biases are learned by the net.
+	Through iteration-wise computing the result and comparing it to the expected outcome, called label and the use of various machine learning techniques the net is able to adjust the weights and biases \cite{neuralNet}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width = 0.9\textwidth]{RapidNN.PNG}
+	\end{figure}
+		\begin{tabular}{r c l}
+		\textbf{Retrieve} & : & includes the dataset\\
+		\textbf{Replace Missing Values} & : & ensure applicable data\\
+		\textbf{Discretize} & : & translates numerical to nominal data \\
+		\textbf{Set Role} & : & gives strata the label role, so that the decision tree\\
+		&& has those as leafs\\		
+		\textbf{Cross Validation} & : & models the neural network \\
+	\end{tabular}
+	
