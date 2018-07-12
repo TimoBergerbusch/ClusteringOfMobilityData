@@ -16,7 +16,7 @@ RapidMiner has different Modules for Clustering already implemented. We decided 
 The Process, figure \ref{fig: kclust}, contains the following steps:
 \begin{description}
 	\item[Retrieve] gives the data into the process. 
-  \item[Generate ID] creates an ID such that we can make the comparsion step at the end through joining the sets
+  \item[Generate ID] creates an ID such that we can make the comparison step at the end through joining the sets
   \item[Multiply] creates two identical data sets
   \item[Select Attrbiutes] thoughs away the strata before the clustering step, everything behalve cluster and id after the clustering and just keeps id and strata for the join step
 	\item[Clustering] runs the k-means clustering algorithm. The number of Clusters has to be fixed.
@@ -28,7 +28,7 @@ In the clustering block we can chose between different distance measures and max
 In the first step we tried to cluster the \textbf{Original Data} in \textbf{6 Cluster}. Therefore we retrieved the original data set in RapidMiner and chose k as 6.
 
 \ref{fig:OrgDist}. 
-\begin{figure}[!htbp]
+\begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -48,8 +48,8 @@ In the first step we tried to cluster the \textbf{Original Data} in \textbf{6 Cl
 
 In figure \ref{fig:OrgDist} is the result to see of the first try. Figure \ref{fig:OrgSt} shows the strata distribution as pie chart and \ref{fig:OrgCl} the resulted cluster distribution. It can already been seen, that the distributions are not similar. In the next step we tried it with more steps, but the result was not looking better.
 
-We asked ourselfs, if 6 cluster is not too fine, so we searched for \textbf{3 clusters} in the next step. The idea is to combine two stratas in 1, such that we just have 3 stratas left.
-\begin{figure}[!htbp]
+We asked ourselves, if 6 cluster is not too fine, so we searched for \textbf{3 clusters} in the next step. The idea is to combine two stratas in 1, such that we just have 3 stratas left.
+\begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering

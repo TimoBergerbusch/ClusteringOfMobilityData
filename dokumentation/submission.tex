@@ -60,7 +60,7 @@
 		Timo Bergerbusch\and
 		Walter Schikowski}
 	%
-	\authorrunning{T. Bergerbusch et al.} %TODO
+	\authorrunning{T. Bergerbusch et al.}
 	% First names are abbreviated in the running head.
 	% If there are more than two authors, 'et al.' is used.
 	%
@@ -69,7 +69,11 @@
 	\maketitle              % typeset the header of the contribution
 	%
 	\begin{abstract} %TODO
-		We analyze movements in the urban environment of the columbian city Medellín. Each movement is given as spatiotemporal pattern of with additional information about the reason, means of transportation and the corresponding person like the socio-economic status (strata), the age and gender. Since in most cases we do not have information about the actual socio-economic status of persons we firstly try different unsupervised approaches to find natural clusters. Due to bad results we introduce our preprocessing steps and switch to supervised learning. Decision trees and neural networks did neither match our performance expectations which leads to our conclusion that we need more data and information about the data in order to find a proper social stratification and to predict the given socio-economic status accurately.
+		We analyze movements in the urban environment of the Columbian city Medellín. Each movement is given as spatiotemporal pattern of with additional information about the reason, means of transportation and the corresponding person like the socio-economic status (strata), the age and gender. 
+		% Marías sentence
+		The objective of the paper is twofold: try to find groups of movement patterns and see whether they correspond to socio-economic stratus, and then, since we have the economic stratus of each person in the data set, we will apply supervised learning to classify patterns into stratus.
+%		Since in most cases we do not have information about the actual socio-economic status of persons we firstly try different unsupervised approaches to find natural clusters. Due to bad results we introduce our preprocessing steps and switch to supervised learning.		
+		Decision trees and neural networks did neither match our performance expectations which leads to our conclusion that we need more data and information about the data in order to find a proper social stratification and to predict the given socio-economic status accurately.
 		
 		\keywords{Data Mining \and Clustering \and Rapidminer \and Cluster \and Neural Nets} %TODO: maybe more
 	\end{abstract}
@@ -77,12 +81,11 @@
 	%
 	%
 	\section{Introduction} \label{sec: introduction}
-	%	TODO (1 page)
-	% could at more in depth 
+	% could add more in depth 
 	Within the time of Industry 4.0 and various data sources the question arises, if one can define who we are by the data collected? In particular is it possible to determine the wealth of a person, only given movements of a single day?
-	For this we considered the dataset stated in \cite{rich_do_not_rise_early}. There we have a set of 124979 rows of movement data from various persons from a Columbian town, called Medellín. All the data was collected at a single day, with possibly multiple entries referring to the same person.\\
-	The data entries consist of data about the movement, like endpoints or length, and also some meta parameters like gender, age or the so-called strata of the person. The strata defines the socio-economic group, reflecting the affluence and therefore impose the ancillary costs.\\
-	Our goal is to ascertain if there is a correlation between the movements and the strata. 
+	For this we considered the dataset stated in \cite{rich_do_not_rise_early}. There we have a set of 124979 rows of movement data from various persons from a Columbian town, called Medellín, which is the second largest Colombian town with an estimated population of 2.5 million as of 2017 \cite{population_number} . All the data was collected at a single day, with possibly multiple entries referring to the same person.\\
+	The data entries consist of data about the movement, like endpoints or length, and also some meta parameters like gender, age or the so-called strata of the person. The strata defines the socio-economic group, reflecting the affluence and therefore impose the ancillary costs. Those costs are defined by Colombians laws, which classifies households to regulate the access to public utility servies, having as a result six socio-economic strata \cite{rich_do_not_rise_early}\\
+	Our goal is to ascertain if there is a correlation between the movements and the strata, in order to be able to predict the strata based on the movements. This is done by clustering using the k-means algorithm, considering different distance measures, with optionally including the principal component analysis (PCA). In order to figure out the most important aspects of the data, a decision tree and neural net gets also trained and tested.
 	
 	\section{Theoretical backgrounds}
 	
@@ -164,8 +167,7 @@
 	In Section \Cref{subsec: person vector data} we introduce vectors representing single persons. Since strata 6 is the smallest strata with 595 persons, it limits the size of an equally distributed dataset where each data point coincides with one person.
 	
 	\subsection{Stratified Person Data}\label{subsec: person vector data}
-	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person %TODO: ref zu code basics
-	, and all movements from that person.\\
+	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person (c.f. \Cref{sec: proprocessing}), and all movements from that person.\\
 	Then we are able to compute the following vector, with 850 entries, for further usage, that combines all movements of the person:
 	\begin{align*}
 	\underbrace{\#o_1, \dots, \#o_{413}, \#d_1, \dots, \#d_{413}}_{2\cdot 413} ,
@@ -314,5 +316,8 @@
 		\emph{Data mining: concepts and techniques},
 		Elsevier, pp. 444-454,
 		2011.
+		
+		\bibitem{population_number}
+		Estimates and projections of the total national, departmental and municipal population by area 1985-2020 (XLS). NADS. Retrieved 1 September 2014.
 	\end{thebibliography}
 \end{document}
