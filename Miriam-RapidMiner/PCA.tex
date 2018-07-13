@@ -1,5 +1,6 @@
 \section{PCA}
 
+
 \textbf{PCA} uses an orthogonal transformation (vectors multiplied are 0) to
 convert a dataset with maybe correlated datas into a dataset without
 correlations.
@@ -8,7 +9,7 @@ The first component has to satisfy the following:
 
 \begin{align*}
 w_1 &= \text{argmax}_{||w|| = 1} \{\sum_i (t_1)_i^2\}\\
-	&= \text{argmax}_{||w|| = 1} \{\sum_i (x_iw)^2\}\\
+  &= \text{argmax}_{||w|| = 1} \{\sum_i (x_iw)^2\}\\
 \end{align*}
 Which is achieved by the corresponding eigenvector.
 
@@ -16,11 +17,10 @@ The next components need to fullfill:
 \begin{align*}
 \hat{X}_k &= X - \sum_{s=1}^{k-1} Xw_sw_s^T\\
 w_k &= \text{argmax}_{||w|| = 1} \{||\hat{X}_kw||^2\}\\
-	&= \text{argmax}_{||w|| = 1} \{\frac{w^T\hat{X}_k^T\hat{X}_kw}{w^Tw}\}\\
+  &= \text{argmax}_{||w|| = 1} \{\frac{w^T\hat{X}_k^T\hat{X}_kw}{w^Tw}\}\\
 \end{align*}
 
 Based on the "weight matrix" a mapping is possible from the original space to a new space in which the dataset is uncorrelated. Also the dimension can be reduced on this manner.
-
 
 Rapidminer has a tool applying the PCA algorithm on a given dataset. The Output are 
 new attributes, which are a combination of the old ones. 
@@ -30,12 +30,12 @@ new attributes, which are a combination of the old ones.
 
 The Process does the following steps:
 \begin{description}
-	\item[Retrieve] This Block gives the data in the process. For the comparison at the end we also retrieve the original data.
-	\item[Nominal to Numerical] This changes the nominal data to numerical data, so that we can apply PCA in the next step
-	\item[PCA] Here we apply the PCA reduction to the data with a variance threshold $0.95$
-	\item[Clustering] Here the number of Clusters has to be fixed. We decided, that 10 runs should be enough. We can choose between differend measure types and tried mixed euclidean and squared euclidean distance
-	\item[Select Attribute] Here we just pick the Strata data for comparing with the clustering
-	\item[Join] For comparing the Clustering and the Strata we join the two filtered data sets at the ID
+  \item[Retrieve] This Block gives the data in the process. For the comparison at the end we also retrieve the original data.
+  \item[Nominal to Numerical] This changes the nominal data to numerical data, so that we can apply PCA in the next step
+  \item[PCA] Here we apply the PCA reduction to the data with a variance threshold $0.95$
+  \item[Clustering] Here the number of Clusters has to be fixed. We decided, that 10 runs should be enough. We can choose between differend measure types and tried mixed euclidean and squared euclidean distance
+  \item[Select Attribute] Here we just pick the Strata data for comparing with the clustering
+  \item[Join] For comparing the Clustering and the Strata we join the two filtered data sets at the ID
 \end{description}
 
 This is the basis for all datasets, where we set the role of id to id by adding the dataset to RapidMiner.

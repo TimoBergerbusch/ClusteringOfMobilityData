@@ -23,17 +23,21 @@
 %	objects in the data set as initial representatives for the cluster centres.
 	After that, each remaining data object is assigned to the best fitting cluster based on a similarity score between the data point and every cluster centre. The overall goal of k-Means clustering is to iteratively optimize the within-cluster variation. In order to achieve this, each cluster centroid is redefined as the mean of all objects within that cluster. By considering the updated centroids, every data point is reassigned to the now best fitting cluster. This iterative process will continue until no better clustering can be found.\\
 %	\subsubsection{Clustering with RapidMiner}	
+
+
 	As a tool we considered RapidMiner, since it has many modules already efficiently implemented and is easy to adapt.
+
 	\vspace*{-2em}
-	\begin{figure}[!htbp]
+	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{ClusteringRapid.PNG}
 		\caption{Process of k-means clustering}
 		\label{fig: kclust}
-		\vspace*{-2em}
+		%\vspace*{-2em}
 	\end{figure}
 
 	The Process, \Cref{fig: kclust}, contains the following steps:\\
+
 	\begin{tabular}{r c l}
 		\textbf{Retrieve} & : &  gives the data into the process \\
 		\textbf{Generate ID} & : & creates an ID such that we can make the comparison\\
@@ -88,17 +92,69 @@
 		s_{xy,k} = 1 - \frac{\vert x_k - y_k \vert}{range(k)}
 		\end{equation*}
 		where $range(k)$ is the total range of values, that the numerical variable at index $k$ can accept. This can be a global maximum of acceptable values for variable $k$, or chosen on the basis of the dataset.
+
+\subsubsection{Principal component analysis}
+
+\textit{PCA} uses an orthogonal transformation to convert a dataset with correlated datas into a dataset without correlations and decreased dimension. This is a helpful technique to have a better understanding of the data complexity as well as an improvment of time consumption in further steps.
+
+The first component for the PCA transformation has to satisfy the following:
+
+\vspace*{-1em}
+\begin{align*}
+w_1 &= \text{argmax}_{||w|| = 1} \{\sum_i (t_1)_i^2\}\\
+	&= \text{argmax}_{||w|| = 1} \{\sum_i (x_iw)^2\}
+	\vspace*{-2em}
+\end{align*}
+
+
+Which is achieved by the corresponding eigenvector.
+
+The next components need to fullfill:
+\begin{align*}
+\hat{X}_k &= X - \sum_{s=1}^{k-1} Xw_sw_s^T\\
+w_k &= \text{argmax}_{||w|| = 1} \{||\hat{X}_kw||^2\}\\
+	&= \text{argmax}_{||w|| = 1} \{\frac{w^T\hat{X}_k^T\hat{X}_kw}{w^Tw}\}
+	\vspace*{-1em}
+\end{align*}
+
+Based on the 'weight matrix' a mapping is possible from the original space to a new space in which the dataset is uncorrelated. 
+	
+	\vspace*{-1em}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{PCAClustering}
+	\caption{RapidMiner process for PCA and k-means}
+	\label{fig:PCA}
+	\vspace*{-2em}
+	\end{figure}
+
+The Process does the following steps, like in \Cref{fig:PCA} visible:
+
+\begin{tabular}{r c l}
+	\textbf{Retrieve} & : & gives the data in the process.\\
+	\textbf{Generate Id} & : & creates an idea for the join later\\
+	\textbf{Select Attribute} & : & just gives the chosen attributes back\\
+	\textbf{Nominal to Numerical} & : & changes the nominal data to numerical data, so \\
+	&&that we can apply PCA in the next step \\
+	\textbf{PCA} & : & applys the PCA reduction to the data\\
+	&& threshold $0.95$ \\
+	\textbf{Clustering} & : &  clusters the given data \\
+	\textbf{Join} & : & joins the clustering outcome and the strata by the\\
+	&& ID\\
+\end{tabular}	
 		
 		
 	\subsection{Supervised learning}
 	
 	\subsubsection{Decision Trees} are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore labelled data is needed and we have given the strata. We used again RapidMiner for building trees based on different data sets. 
-	
-	\begin{figure}[!htbp]
+
+	\vspace*{-2em}
+	\begin{figure}[H]
 		\centering
 		\includegraphics[width = 0.9\textwidth]{DecisionTreeRapidModel.PNG}
 		\caption{Process for decision trees in RapidMiner}
 		\label{fig: RapDec}
+		\vspace*{-1.5em}
 	\end{figure}
 	
 	RapidMiner does the following steps, illustrated in \Cref{fig: RapDec}:
@@ -116,7 +172,8 @@
 	\end{tabular}
 	
 	Furthermore we choose information gain as splitting criterion (minimal gain 0.1) and a confidence of 0.25. Other configurations do not show different results.
-	
+	\vspace*{-1em}
+
 	\subsubsection{Neural Net}
 	% TODO
 	% like k-means
@@ -124,11 +181,15 @@
 %	The individual weights and biases are learned by the net.
 	Through iteration-wise computing the result and comparing it to the expected outcome, called label and the use of various machine learning techniques the net is able to adjust the weights and biases \cite{neuralNet}.
 	
+	\vspace*{-2em}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width = 0.9\textwidth]{RapidNN.PNG}
+		\caption{RapidMiner process for neural nets}
+		\vspace*{-1em}
 	\end{figure}
-		\begin{tabular}{r c l}
+	
+	\begin{tabular}{r c l}
 		\textbf{Retrieve} & : & includes the dataset\\
 		\textbf{Replace Missing Values} & : & ensure applicable data\\
 		\textbf{Discretize} & : & translates numerical to nominal data \\

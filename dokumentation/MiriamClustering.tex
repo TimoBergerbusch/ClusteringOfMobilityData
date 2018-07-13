@@ -114,7 +114,7 @@ After those not convincing results we applied the process to the \textit{stratif
 The results for the whole data set without equalization are shown in \Cref{fig:2038_Clust}. We change the number of steps to 1000 for comparison and the result, illustrated in \Cref{fig:1000vect}, lets us assume, that 3 clusters would fit better. 
 
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.69\textwidth]{vectorClustering31000.PNG}
 \caption{1000 steps clustering in 3 clusters on maximal stratified person dataset}
@@ -125,3 +125,40 @@ The results for the whole data set without equalization are shown in \Cref{fig:2
 
 
 %PCA?
+
+As an improvent of time behaviour and as a further we apply the PCA process on the \textit{original data} without strata and a variance
+threshold of 0.95. We get two Attributes, so we can assume, that the data is strongly corrleated. As expected the computating time decreases a lot for the whole process of clustering. 
+
+
+\begin{figure}[H]
+\vspace*{-1em}
+\centering
+\begin{subfigure}{.3\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{ClusterPCAOrigRapidStrata.PNG}
+  \caption{Strata}
+  \label{fig:PCAOrgSt}
+\end{subfigure}%
+\begin{subfigure}{.3\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{ClusterPCAOrigRapidCluster.PNG}
+  \caption{Cluster}
+  \label{fig:PCAOrgCl}
+\end{subfigure}
+\begin{subfigure}{.3\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{ClusterPCAOrigRapidCluster2Cluster.PNG}
+  \caption{3Cluster}
+  \label{fig:PCAOrgCl3}
+\end{subfigure}
+\caption{Distribution of original data}
+\label{fig:PCAOrgDist}
+\vspace*{-2em}
+\end{figure}
+
+For a clustering of 6 clusters we get a distribution, which can be seen in \Cref{fig:PCAOrgDist}, similar to the one we got from the k-means process with the same comfigurations. 
+For a clustering of 3 clusters we get again results, that are not clear, visible in \Cref{fig:PCAOrgCl3}.
+
+
+Using different dataset results in comparable unrewarding result.
+\vspace*{-2em}
