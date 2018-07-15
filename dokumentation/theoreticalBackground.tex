@@ -13,7 +13,7 @@
 	
 	\subsubsection{k-Means}
 	
-	is a \textit{centroid based technique}, which means that each cluster is represented by a data point, that also is the centre of the cluster. A distance measure is then used to assign every remaining data object from the data set to the best fitting cluster. This is done according to its similarity to the centre of this cluster and its dissimilarity to the centres of any other cluster.
+	is a \textit{centroid based technique}, which means that each cluster is represented by a data point, which at the same time is the centre of the cluster. A distance measure is then used to assign every remaining data object from the data set to the best fitting cluster. This is done according to its similarity to the centre of this cluster and its dissimilarity to the centres of any other cluster.
 	
 	The data objects within a dataset are considered to reside in a euclidean space. Thus, the euclidean distance is used to calculate a score for the similarity of two data points. When using k-Means, the quality of a cluster $C_i$ can be evaluated by computing the sum of squared errors between all data points $p$ in the object space and the centroids $c_i \in C_i$ of every cluster. This method is known as \textit{within-cluster variation} \cite{data_mining} and defined as follows: 
 	\begin{equation}
@@ -40,16 +40,16 @@
 
 	\begin{tabular}{r c l}
 		\textbf{Retrieve} & : &  gives the data into the process \\
-		\textbf{Generate ID} & : & creates an ID such that we can make the comparison\\
+		\textbf{Generate ID} & : & creates an ID so we can make the comparison\\
 		 & & step at the end through joining the sets\\
 		\textbf{Multiply} & : & creates two identical data sets\\
-		\textbf{Select Attributes} & : &  troughs away the strata before the clustering step,\\
-		& & everything except cluster and id after the clustering \\
+		\textbf{Select Attributes} & : &  throws away the strata before the clustering step,\\
+		& & everything except cluster and ID after the clustering \\
 		& & and just keeps id and strata for the join step\\
 		\textbf{Clustering} & : &  runs the k-means clustering algorithm. The number of \\
 		& & Clusters has to be fixed \\
 		\textbf{Join} & : & For comparing the clustering result and the strata we \\
-		& & join the two filtered data sets by the id \\
+		& & join the two filtered data sets by the ID \\
 	\end{tabular}
 	
 	In the clustering block, we can choose between different distance measures and maximal step numbers. We keep the default configuration and choose the mixed euclidean distance measure.
@@ -75,7 +75,7 @@
 	type of the variable, as defined below. In the divisor, $\delta_{xy,k}$ basically represents the possibility of comparing the two variables at index $k$, such that it evaluates to 1, if the two variables are comparable and to 0 if not. %PASS AUF
 	For example, variables are not comparable, if values are undefined in the data points or the variable types do not match. Within this work, the dataset is complete, therefore, $\sum_{k=1}^{v} \delta_{xy,k}=v$. Thus, the similarity coefficient in \hyperref[eq1]{(2)} can be interpreted as the average value of all similarity scores. 
 	With respect to the variable type, the similarity score $s_{xy,k}$ is defined as follows:\\
-	\\ \textbf{Binary:} The score for binary variables is basically the result of an logical AND operation. As pointed above, 0 values are not considered as a match and even further, not considered to be comparable. Hence, the values result as in the table
+	\\ \textbf{Binary:} The score for binary variables is basically the result of an logical AND operation. As pointed out above, 0 values are not considered as a match such not even considered to be comparable. Hence, the values result as in the table
 		\begin{center}
 			\begin{tabular}{l | c c c r}
 				i & 1 & 1 & 0 & 0 \\
@@ -95,7 +95,7 @@
 
 \subsubsection{Principal component analysis}
 
-\textit{PCA} uses an orthogonal transformation to convert a dataset with correlated datas into a dataset without correlations and decreased dimension. This is a helpful technique to have a better understanding of the data complexity as well as an improvment of time consumption in further steps.
+\textit{PCA} uses an orthogonal transformation to convert a dataset with correlated datas into a dataset without correlations and decreased dimension. This is a helpful technique to get a better understanding of the data complexity as well as decreasing the amount of time consumption in further steps.
 
 The first component for the PCA transformation has to satisfy the following:
 
@@ -128,15 +128,15 @@ Based on the 'weight matrix' a mapping is possible from the original space to a 
 	\vspace*{-2em}
 	\end{figure}
 
-The Process does the following steps, like in \Cref{fig:PCA} visible:
+The Process does the following steps, visible in \Cref{fig:PCA}:
 
 \begin{tabular}{r c l}
-	\textbf{Retrieve} & : & gives the data in the process.\\
+	\textbf{Retrieve} & : & imports the data in the process.\\
 	\textbf{Generate Id} & : & creates an idea for the join later\\
-	\textbf{Select Attribute} & : & just gives the chosen attributes back\\
+	\textbf{Select Attribute} & : & gives the chosen attributes back\\
 	\textbf{Nominal to Numerical} & : & changes the nominal data to numerical data, so \\
 	&&that we can apply PCA in the next step \\
-	\textbf{PCA} & : & applys the PCA reduction to the data\\
+	\textbf{PCA} & : & applies the PCA reduction to the data\\
 	&& threshold $0.95$ \\
 	\textbf{Clustering} & : &  clusters the given data \\
 	\textbf{Join} & : & joins the clustering outcome and the strata by the\\
@@ -146,7 +146,7 @@ The Process does the following steps, like in \Cref{fig:PCA} visible:
 		
 	\subsection{Supervised learning}
 	
-	\subsubsection{Decision Trees} are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore labelled data is needed and we have given the strata. We used again RapidMiner for building trees based on different data sets. 
+	\subsubsection{Decision Trees} are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore, labelled data is needed and we have given the strata. We again used RapidMiner for building trees based on different data sets. 
 
 	\vspace*{-2em}
 	\begin{figure}[H]
@@ -161,7 +161,7 @@ The Process does the following steps, like in \Cref{fig:PCA} visible:
 	
 	\begin{tabular}{r c l}
 		\textbf{Retrieve} & : & includes the dataset\\
-		\textbf{Select Attributes} & : & makes it possible to or have a look at grouped\\
+		\textbf{Select Attributes} & : & makes it possible to have a look at grouped\\
 		&& strata or normal strata\\
 		\textbf{Set Role} & : & gives strata the label role, so that the decision tree\\
 		&& has those as leafs\\

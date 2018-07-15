@@ -26,9 +26,9 @@ In the first step we try to cluster the \textit{Original Data} in \textit{6 Clus
 \end{figure}
 \vspace*{-1.5em}
 
-In \Cref{fig:OrgDist} is the result to see of the first try. \Cref{fig:OrgSt} shows the strata distribution as pie chart and \Cref{fig:OrgCl} the resulted cluster distribution. It can already been seen, that the distributions are not similar. For more steps the outcome is analogous.
+\Cref{fig:OrgDist} is the result of the first try. \Cref{fig:OrgSt} shows the strata distribution as pie chart and \Cref{fig:OrgCl} the resulted cluster distribution. It can already been seen, that the distributions are not similar. For more steps the outcome is analogous.
 
-The next idea is: are 6 cluster too fine? Based on the grouped strata we look at 3 clusters.
+The next idea is: are 6 cluster too specific? Based on the grouped strata we look at 3 clusters.
 
 \begin{figure}[H]
 \centering
@@ -58,7 +58,7 @@ The next idea is: are 6 cluster too fine? Based on the grouped strata we look at
 %#BloederKommentar
 %#0:15
 
-\Cref{fig:OrgDist3Cl} looks promising, so we had a look at the cluster distribution in the 3 grouped stratas, visualized \Cref{fig:Groupdist}. It can be seen, that all clusters appear in all grouped strata. 
+\Cref{fig:OrgDist3Cl} looks promising, so we had a look at the cluster distribution in the 3 grouped stratas, visualized in \Cref{fig:Groupdist}. It can be seen, that all clusters appear in all grouped strata. 
 
 \begin{figure}[!htbp]
 \vspace{-3em}
@@ -121,13 +121,12 @@ The results for the whole data set without equalization are shown in \Cref{fig:2
 \label{fig:1000vect3}
 \end{figure}
 
-\Cref{fig:1000vect3} shows clearly, that again no correlation can be found. Applying the procedure to the different datasets we generated creates similar results.
+\Cref{fig:1000vect3} shows clearly, that again no correlation can be found. Applying the procedure to the different datasets we generate similar results.
 
 
 %PCA?
-
-As an improvent of time behaviour and as a further we apply the PCA process on the \textit{original data} without strata and a variance
-threshold of 0.95. We get two Attributes, so we can assume, that the data is strongly corrleated. As expected the computating time decreases a lot for the whole process of clustering. 
+To save time we apply the PCA process on the \textit{original data} without strata and a variance
+threshold of 0.95. We get two Attributes, so we can assume, that the data is strongly correlated. As expected the computing time decreases a lot for the whole process of clustering. 
 
 
 \begin{figure}[H]
@@ -156,9 +155,9 @@ threshold of 0.95. We get two Attributes, so we can assume, that the data is str
 \vspace*{-2em}
 \end{figure}
 
-For a clustering of 6 clusters we get a distribution, which can be seen in \Cref{fig:PCAOrgDist}, similar to the one we got from the k-means process with the same comfigurations. 
-For a clustering of 3 clusters we get again results, that are not clear, visible in \Cref{fig:PCAOrgCl3}.
+For a clustering of 6 clusters we get a distribution, which can be seen in \Cref{fig:PCAOrgDist}, similar to the one we get from the k-means process with the same configurations. 
+For a clustering of 3 clusters we again get results, that are unclear(\Cref{fig:PCAOrgCl3}).
 
 
-Using different dataset results in comparable unrewarding result.
+Using different dataset results in comparable unrewarding results.
 \vspace*{-2em}

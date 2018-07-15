@@ -1,6 +1,6 @@
 \subsection{Preprocessing}\label{sec: proprocessing}
 	In order to classify the given data into smaller test sets or mask different aspects, we have to perform some analysis.\\
-	We observe that even though we have 124979 individual lines defining a movement, there is one line defining a \texttt{NotANumber}-exception and therefore gets neglected for further usage.	\\
+	We observe that even though we have 124979 individual lines defining a movement, there is 1 line defining a \texttt{NotANumber}-exception and therefore gets excluded from further usage.	\\
 	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments, the script is able to create all test sets used by our clustering and neural net approaches.\\
 	We observe the following distribution over the whole dataset:\\
 	
@@ -17,7 +17,7 @@
 		\label{table: distribution normal}
 	\end{figure}
 	There is an upper bound on equal distribution through strata 6. It has at most 2038 individual elements.
-	Furthermore we have to make sure that two different data points, which belong to the very same person, are assigned to the same cluster. To do so, we compute the value \texttt{ID}, which identifies each person and can be used to combine movements that are considered to be from the same person. I.e. two movements correspond with the very same person, if and only if they are consecutive in the original dataset and have the same strata, age and gender. This approach is taken since the surveys are concatenated sequentially and it is unlikely, that multiple consecutive movements with same strata, age, gender belong to two different persons.\\
+	Furthermore, we have to make sure that two different data points, which belong to the very same person, are assigned to the same cluster. To do so, we compute the value \texttt{ID}, which identifies each person and can be used to combine movements that are considered to be from the same person. I.e. two movements correspond with the very same person, if and only if they are consecutive in the original dataset and have the same strata, age and gender. This approach is taken since the surveys are concatenated sequentially and it is unlikely, that multiple consecutive movements with same strata, age, gender belong to two different persons.\\
 	
 	\vspace*{-3em}
 	\begin{figure}[H]

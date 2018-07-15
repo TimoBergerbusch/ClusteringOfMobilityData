@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.6.7)  13 JUL 2018 02:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.6.7)  15 JUL 2018 10:40
 entering extended mode
 **"C:/Users/Miriam Wagner/Desktop/ClusteringOfMobilityData/dokumentation/submis
 sion.tex"
@@ -1288,20 +1288,20 @@ Clustering31000.PNG>]
 <ClusterPCAOrigRapidStrata.PNG, id=161, 454.19687pt x 362.85562pt>
 File: ClusterPCAOrigRapidStrata.PNG Graphic file (type png)
 <use ClusterPCAOrigRapidStrata.PNG>
-Package pdftex.def Info: ClusterPCAOrigRapidStrata.PNG  used on input line 138.
+Package pdftex.def Info: ClusterPCAOrigRapidStrata.PNG  used on input line 137.
 
 (pdftex.def)             Requested size: 93.72365pt x 74.87311pt.
 <ClusterPCAOrigRapidCluster.PNG, id=162, 468.24937pt x 354.32375pt>
 File: ClusterPCAOrigRapidCluster.PNG Graphic file (type png)
 <use ClusterPCAOrigRapidCluster.PNG>
-Package pdftex.def Info: ClusterPCAOrigRapidCluster.PNG  used on input line 144
+Package pdftex.def Info: ClusterPCAOrigRapidCluster.PNG  used on input line 143
 .
 (pdftex.def)             Requested size: 93.72365pt x 70.91756pt.
 <ClusterPCAOrigRapidCluster2Cluster.PNG, id=163, 444.15938pt x 354.82562pt>
 File: ClusterPCAOrigRapidCluster2Cluster.PNG Graphic file (type png)
 <use ClusterPCAOrigRapidCluster2Cluster.PNG>
 Package pdftex.def Info: ClusterPCAOrigRapidCluster2Cluster.PNG  used on input 
-line 150.
+line 149.
 (pdftex.def)             Requested size: 93.72365pt x 74.87291pt.
 ) (DecisionTree.tex
 <Dec200eqPrec.PNG, id=166, 591.71063pt x 183.68625pt>
@@ -1318,20 +1318,13 @@ Package pdftex.def Info: decvec585pre.PNG  used on input line 38.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [11 <./ClusterPCAOrigRapidStrata.PNG> <./ClusterPCAOrigRapidCluster.PNG> <./Cl
-usterPCAOrigRapidCluster2Cluster.PNG> <./Dec200eqPrec.PNG>]
-
-LaTeX Warning: Reference `fig:DecVec200' on page 1 undefined on input line 44.
-
-
-LaTeX Warning: Reference `fig:DecVec200' on page 1 undefined on input line 44.
-
-)
+usterPCAOrigRapidCluster2Cluster.PNG> <./Dec200eqPrec.PNG>])
 Underfull \hbox (badness 10000) in paragraph at lines 44--96
 
  []
 
 (neuralnet.tex
-<src/pic/NN_without_vector.png, id=181, 830.35219pt x 216.81pt>
+<src/pic/NN_without_vector.png, id=183, 830.35219pt x 216.81pt>
 File: src/pic/NN_without_vector.png Graphic file (type png)
 <use src/pic/NN_without_vector.png>
 Package pdftex.def Info: src/pic/NN_without_vector.png  used on input line 9.
@@ -1364,20 +1357,16 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 130.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 130.
 Package rerunfilecheck Info: File `submission.out' has not changed.
 (rerunfilecheck)             Checksum: 38533DB49C1800A6CE96BFED76687A6F;63.
-
-
-LaTeX Warning: There were undefined references.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 130.
  ) 
 Here is how much of TeX's memory you used:
- 25549 strings out of 493305
- 510457 string characters out of 3126321
- 600688 words of memory out of 3000000
- 28525 multiletter control sequences out of 15000+200000
+ 25548 strings out of 493305
+ 510437 string characters out of 3126321
+ 600689 words of memory out of 3000000
+ 28524 multiletter control sequences out of 15000+200000
  13570 words of font info for 50 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,16n,71p,812b,573s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,16n,71p,813b,573s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/bas
 e/8r.enc}<C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
 public/amsfonts/cm/cmbx10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/Mi
@@ -1407,9 +1396,9 @@ ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/Miriam Wagner
 nts/symbols/msbm10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.
 9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Miriam Wagner/AppData/Local/Prog
 rams/MiKTeX 2.9/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on submission.pdf (15 pages, 1707745 bytes).
+Output written on submission.pdf (15 pages, 1707850 bytes).
 PDF statistics:
- 305 PDF objects out of 1000 (max. 8388607)
+ 307 PDF objects out of 1000 (max. 8388607)
  66 named destinations out of 1000 (max. 500000)
  131 words of extra memory for PDF output out of 10000 (max. 10000000)
 
