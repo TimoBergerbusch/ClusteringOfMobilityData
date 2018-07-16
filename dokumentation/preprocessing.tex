@@ -1,6 +1,6 @@
 \subsection{Preprocessing}\label{sec: proprocessing}
 	In order to classify the given data into smaller test sets or mask different aspects, we have to perform some analysis.\\
-	We observe that even though we have 124979 individual lines defining a movement, there is 1 line defining a \texttt{NotANumber}-exception and therefore gets excluded from further usage.	\\
+	We observe that even though we have 124979 individual lines defining a movement, there is one line encounter a \texttt{NotANumber}-exception and therefore gets excluded from further usage.	\\
 	We provide the \texttt{testDataGenerator} python script. Through flags and input arguments, the script is able to create all test sets used by our clustering and neural net approaches.\\
 	We observe the following distribution over the whole dataset:\\
 	
@@ -30,10 +30,12 @@
 		\end{tabular}
 		\vspace*{-2.5em}
 	\end{figure}
-	Following, we introduce vectors representing single persons. Since strata 6 is the smallest strata with 595 persons, it limits the size of an equally distributed dataset where each data point coincides with one person.\\
+	Following, we introduce vectors representing single persons. Since strata 6 is the smallest strata with 595 persons, it limits the size of an equally distributed dataset, where each data point coincides with one person.\\
+
+	Moreover, we define aggregated strata as the combination of strata 1 and 2 to "strata\_1", strata 3 and 4 to "strata\_2" and strata 5 and 6 to "strata\_3". 
 	
-	\textbf{Stratified Person Data}\label{subsubsec: person vector data}\\
-	As stated before, instead of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person (c.f. \Cref{sec: proprocessing}), and all movements from that person.\\
+	\textbf{Stratified person data}\label{subsubsec: person vector data}\\
+	As stated before, additionally of simple IDs for every person we expand the parsing by using a data encapsulating in a class called \texttt{Person}. This class stores the ID, the parameters defining a person, and all movements from that person.\\
 	Then we are able to compute the following vector, with 850 entries, for further usage, that combines all movements of the person:
 	\begin{align*}
 	\underbrace{\#o_1, \dots, \#o_{413}, \#d_1, \dots, \#d_{413}}_{2\cdot 413} ,
@@ -69,4 +71,5 @@
 		\end{itemize}
 	\end{subfigure}
 	\end{figure}
+
 

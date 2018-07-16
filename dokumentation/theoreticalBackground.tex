@@ -7,25 +7,25 @@
 	
 	is in the field of \textit{Data Mining}, \textit{Cluster Analysis} or \textit{Clustering} a process of grouping data objects from a dataset into multiple groups. The essential criterion, for the quality of the clustering, is \textit{similarity}, such that data objects are similar to other objects in the same cluster and dissimilar to objects from other clusters. 
 	
-	In the scope of this work, we decided to use the well-known partitioning methods k-means. In general, given $n$ data objects partitioning methods distribute the data objects into $k$ clusters with $k\le n$, using a distance measure to evaluate the respective similarity. 
+	In the scope of this work, we decided to use the well-known partitioning method k-means. In general, given $n$ data objects, partitioning methods distribute the data objects into $k\in\mathbb{N}$ clusters with $k\le n$, using a distance measure to evaluate the respective similarity. 
 %	Those methods form exclusive clusters by ensuring that each cluster contains at least one object.
 	Note that the number $k$ of clusters has to be chosen manually a-priori and given to the partitioning process.
 	
-	\subsubsection{k-Means}
+	\subsubsection{k-means}
 	
-	is a \textit{centroid based technique}, which means that each cluster is represented by a data point, which at the same time is the centre of the cluster. A distance measure is then used to assign every remaining data object from the data set to the best fitting cluster. This is done according to its similarity to the centre of this cluster and its dissimilarity to the centres of any other cluster.
+	is a \textit{centroid based technique}, meaning that each cluster is represented by a data point, which at the same time is the centre of the cluster. A distance measure is then used to assign every remaining data object from the data set to the best fitting cluster. This is done according to its similarity to the centre of this cluster and its dissimilarity to the centres of any other cluster.
 	
-	The data objects within a dataset are considered to reside in a euclidean space. Thus, the euclidean distance is used to calculate a score for the similarity of two data points. When using k-Means, the quality of a cluster $C_i$ can be evaluated by computing the sum of squared errors between all data points $p$ in the object space and the centroids $c_i \in C_i$ of every cluster. This method is known as \textit{within-cluster variation} \cite{data_mining} and defined as follows: 
+	The data objects within a dataset are considered to reside in an euclidean space. Thus, the euclidean distance is used to calculate a score for the similarity of two data points. When using k-means, the quality of a cluster $C_i$, $i\in [k]$, can be evaluated by computing the sum of squared distances between all data points $p$ in the object space and the centroids $c_i \in C_i$ of every cluster. This method is known as \textit{within-cluster variation} \cite{data_mining} and defined as follows: 
 	\begin{equation}
 		E = \sum_{i=1}^{k} \sum_{p \in C_i} dist(p, c_i)^2,
 	\end{equation}
 	Given $k$, the first step of k-Means is to select $k$ random points as cluster centres. Those do not have to be actual data points.
 %	objects in the data set as initial representatives for the cluster centres.
-	After that, each remaining data object is assigned to the best fitting cluster based on a similarity score between the data point and every cluster centre. The overall goal of k-Means clustering is to iteratively optimize the within-cluster variation. In order to achieve this, each cluster centroid is redefined as the mean of all objects within that cluster. By considering the updated centroids, every data point is reassigned to the now best fitting cluster. This iterative process will continue until no better clustering can be found.\\
+	In order to achieve this, each cluster centroid is redefined as the mean of all objects within that cluster. By considering the updated centroids, every data point is reassigned to the now best fitting cluster. This iterative process will continue until no better clustering can be found or a maximal chosen step size is reached.\\
 %	\subsubsection{Clustering with RapidMiner}	
 
 
-	As a tool we considered RapidMiner, since it has many modules already efficiently implemented and is easy to adapt.
+	As a tool we consider RapidMiner, since it has many modules already efficiently implemented and is easy to adapt.
 
 	\vspace*{-2em}
 	\begin{figure}[H]
@@ -36,26 +36,27 @@
 		%\vspace*{-2em}
 	\end{figure}
 
-	The Process, \Cref{fig: kclust}, contains the following steps:\\
+	The Process (c.f. \Cref{fig: kclust}) contains the following steps:\\
 
 	\begin{tabular}{r c l}
-		\textbf{Retrieve} & : &  gives the data into the process \\
+		\textbf{Retrieve} & : &  imports the data into the process \\
 		\textbf{Generate ID} & : & creates an ID so we can make the comparison\\
 		 & & step at the end through joining the sets\\
+		 && based on the ID\\
 		\textbf{Multiply} & : & creates two identical data sets\\
-		\textbf{Select Attributes} & : &  throws away the strata before the clustering step,\\
+		\textbf{Select Attributes} & : &  removes the strata before the clustering step,\\
 		& & everything except cluster and ID after the clustering \\
-		& & and just keeps id and strata for the join step\\
+		& & and just keeps ID and strata for the join step\\
 		\textbf{Clustering} & : &  runs the k-means clustering algorithm. The number of \\
-		& & Clusters has to be fixed \\
-		\textbf{Join} & : & For comparing the clustering result and the strata we \\
-		& & join the two filtered data sets by the ID \\
+		& & clusters has to be fixed \\
+		\textbf{Join} & : & For comparing the clustering result and the strata, we \\
+		& & join the two filtered data sets on the ID \\
 	\end{tabular}
 	
 	In the clustering block, we can choose between different distance measures and maximal step numbers. We keep the default configuration and choose the mixed euclidean distance measure.
 %	We decide to concentrate on almost everywhere basic configurations and chose the squared euclidean distance in the mixed version.
 \vspace*{-1em}
-	\subsubsection{Gower Distance}\label{gower}, in contrast to the popular distance measures, can also handle the mixed data within the given dataset. The Gower distance measure distinguishes between three types of variables: binary, categorical and numerical.
+	\subsubsection{Gower distance{\normalfont,}}\label{gower} in contrast to the popular distance measures, can also handle the mixed data within the given dataset. The Gower distance measure distinguishes between three types of variables: binary, categorical and numerical.
 %	When clustering data with algorithms such as \textit{k-means}, the distance between data points is usually calculated by measures such as the Euclidean or Manhattan norm.
 %	These distance measures come with constraints though, since they are only defined for numerical variables. 
 	%In the scope of this work, we are facing data points with mixed variable types.
@@ -66,16 +67,16 @@
 %	\subsubsection{Calculating the distances}
 	The distance can be calculated as follows:
 	
-	Given two data points $x$ and $y$, each form a tuple of $v$ variables of arbitrary type, the similarity coefficient is given by
+	Given two data points $x$ and $y$, each form a tuple of $v$ variables of arbitrary type, the similarity coefficient is given by:
 	\begin{equation}\label{eq1}
 	S_{xy} = \sum_{k=1}^{v} s_{xy,k} / \sum_{k=1}^{v} \delta_{xy,k} 
 	\end{equation} 
 	where $s_{xy,k}$ denotes a \textit{score for the similarity} of the two variables at the $k$-th entry in the data points $x$ and $y$. Note, that the definition of the score depends on the
 	%Timo nervt
 	type of the variable, as defined below. In the divisor, $\delta_{xy,k}$ basically represents the possibility of comparing the two variables at index $k$, such that it evaluates to 1, if the two variables are comparable and to 0 if not. %PASS AUF
-	For example, variables are not comparable, if values are undefined in the data points or the variable types do not match. Within this work, the dataset is complete, therefore, $\sum_{k=1}^{v} \delta_{xy,k}=v$. Thus, the similarity coefficient in \hyperref[eq1]{(2)} can be interpreted as the average value of all similarity scores. 
+	For example, variables are not comparable, if values are undefined in the data points or the variable types do not match. Within this work, the dataset is complete, therefore, $\sum_{k=1}^{v} \delta_{xy,k}=v$. Thus, the similarity coefficient in equation \hyperref[eq1]{(2)} can be interpreted as the average value of all similarity scores. 
 	With respect to the variable type, the similarity score $s_{xy,k}$ is defined as follows:\\
-	\\ \textbf{Binary:} The score for binary variables is basically the result of an logical AND operation. As pointed out above, 0 values are not considered as a match such not even considered to be comparable. Hence, the values result as in the table
+	\\ \textbf{Binary:} The score for binary variables is basically the result of an logical conjunction operation. As pointed out above, 0 values are considered to be not a match, thus not even considered to be comparable. Hence, the values result as in the table
 		\begin{center}
 			\begin{tabular}{l | c c c r}
 				i & 1 & 1 & 0 & 0 \\
@@ -91,33 +92,33 @@
 		\begin{equation*}
 		s_{xy,k} = 1 - \frac{\vert x_k - y_k \vert}{range(k)}
 		\end{equation*}
-		where $range(k)$ is the total range of values, that the numerical variable at index $k$ can accept. This can be a global maximum of acceptable values for variable $k$, or chosen on the basis of the dataset.
+		where $range(k)$ is the total range of values, that the numerical attribute at index $k$ can accept. This can be a global maximum of acceptable values for attribute $k$, or chosen on the basis of the dataset.
 
 \subsubsection{Principal component analysis}
 
-\textit{PCA} uses an orthogonal transformation to convert a dataset with correlated datas into a dataset without correlations and decreased dimension. This is a helpful technique to get a better understanding of the data complexity as well as decreasing the amount of time consumption in further steps.
+(PCA) uses an orthogonal transformation to convert a dataset, with correlated data, into a dataset without correlations and decreased dimension. This is a helpful technique to get a better understanding of the data complexity, as well as decreasing the time consumption in further steps.
 
-The first component for the PCA transformation has to satisfy the following:
+The first component for the PCA transformation, the weight matrix, has to satisfy the following:
 
 \vspace*{-1em}
 \begin{align*}
-w_1 &= \text{argmax}_{||w|| = 1} \{\sum_i (t_1)_i^2\}\\
-	&= \text{argmax}_{||w|| = 1} \{\sum_i (x_iw)^2\}
+w_1 &= \text{argmax}_{\|w\| = 1} \{\sum_i (t_1)_i^2\}\\
+	&= \text{argmax}_{\|w\| = 1} \{\sum_i (x_iw)^2\}
 	\vspace*{-2em}
 \end{align*}
 
 
-Which is achieved by the corresponding eigenvector.
+which is achieved by the corresponding eigenvector.
 
 The next components need to fullfill:
 \begin{align*}
 \hat{X}_k &= X - \sum_{s=1}^{k-1} Xw_sw_s^T\\
-w_k &= \text{argmax}_{||w|| = 1} \{||\hat{X}_kw||^2\}\\
-	&= \text{argmax}_{||w|| = 1} \{\frac{w^T\hat{X}_k^T\hat{X}_kw}{w^Tw}\}
+w_k &= \text{argmax}_{\|w\| = 1} \{\|\hat{X}_kw\|^2\}\\
+	&= \text{argmax}_{\|w\| = 1} \{\frac{w^T\hat{X}_k^T\hat{X}_kw}{w^Tw}\}
 	\vspace*{-1em}
 \end{align*}
 
-Based on the 'weight matrix' a mapping is possible from the original space to a new space in which the dataset is uncorrelated. 
+Based on the weight matrix a mapping is possible from the original space to a new space in which the dataset is uncorrelated. 
 	
 	\vspace*{-1em}
 	\begin{figure}[H]
@@ -132,7 +133,7 @@ The Process does the following steps, visible in \Cref{fig:PCA}:
 
 \begin{tabular}{r c l}
 	\textbf{Retrieve} & : & imports the data in the process.\\
-	\textbf{Generate Id} & : & creates an idea for the join later\\
+	\textbf{Generate ID} & : & creates an idea for the join later\\
 	\textbf{Select Attribute} & : & gives the chosen attributes back\\
 	\textbf{Nominal to Numerical} & : & changes the nominal data to numerical data, so \\
 	&&that we can apply PCA in the next step \\
@@ -146,7 +147,7 @@ The Process does the following steps, visible in \Cref{fig:PCA}:
 		
 	\subsection{Supervised learning}
 	
-	\subsubsection{Decision Trees} are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore, labelled data is needed and we have given the strata. We again used RapidMiner for building trees based on different data sets. 
+	\subsubsection{Decision Trees} are a good manner to figure out, which parts of the data set have the most influence on the decision. Therefore, labelled data is needed, which we have given with the strata. We again used RapidMiner for building trees, based on different data sets. 
 
 	\vspace*{-2em}
 	\begin{figure}[H]
@@ -171,15 +172,15 @@ The Process does the following steps, visible in \Cref{fig:PCA}:
 		\textbf{Performance} & : & gives the performance result of the created model\\
 	\end{tabular}
 	
-	Furthermore we choose information gain as splitting criterion (minimal gain 0.1) and a confidence of 0.25. Other configurations do not show different results.
+	We tried several configurations regarding the splitting criterion and  confidence threshold, but the results were similar.
 	\vspace*{-1em}
 
 	\subsubsection{Neural Net}
 	% TODO
 	% like k-means
-	are based on biology. In detail based on the neurons and synapses within the human brain. There a neuron fires to any further connected neurons, if a weighted sum minus a bias value is above a certain threshold.
+	are based on biology. In detail, based on the neurons and synapses within the human brain. There a neuron fires to any further connected neurons, if a weighted sum minus a bias value is above a certain threshold.
 %	The individual weights and biases are learned by the net.
-	Through iteration-wise computing the result and comparing it to the expected outcome, called label and the use of various machine learning techniques the net is able to adjust the weights and biases \cite{neuralNet}.
+	Through iteration-wise computing the result and comparing it to the expected outcome, called label, and the use of various machine learning techniques the net is able to adjust the weights and biases \cite{neuralNet}.
 	
 	\vspace*{-2em}
 	\begin{figure}[H]

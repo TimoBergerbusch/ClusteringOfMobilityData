@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.6.7)  15 JUL 2018 10:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.6.7)  16 JUL 2018 15:34
 entering extended mode
 **"C:/Users/Miriam Wagner/Desktop/ClusteringOfMobilityData/dokumentation/submis
 sion.tex"
@@ -1136,7 +1136,10 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 78.
- (introduction.tex) (theoreticalBackground.tex (preprocessing.tex
+ (introduction.tex) (theoreticalBackground.tex [1
+
+{C:/Users/Miriam Wagner/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (pr
+eprocessing.tex
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 3.
 
 ("C:\Users\Miriam Wagner\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ot1
@@ -1147,9 +1150,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--6
 
  []
 
-[1
 
-{C:/Users/Miriam Wagner/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 Underfull \hbox (badness 10000) in paragraph at lines 19--21
 
  []
@@ -1159,12 +1160,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--34
 
  []
 
-
-Overfull \hbox (17.08397pt too wide) in paragraph at lines 47--71
+[2]
+Overfull \hbox (17.08397pt too wide) in paragraph at lines 49--73
  []|  $[]$|  $[]$ 
  []
 
-[2])
+)
 Underfull \hbox (badness 10000) in paragraph at lines 21--26
 
  []
@@ -1181,7 +1182,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 39--40
  []
 
 [4 <./ClusteringRapid.PNG>]
-Underfull \hbox (badness 10000) in paragraph at lines 72--79
+Underfull \hbox (badness 10000) in paragraph at lines 73--80
 
  []
 
@@ -1189,153 +1190,157 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--79
 <PCAClustering.png, id=82, 741.52031pt x 411.78844pt>
 File: PCAClustering.png Graphic file (type png)
 <use PCAClustering.png>
-Package pdftex.def Info: PCAClustering.png  used on input line 125.
+Package pdftex.def Info: PCAClustering.png  used on input line 126.
 (pdftex.def)             Requested size: 312.40906pt x 173.49033pt.
-<DecisionTreeRapidModel.PNG, id=84, 531.48563pt x 287.57437pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6 <./PCAClustering.png>]
+<DecisionTreeRapidModel.PNG, id=89, 492.33937pt x 258.46562pt>
 File: DecisionTreeRapidModel.PNG Graphic file (type png)
 <use DecisionTreeRapidModel.PNG>
-Package pdftex.def Info: DecisionTreeRapidModel.PNG  used on input line 154.
-(pdftex.def)             Requested size: 312.40906pt x 169.03992pt.
- [6 <./PCAClustering.png>]
-<RapidNN.PNG, id=95, 598.235pt x 145.54375pt>
+Package pdftex.def Info: DecisionTreeRapidModel.PNG  used on input line 155.
+(pdftex.def)             Requested size: 312.40906pt x 164.01341pt.
+ [7 <./DecisionTreeRapidModel.PNG>]
+<RapidNN.PNG, id=102, 587.19376pt x 130.98938pt>
 File: RapidNN.PNG Graphic file (type png)
 <use RapidNN.PNG>
-Package pdftex.def Info: RapidNN.PNG  used on input line 187.
-(pdftex.def)             Requested size: 312.40906pt x 76.00742pt.
+Package pdftex.def Info: RapidNN.PNG  used on input line 188.
+(pdftex.def)             Requested size: 312.40906pt x 69.68987pt.
 
-Overfull \hbox (5.21083pt too wide) in paragraph at lines 192--200
+Overfull \hbox (5.21083pt too wide) in paragraph at lines 193--201
 [][] 
  []
 
-) [7 <./DecisionTreeRapidModel.PNG> <./RapidNN.PNG>] (MiriamClustering.tex
-<ClusterOrigRapidStrata.PNG, id=107, 439.14063pt x 362.85562pt>
+) (MiriamClustering.tex
+<ClusterOrigRapidStrata.PNG, id=103, 439.14063pt x 362.85562pt>
 File: ClusterOrigRapidStrata.PNG Graphic file (type png)
 <use ClusterOrigRapidStrata.PNG>
 Package pdftex.def Info: ClusterOrigRapidStrata.PNG  used on input line 14.
 (pdftex.def)             Requested size: 97.19664pt x 80.31017pt.
-<ClusterOrigRapidCluster.PNG, id=108, 454.19687pt x 363.85938pt>
+<ClusterOrigRapidCluster.PNG, id=104, 454.19687pt x 363.85938pt>
 File: ClusterOrigRapidCluster.PNG Graphic file (type png)
 <use ClusterOrigRapidCluster.PNG>
 Package pdftex.def Info: ClusterOrigRapidCluster.PNG  used on input line 20.
 (pdftex.def)             Requested size: 97.19664pt x 77.8618pt.
-<ClusterOrigRapidStrata2Cluster.PNG, id=112, 537.50812pt x 363.85938pt>
+<ClusterOrigRapidStrata2Cluster.PNG, id=108, 537.50812pt x 363.85938pt>
 File: ClusterOrigRapidStrata2Cluster.PNG Graphic file (type png)
 <use ClusterOrigRapidStrata2Cluster.PNG>
 Package pdftex.def Info: ClusterOrigRapidStrata2Cluster.PNG  used on input line
  37.
 (pdftex.def)             Requested size: 111.07825pt x 75.19127pt.
-<ClusterOrigRapidCluster2Cluster.PNG, id=113, 439.14063pt x 363.3575pt>
+<ClusterOrigRapidCluster2Cluster.PNG, id=109, 439.14063pt x 363.3575pt>
 File: ClusterOrigRapidCluster2Cluster.PNG Graphic file (type png)
 <use ClusterOrigRapidCluster2Cluster.PNG>
 Package pdftex.def Info: ClusterOrigRapidCluster2Cluster.PNG  used on input lin
 e 43.
 (pdftex.def)             Requested size: 97.19664pt x 80.42125pt.
-<ClusterOrigRapidDistribution2Cluster.PNG, id=114, 541.52313pt x 366.87062pt>
+ [8 <./RapidNN.PNG> <./ClusterOrigRapidStrata.PNG> <./ClusterOrigRapidCluster.P
+NG>]
+<ClusterOrigRapidDistribution2Cluster.PNG, id=123, 541.52313pt x 366.87062pt>
 File: ClusterOrigRapidDistribution2Cluster.PNG Graphic file (type png)
 <use ClusterOrigRapidDistribution2Cluster.PNG>
 Package pdftex.def Info: ClusterOrigRapidDistribution2Cluster.PNG  used on inpu
 t line 53.
 (pdftex.def)             Requested size: 173.56177pt x 117.58572pt.
-<ClusterOrigRapidDistribution2038eq.PNG, id=117, 542.52687pt x 348.80313pt>
+<ClusterOrigRapidDistribution2038eq.PNG, id=126, 542.52687pt x 348.80313pt>
 File: ClusterOrigRapidDistribution2038eq.PNG Graphic file (type png)
 <use ClusterOrigRapidDistribution2038eq.PNG>
 Package pdftex.def Info: ClusterOrigRapidDistribution2038eq.PNG  used on input 
 line 67.
 (pdftex.def)             Requested size: 156.20453pt x 100.42648pt.
-<ClusterOrigRapidDistribution2038eq2.PNG, id=118, 541.52313pt x 367.87437pt>
+<ClusterOrigRapidDistribution2038eq2.PNG, id=127, 541.52313pt x 367.87437pt>
 File: ClusterOrigRapidDistribution2038eq2.PNG Graphic file (type png)
 <use ClusterOrigRapidDistribution2038eq2.PNG>
 Package pdftex.def Info: ClusterOrigRapidDistribution2038eq2.PNG  used on input
  line 72.
 (pdftex.def)             Requested size: 156.20453pt x 106.11388pt.
-
-[8 <./ClusterOrigRapidStrata.PNG> <./ClusterOrigRapidCluster.PNG> <./ClusterOri
-gRapidStrata2Cluster.PNG> <./ClusterOrigRapidCluster2Cluster.PNG>]
-<vectorclusteringcluster.PNG, id=131, 488.82625pt x 365.365pt>
+<vectorclusteringcluster.PNG, id=128, 488.82625pt x 365.365pt>
 File: vectorclusteringcluster.PNG Graphic file (type png)
 <use vectorclusteringcluster.PNG>
 Package pdftex.def Info: vectorclusteringcluster.PNG  used on input line 86.
 (pdftex.def)             Requested size: 134.3336pt x 100.40599pt.
-<vectorclusteringstrata.PNG, id=132, 448.67625pt x 369.38pt>
+<vectorclusteringstrata.PNG, id=129, 448.67625pt x 369.38pt>
 File: vectorclusteringstrata.PNG Graphic file (type png)
 <use vectorclusteringstrata.PNG>
 Package pdftex.def Info: vectorclusteringstrata.PNG  used on input line 92.
 (pdftex.def)             Requested size: 124.9617pt x 102.87334pt.
-<vectorclusteringcluster1000.PNG, id=133, 473.26813pt x 353.32pt>
+
+Underfull \vbox (badness 1708) has occurred while \output is active []
+
+ [9 <./ClusterOrigRapidStrata2Cluster.PNG> <./ClusterOrigRapidCluster2Cluster.P
+NG> <./ClusterOrigRapidDistribution2Cluster.PNG> <./ClusterOrigRapidDistributio
+n2038eq.PNG> <./ClusterOrigRapidDistribution2038eq2.PNG>]
+<vectorclusteringcluster1000.PNG, id=142, 473.26813pt x 353.32pt>
 File: vectorclusteringcluster1000.PNG Graphic file (type png)
 <use vectorclusteringcluster1000.PNG>
 Package pdftex.def Info: vectorclusteringcluster1000.PNG  used on input line 10
-2.
+3.
 (pdftex.def)             Requested size: 138.84729pt x 103.65703pt.
-<vectorClustering1000.PNG, id=134, 490.83376pt x 375.90437pt>
+<vectorClustering1000.PNG, id=143, 490.83376pt x 375.90437pt>
 File: vectorClustering1000.PNG Graphic file (type png)
 <use vectorClustering1000.PNG>
-Package pdftex.def Info: vectorClustering1000.PNG  used on input line 103.
+Package pdftex.def Info: vectorClustering1000.PNG  used on input line 104.
 (pdftex.def)             Requested size: 170.09244pt x 130.26073pt.
+<vectorClustering31000.PNG, id=147, 485.31313pt x 365.365pt>
+File: vectorClustering31000.PNG Graphic file (type png)
+<use vectorClustering31000.PNG>
+Package pdftex.def Info: vectorClustering31000.PNG  used on input line 121.
+(pdftex.def)             Requested size: 173.56177pt x 130.66716pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9 <./ClusterOrigRapidDistribution2Cluster.PNG> <./ClusterOrigRapidDistributio
-n2038eq.PNG> <./ClusterOrigRapidDistribution2038eq2.PNG> <./vectorclusteringclu
-ster.PNG> <./vectorclusteringstrata.PNG>]
-<vectorClustering31000.PNG, id=150, 485.31313pt x 365.365pt>
-File: vectorClustering31000.PNG Graphic file (type png)
-<use vectorClustering31000.PNG>
-Package pdftex.def Info: vectorClustering31000.PNG  used on input line 119.
-(pdftex.def)             Requested size: 239.51608pt x 180.31824pt.
- [10 <./vectorclusteringcluster1000.PNG> <./vectorClustering1000.PNG> <./vector
-Clustering31000.PNG>]
-<ClusterPCAOrigRapidStrata.PNG, id=161, 454.19687pt x 362.85562pt>
+ [10 <./vectorclusteringcluster.PNG> <./vectorclusteringstrata.PNG> <./vectorcl
+usteringcluster1000.PNG> <./vectorClustering1000.PNG>]
+<ClusterPCAOrigRapidStrata.PNG, id=159, 454.19687pt x 362.85562pt>
 File: ClusterPCAOrigRapidStrata.PNG Graphic file (type png)
 <use ClusterPCAOrigRapidStrata.PNG>
-Package pdftex.def Info: ClusterPCAOrigRapidStrata.PNG  used on input line 137.
+Package pdftex.def Info: ClusterPCAOrigRapidStrata.PNG  used on input line 139.
 
 (pdftex.def)             Requested size: 93.72365pt x 74.87311pt.
-<ClusterPCAOrigRapidCluster.PNG, id=162, 468.24937pt x 354.32375pt>
+<ClusterPCAOrigRapidCluster.PNG, id=160, 468.24937pt x 354.32375pt>
 File: ClusterPCAOrigRapidCluster.PNG Graphic file (type png)
 <use ClusterPCAOrigRapidCluster.PNG>
-Package pdftex.def Info: ClusterPCAOrigRapidCluster.PNG  used on input line 143
+Package pdftex.def Info: ClusterPCAOrigRapidCluster.PNG  used on input line 145
 .
 (pdftex.def)             Requested size: 93.72365pt x 70.91756pt.
-<ClusterPCAOrigRapidCluster2Cluster.PNG, id=163, 444.15938pt x 354.82562pt>
+<ClusterPCAOrigRapidCluster2Cluster.PNG, id=161, 444.15938pt x 354.82562pt>
 File: ClusterPCAOrigRapidCluster2Cluster.PNG Graphic file (type png)
 <use ClusterPCAOrigRapidCluster2Cluster.PNG>
 Package pdftex.def Info: ClusterPCAOrigRapidCluster2Cluster.PNG  used on input 
-line 149.
+line 151.
 (pdftex.def)             Requested size: 93.72365pt x 74.87291pt.
 ) (DecisionTree.tex
-<Dec200eqPrec.PNG, id=166, 591.71063pt x 183.68625pt>
+<Dec200eqPrec.PNG, id=164, 591.71063pt x 183.68625pt>
 File: Dec200eqPrec.PNG Graphic file (type png)
 <use Dec200eqPrec.PNG>
-Package pdftex.def Info: Dec200eqPrec.PNG  used on input line 32.
+Package pdftex.def Info: Dec200eqPrec.PNG  used on input line 33.
 (pdftex.def)             Requested size: 312.40906pt x 96.98326pt.
-<decvec585pre.PNG, id=167, 589.70313pt x 210.28563pt>
+ [11 <./vectorClustering31000.PNG> <./ClusterPCAOrigRapidStrata.PNG> <./Cluster
+PCAOrigRapidCluster.PNG> <./ClusterPCAOrigRapidCluster2Cluster.PNG>]
+<decvec585pre.PNG, id=176, 589.70313pt x 210.28563pt>
 File: decvec585pre.PNG Graphic file (type png)
 <use decvec585pre.PNG>
-Package pdftex.def Info: decvec585pre.PNG  used on input line 38.
+Package pdftex.def Info: decvec585pre.PNG  used on input line 40.
 (pdftex.def)             Requested size: 312.40906pt x 111.40593pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [11 <./ClusterPCAOrigRapidStrata.PNG> <./ClusterPCAOrigRapidCluster.PNG> <./Cl
-usterPCAOrigRapidCluster2Cluster.PNG> <./Dec200eqPrec.PNG>])
-Underfull \hbox (badness 10000) in paragraph at lines 44--96
+)
+Underfull \hbox (badness 10000) in paragraph at lines 46--96
 
  []
 
 (neuralnet.tex
-<src/pic/NN_without_vector.png, id=183, 830.35219pt x 216.81pt>
+<src/pic/NN_without_vector.png, id=181, 830.35219pt x 216.81pt>
 File: src/pic/NN_without_vector.png Graphic file (type png)
 <use src/pic/NN_without_vector.png>
-Package pdftex.def Info: src/pic/NN_without_vector.png  used on input line 9.
+Package pdftex.def Info: src/pic/NN_without_vector.png  used on input line 13.
 (pdftex.def)             Requested size: 332.135pt x 86.72246pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 15--17
+Underfull \hbox (badness 10000) in paragraph at lines 8--16
 
  []
 
-[12 <./decvec585pre.PNG> <./src/pic/NN_without_vector.png>])
-Underfull \hbox (badness 10000) in paragraph at lines 40--98
+[12 <./Dec200eqPrec.PNG> <./decvec585pre.PNG>])
+Underfull \hbox (badness 10000) in paragraph at lines 41--98
 
  []
 
@@ -1344,7 +1349,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--100
 
  []
 
-[13] (conclusion.tex [14]
+[13 <./src/pic/NN_without_vector.png>] (conclusion.tex [14]
 Underfull \hbox (badness 10000) in paragraph at lines 35--37
 
  []
@@ -1360,10 +1365,10 @@ Package rerunfilecheck Info: File `submission.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 130.
  ) 
 Here is how much of TeX's memory you used:
- 25548 strings out of 493305
- 510437 string characters out of 3126321
- 600689 words of memory out of 3000000
- 28524 multiletter control sequences out of 15000+200000
+ 25549 strings out of 493305
+ 510455 string characters out of 3126321
+ 598689 words of memory out of 3000000
+ 28525 multiletter control sequences out of 15000+200000
  13570 words of font info for 50 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,16n,71p,813b,573s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1396,9 +1401,9 @@ ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/Miriam Wagner
 nts/symbols/msbm10.pfb><C:/Users/Miriam Wagner/AppData/Local/Programs/MiKTeX 2.
 9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Miriam Wagner/AppData/Local/Prog
 rams/MiKTeX 2.9/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on submission.pdf (15 pages, 1707850 bytes).
+Output written on submission.pdf (15 pages, 1699826 bytes).
 PDF statistics:
- 307 PDF objects out of 1000 (max. 8388607)
+ 304 PDF objects out of 1000 (max. 8388607)
  66 named destinations out of 1000 (max. 500000)
  131 words of extra memory for PDF output out of 10000 (max. 10000000)
 
